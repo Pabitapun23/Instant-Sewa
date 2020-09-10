@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 class LoginPage extends StatefulWidget {
+  //LoginPage({Key key}) : super(key: key);
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -9,84 +10,143 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Instant Sewa"),
-          backgroundColor: Colors.green,
-        ),
-        body: SafeArea(
-          child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: 15.0),
-            children: <Widget>[
-              Column(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: ListView(
+          children: <Widget>[
+            Container(
+              height: 250,
+              child: Stack(
                 children: <Widget>[
-                  SizedBox(
-                    height: 70,
+                  Positioned(
+                    top: 20,
+                    left: 0,
+                    child: Image.asset(
+                      "images/instant_sewa.png",
+                      height: size.height * 0.35,
+                    ),
                   ),
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    child: Image.asset(
+                      "images/main_top.png",
+                      width: size.width * 0.35,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: Image.asset(
+                      "images/login_bottom.png",
+                      width: size.width * 0.29,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
                   Text(
                     "Login",
                     style: TextStyle(
-                        fontSize: 30.8,
-                        //color: Colors.brown,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-
-              SizedBox(
-                height: 30,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.email),
-                    labelText: "Email",
-                    labelStyle: TextStyle(fontSize: 20),
-                    filled: true),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.lock),
-                    labelText: "Password",
-                    labelStyle: TextStyle(fontSize: 20),
-                    filled: true),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                "Forgot Password",
-                style: TextStyle(
-                    color: Colors.blue, decoration: TextDecoration.underline),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Column(
-                children: <Widget>[
-                  ButtonTheme(
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromRGBO(49, 39, 79, 1),
+                        fontSize: 30),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    //padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color.fromRGBO(196, 135, 198, .3),
+                            blurRadius: 20,
+                            offset: Offset(0, 10),
+                          )
+                        ]),
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(color: Colors.grey[200]))),
+                          child: TextField(
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  prefixIcon: Icon(Icons.email),
+                                  hintText: "Email",
+                                  hintStyle: TextStyle(color: Colors.grey))),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(color: Colors.grey[200]))),
+                          child: TextField(
+                            obscureText: true,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                prefixIcon: Icon(Icons.lock),
+                                hintText: "Password",
+                                hintStyle: TextStyle(color: Colors.grey)),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "Forgot Password?",
+                    style: TextStyle(color: Color.fromRGBO(196, 135, 198, 1)),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Container(
                     height: 50,
-                    disabledColor: Colors.green,
-                    child: RaisedButton(
-                      disabledElevation: 4.0,
-                      onPressed: null,
+                    margin: EdgeInsets.symmetric(horizontal: 60),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: Color.fromRGBO(49, 39, 79, 1),
+                    ),
+                    child: Center(
                       child: Text(
                         "Login",
-                        style: TextStyle(fontSize: 20, color: Colors.white),
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: 90,
+                    height: 20,
                   ),
-                  Text("Don't have an account? Sign Up")
+                  Center(
+                    child: Text(
+                      "Create an Account",
+                      style: TextStyle(color: Color.fromRGBO(49, 39, 79, .6)),
+                    ),
+                  )
                 ],
-              )
-            ],
-          ),
-        ));
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
