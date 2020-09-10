@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SignupPage extends StatefulWidget {
+  //SignupPage({Key key}) : super(key: key);
+
   @override
   _SignupPageState createState() => _SignupPageState();
 }
@@ -8,96 +10,148 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Instant Sewa"),
-          backgroundColor: Colors.green,
-        ),
-        body: SafeArea(
-          child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: 15.0),
-            children: <Widget>[
-              Column(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: ListView(
+          //crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              height: 150,
+              child: Stack(
                 children: <Widget>[
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Text(
-                    "SignUp",
-                    style: TextStyle(
-                        fontSize: 30.8,
-                        //color: Colors.brown,
-                        fontWeight: FontWeight.bold),
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    child: Image.asset(
+                      "images/main_top.png",
+                      width: size.width * 0.30,
+                    ),
                   ),
                 ],
               ),
-              SizedBox(
-                height: 40,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.person),
-                    labelText: "Username",
-                    labelStyle: TextStyle(fontSize: 18),
-                    filled: true),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.email),
-                    labelText: "Email",
-                    labelStyle: TextStyle(fontSize: 18),
-                    filled: true),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.lock),
-                    labelText: "Password",
-                    labelStyle: TextStyle(fontSize: 18),
-                    filled: true),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.lock),
-                    labelText: "Confirm Password",
-                    labelStyle: TextStyle(fontSize: 18),
-                    filled: true),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Column(
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  ButtonTheme(
+                  Text(
+                    "Sign Up",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromRGBO(49, 39, 79, 1),
+                        fontSize: 30),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    //padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color.fromRGBO(196, 135, 198, .3),
+                            blurRadius: 20,
+                            offset: Offset(0, 10),
+                          )
+                        ]),
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                border: Border(
+                                    bottom:
+                                    BorderSide(color: Colors.grey[200]))),
+                            child: TextField(
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    prefixIcon: Icon(Icons.person),
+                                    labelText: "Username",
+                                    labelStyle:
+                                    TextStyle(color: Colors.grey)))),
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(color: Colors.grey[200]))),
+                          child: TextField(
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  prefixIcon: Icon(Icons.email),
+                                  labelText: "Email",
+                                  labelStyle: TextStyle(color: Colors.grey))),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(color: Colors.grey[200]))),
+                          child: TextField(
+                            obscureText: true,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                prefixIcon: Icon(Icons.lock),
+                                labelText: "Password",
+                                labelStyle: TextStyle(color: Colors.grey)),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(color: Colors.grey[200]))),
+                          child: TextField(
+                            obscureText: true,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                prefixIcon: Icon(Icons.lock),
+                                labelText: "Confirm Password",
+                                labelStyle: TextStyle(color: Colors.grey)),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Container(
                     height: 50,
-                    disabledColor: Colors.green,
-                    child: RaisedButton(
-                      disabledElevation: 4.0,
-                      onPressed: null,
+                    margin: EdgeInsets.symmetric(horizontal: 60),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: Color.fromRGBO(49, 39, 79, 1),
+                    ),
+                    child: Center(
                       child: Text(
-                        "Sign Up",
-                        style: TextStyle(fontSize: 20, color: Colors.white),
+                        "SignUp",
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: 60,
+                    height: 20,
                   ),
-                  Text('Already have an account? Sign In')
+                  Center(
+                    child: Text(
+                      "Already have an Account? SignIn",
+                      style: TextStyle(color: Color.fromRGBO(49, 39, 79, .6)),
+                    ),
+                  )
                 ],
-              )
-            ],
-          ),
-        ));
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
