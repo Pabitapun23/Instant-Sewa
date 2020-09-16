@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:instantsewa/ui/home_list.dart';
 import 'package:instantsewa/ui/login_page.dart';
 import 'package:instantsewa/ui/signup_page.dart';
+import 'package:instantsewa/util/hexcode.dart';
 
 import 'cart_page.dart';
 import 'home_list.dart';
+import 'main_drawer.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -20,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   ];
 
   int _index = 0;
-
+  Color _purple = HexColor('#603f8b');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,19 +30,13 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         brightness: Brightness.dark,
         elevation: 0,
-        backgroundColor: Colors.green,
+        backgroundColor: _purple,
         title: Text(
           'Instant Sewa',
           style: TextStyle(
             color: Colors.white,
           ),
         ),
-        leading: IconButton(
-            onPressed: null,
-            icon: Icon(
-              Icons.menu,
-              color: Colors.white,
-            )),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
@@ -57,8 +53,9 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+      drawer: MainDrawer(),
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.green,
+        selectedItemColor: _purple,
         unselectedItemColor: Colors.black,
         type: BottomNavigationBarType.shifting,
         currentIndex: _index,
@@ -111,7 +108,6 @@ class ServiceSearch extends SearchDelegate<String> {
         onPressed: () => query = "",
       )
     ];
-    throw UnimplementedError();
   }
 
   @override
@@ -126,7 +122,6 @@ class ServiceSearch extends SearchDelegate<String> {
       },
     );
     //leading icon on the left of search bar
-    throw UnimplementedError();
   }
 
   @override
@@ -134,7 +129,6 @@ class ServiceSearch extends SearchDelegate<String> {
     return Text(query);
 
     // show some result based on the selection
-    throw UnimplementedError();
   }
 
   @override
@@ -164,7 +158,6 @@ class ServiceSearch extends SearchDelegate<String> {
       ),
       itemCount: suggestionList.length,
     );
-    throw UnimplementedError();
   }
 }
 
@@ -173,9 +166,10 @@ class ServiceProviders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color _purple = HexColor('#603f8b');
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.green,
+          backgroundColor: _purple,
           title: Text("Service Providers"),
           centerTitle: true,
           // backgroundColor: Colors.white,
