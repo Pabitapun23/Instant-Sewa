@@ -17,11 +17,12 @@ class _LoginPageState extends State<LoginPage> {
         child: ListView(
           children: <Widget>[
             Container(
-              height: 250,
+              height: 230,
               child: Stack(
                 children: <Widget>[
                   Positioned(
-                    top: 20,
+                    top: 0,
+                    bottom: 0,
                     left: 0,
                     child: Image.asset(
                       "images/instant_sewa.png",
@@ -29,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   Positioned(
-                    top: 0,
+                    bottom: 150,
                     left: 0,
                     child: Image.asset(
                       "images/main_top.png",
@@ -48,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             SizedBox(
-              height: 20,
+              height: 10,
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 30),
@@ -63,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                         fontSize: 30),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
                   Container(
                     //padding: EdgeInsets.all(10),
@@ -80,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Column(
                       children: <Widget>[
                         Container(
-                          padding: EdgeInsets.all(10),
+                          padding: EdgeInsets.all(5),
                           decoration: BoxDecoration(
                               border: Border(
                                   bottom: BorderSide(color: Colors.grey[200]))),
@@ -92,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                                   hintStyle: TextStyle(color: Colors.grey))),
                         ),
                         Container(
-                          padding: EdgeInsets.all(10),
+                          padding: EdgeInsets.all(5),
                           decoration: BoxDecoration(
                               border: Border(
                                   bottom: BorderSide(color: Colors.grey[200]))),
@@ -109,18 +110,18 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
                   Text(
                     "Forgot Password?",
-                    style: TextStyle(color: Color.fromRGBO(196, 135, 198, 1)),
+                    style: TextStyle(color: Color.fromRGBO(49, 39, 79, .6)),
                   ),
                   SizedBox(
-                    height: 30,
+                    height: 15,
                   ),
                   Container(
                     height: 50,
-                    margin: EdgeInsets.symmetric(horizontal: 60),
+                    margin: EdgeInsets.symmetric(horizontal: 80),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
                       color: Color.fromRGBO(49, 39, 79, 1),
@@ -133,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   Center(
                     child: Text(
@@ -150,3 +151,4 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+

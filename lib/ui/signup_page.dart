@@ -18,22 +18,22 @@ class _SignupPageState extends State<SignupPage> {
           //crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              height: 150,
+              height: 100,
               child: Stack(
                 children: <Widget>[
                   Positioned(
-                    top: 0,
+                    bottom: 20,
                     left: 0,
                     child: Image.asset(
                       "images/main_top.png",
-                      width: size.width * 0.30,
+                      width: size.width * 0.40,
                     ),
                   ),
                 ],
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 5,
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 30),
@@ -48,7 +48,7 @@ class _SignupPageState extends State<SignupPage> {
                         fontSize: 30),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   Container(
                     //padding: EdgeInsets.all(10),
@@ -65,7 +65,7 @@ class _SignupPageState extends State<SignupPage> {
                     child: Column(
                       children: <Widget>[
                         Container(
-                            padding: EdgeInsets.all(10),
+                            padding: EdgeInsets.all(3),
                             decoration: BoxDecoration(
                                 border: Border(
                                     bottom:
@@ -78,7 +78,7 @@ class _SignupPageState extends State<SignupPage> {
                                     labelStyle:
                                     TextStyle(color: Colors.grey)))),
                         Container(
-                          padding: EdgeInsets.all(10),
+                          padding: EdgeInsets.all(3),
                           decoration: BoxDecoration(
                               border: Border(
                                   bottom: BorderSide(color: Colors.grey[200]))),
@@ -90,7 +90,7 @@ class _SignupPageState extends State<SignupPage> {
                                   labelStyle: TextStyle(color: Colors.grey))),
                         ),
                         Container(
-                          padding: EdgeInsets.all(10),
+                          padding: EdgeInsets.all(3),
                           decoration: BoxDecoration(
                               border: Border(
                                   bottom: BorderSide(color: Colors.grey[200]))),
@@ -104,7 +104,7 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.all(10),
+                          padding: EdgeInsets.all(3),
                           decoration: BoxDecoration(
                               border: Border(
                                   bottom: BorderSide(color: Colors.grey[200]))),
@@ -114,20 +114,20 @@ class _SignupPageState extends State<SignupPage> {
                                 border: InputBorder.none,
                                 prefixIcon: Icon(Icons.lock),
                                 labelText: "Confirm Password",
-                                labelStyle: TextStyle(color: Colors.grey)),
+                                labelStyle: TextStyle(color: Color.fromRGBO(49, 39, 79, .6))),
                           ),
                         )
                       ],
                     ),
                   ),
                   SizedBox(
-                    height: 30,
+                    height: 20,
                   ),
                   Container(
                     height: 50,
-                    margin: EdgeInsets.symmetric(horizontal: 60),
+                    margin: EdgeInsets.symmetric(horizontal: 80),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
+                      borderRadius: BorderRadius.circular(40),
                       color: Color.fromRGBO(49, 39, 79, 1),
                     ),
                     child: Center(
@@ -138,7 +138,7 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
                   Center(
                     child: Text(
