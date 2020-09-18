@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
-
 class Service {
   String name;
-  IconData icon;
+  String img;
 
-  Service(this.name, this.icon);
+  Service({this.name, this.img});
 }
