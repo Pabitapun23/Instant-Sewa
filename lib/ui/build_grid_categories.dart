@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:instantsewa/model/service_model.dart';
+import 'package:instantsewa/ui/sub_categories_page.dart';
+
 // ignore: must_be_immutable
-class BulidGridCategory  extends StatelessWidget {
-  List<Service>category;
+class BulidGridCategory extends StatelessWidget {
+  List<Service> category;
   BulidGridCategory(this.category);
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,13 @@ class BulidGridCategory  extends StatelessWidget {
         children: category.map((data) {
           return Material(
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            SubCategoriesPage()));
+              },
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white10,
@@ -57,5 +65,4 @@ class BulidGridCategory  extends StatelessWidget {
       ),
     );
   }
-
 }

@@ -18,17 +18,18 @@ class HomeList extends StatefulWidget {
 
 class _HomeListState extends State<HomeList> {
   Color _purple = HexColor('#603f8b');
-  var service =GetIt.instance<HandyMansService>();
+  var service = GetIt.instance<HandyMansService>();
   var provider = GetIt.instance<ServiceProvidersService>();
-  List<Service>category=[];
-  List<Provider>serviceprovider=[];
+  List<Service> category = [];
+  List<Provider> serviceprovider = [];
 
   @override
   void initState() {
     category = service.addServices();
-    serviceprovider=provider.addProvider();
+    serviceprovider = provider.addProvider();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +66,7 @@ class _HomeListState extends State<HomeList> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 125.0, top: 4.0),
+                  padding: const EdgeInsets.only(left: 16.0, top: 4.0),
                   child: FlatButton(
                     onPressed: () {},
                     child: Text(
@@ -78,7 +79,7 @@ class _HomeListState extends State<HomeList> {
                 )
               ],
             ),
-          CategoryList(category),
+            CategoryList(category),
             Row(
               children: <Widget>[
                 Padding(
@@ -119,7 +120,7 @@ class _HomeListState extends State<HomeList> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 180.0, top: 4.0),
+                  padding: const EdgeInsets.only(left: 16.0, top: 4.0),
                   child: FlatButton(
                     onPressed: () {},
                     child: Text(
@@ -139,4 +140,3 @@ class _HomeListState extends State<HomeList> {
     );
   }
 }
-

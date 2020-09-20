@@ -11,7 +11,7 @@ class BulidSlider extends StatelessWidget {
           CarouselSlider(
             options: CarouselOptions(
               height: 180.0,
-              autoPlay: false,
+              autoPlay: true,
               aspectRatio: 16 / 9,
               autoPlayCurve: Curves.fastOutSlowIn,
               enableInfiniteScroll: true,
