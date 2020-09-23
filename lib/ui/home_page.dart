@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:instantsewa/ui/home_list.dart';
 import 'package:instantsewa/ui/login_page.dart';
 import 'package:instantsewa/ui/profile_page.dart';
-import 'package:instantsewa/ui/signup_page.dart';
+//import 'package:instantsewa/ui/signup_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:instantsewa/ui/profile_page.dart';
 
