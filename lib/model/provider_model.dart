@@ -4,5 +4,5 @@ class Provider {
   String name;
   Image image;
 
-  Provider(this.name, this.image);
+  Provider({this.name, this.image});
 }
