@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:instantsewa/util/hexcode.dart';
 
 class LoginPage extends StatefulWidget {
   //LoginPage({Key key}) : super(key: key);
@@ -150,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                     margin: EdgeInsets.symmetric(horizontal: 80),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
-                      color: _purple,
+                      color: Color.fromRGBO(49, 39, 79, 1),
                     ),
                     child: Center(
                       child: Text(
