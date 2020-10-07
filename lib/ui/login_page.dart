@@ -1,4 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:instantsewa/ui/home_page.dart';
+import 'package:instantsewa/ui/signup_page.dart';
+import 'package:instantsewa/util/api.dart';
+import 'package:instantsewa/util/hexcode.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   //LoginPage({Key key}) : super(key: key);
@@ -9,12 +16,28 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   Color _purple = HexColor('#603f8b');
+  bool _isLoading = false;
+  final _formKey = GlobalKey<FormState>();
   var email;
   var password;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  _showMsg(msg) {
+    final snackBar = SnackBar(
+      content: Text(msg),
+      action: SnackBarAction(
+        label: 'Close',
+        onPressed: () {
+          // Some code to undo the change!
+        },
+      ),
+    );
+    _scaffoldKey.currentState.showSnackBar(snackBar);
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
       body: SafeArea(
         child: ListView(
@@ -82,6 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                           )
                         ]),
                     child: Form(
+                      key: _formKey,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -149,12 +173,21 @@ class _LoginPageState extends State<LoginPage> {
                     margin: EdgeInsets.symmetric(horizontal: 80),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
-                      color: Color.fromRGBO(49, 39, 79, 1),
+                      color: _purple,
                     ),
                     child: Center(
-                      child: Text(
-                        "Login",
-                        style: TextStyle(color: Colors.white, fontSize: 17.0),
+                      child: FlatButton(
+                        child: Text(
+                          _isLoading ? 'Proccessing...' :  "Login",
+                          style: TextStyle(color: Colors.white, fontSize: 17.0),
+                        ),
+                        onPressed: ()
+                        {
+                          if (_formKey.currentState.validate())
+                          {
+                            _login();
+                          }
+                        },
                       ),
                     ),
                   ),
@@ -162,9 +195,12 @@ class _LoginPageState extends State<LoginPage> {
                     height: 10,
                   ),
                   Center(
-                    child: Text(
-                      "Create an Account",
-                      style: TextStyle(color: Color.fromRGBO(49, 39, 79, .6)),
+                    child: InkWell(
+                      onTap: (){Navigator.push(context, MaterialPageRoute(builder:(context)=>SignupPage()));},
+                      child: Text(
+                        "Create an Account",
+                        style: TextStyle(color: Color.fromRGBO(49, 39, 79, .6)),
+                      ),
                     ),
                   )
                 ],
@@ -174,5 +210,33 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+  void _login() async{
+    setState(() {
+      _isLoading = true;
+    });
+    var data ={
+      'email' : email,
+      'password' : password
+    };
+    var res = await Network().authData(data, '/login');
+    var body = json.decode(res.body);
+    if(body['success']){
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.setString('token', json.encode(body['token']));
+      localStorage.setString('user', json.encode(body['user']));
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) => HomePage()
+        ),
+      );
+    }else{
+      _showMsg(body['message']);
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 }

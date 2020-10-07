@@ -1,4 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:instantsewa/ui/login_page.dart';
+import 'package:instantsewa/util/api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupPage extends StatefulWidget {
   //SignupPage({Key key}) : super(key: key);
@@ -8,6 +13,13 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  bool _isLoading = false;
+  final _formKey = GlobalKey<FormState>();
+  var email;
+  var username;
+  var password;
+  var cpassword;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -62,62 +74,107 @@ class _SignupPageState extends State<SignupPage> {
                             offset: Offset(0, 10),
                           )
                         ]),
-                    child: Column(
-                      children: <Widget>[
-                        Container(
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: <Widget>[
+                          Container(
                             padding: EdgeInsets.all(3),
                             decoration: BoxDecoration(
                                 border: Border(
                                     bottom:
-                                    BorderSide(color: Colors.grey[200]))),
-                            child: TextField(
-                                decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    prefixIcon: Icon(Icons.person),
-                                    labelText: "Username",
-                                    labelStyle:
-                                    TextStyle(color: Colors.grey)))),
-                        Container(
-                          padding: EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.grey[200]))),
-                          child: TextField(
+                                        BorderSide(color: Colors.grey[200]))),
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                prefixIcon: Icon(Icons.person),
+                                labelText: "Username",
+                                labelStyle: TextStyle(color: Colors.grey),
+                              ),
+                              validator: (usernameValue) {
+                                if (usernameValue.isEmpty) {
+                                  return 'Please enter username';
+                                }
+                                username = usernameValue;
+                                return null;
+                              },
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(3),
+                            decoration: BoxDecoration(
+                                border: Border(
+                                    bottom:
+                                        BorderSide(color: Colors.grey[200]))),
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                prefixIcon: Icon(Icons.email),
+                                labelText: "Email",
+                                labelStyle: TextStyle(color: Colors.grey),
+                              ),
+                              validator: (emailValue) {
+                                if (emailValue.isEmpty) {
+                                  return 'Please enter email';
+                                }
+                                email = emailValue;
+                                return null;
+                              },
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(3),
+                            decoration: BoxDecoration(
+                                border: Border(
+                                    bottom:
+                                        BorderSide(color: Colors.grey[200]))),
+                            child: TextFormField(
+                              obscureText: true,
                               decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  prefixIcon: Icon(Icons.email),
-                                  labelText: "Email",
-                                  labelStyle: TextStyle(color: Colors.grey))),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.grey[200]))),
-                          child: TextField(
-                            obscureText: true,
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                prefixIcon: Icon(Icons.lock),
-                                labelText: "Password",
-                                labelStyle: TextStyle(color: Colors.grey)),
+                                  prefixIcon: Icon(Icons.lock),
+                                  labelText: "Password",
+                                  labelStyle: TextStyle(color: Colors.grey)),
+                              validator: (passwordValue) {
+                                if (passwordValue.isEmpty) {
+                                  return 'Please enter some text';
+                                }
+                                password = passwordValue;
+                                return null;
+                              },
+                            ),
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.grey[200]))),
-                          child: TextField(
-                            obscureText: true,
-                            decoration: InputDecoration(
+                          Container(
+                            padding: EdgeInsets.all(3),
+                            decoration: BoxDecoration(
+                                border: Border(
+                                    bottom:
+                                        BorderSide(color: Colors.grey[200]))),
+                            child: TextFormField(
+                              obscureText: true,
+                              decoration: InputDecoration(
                                 border: InputBorder.none,
                                 prefixIcon: Icon(Icons.lock),
                                 labelText: "Confirm Password",
-                                labelStyle: TextStyle(color: Color.fromRGBO(49, 39, 79, .6))),
-                          ),
-                        )
-                      ],
+                                labelStyle: TextStyle(
+                                  color: Color.fromRGBO(49, 39, 79, .6),
+                                ),
+                              ),
+                              validator: (confirmpasswordValue) {
+                                if (confirmpasswordValue.isEmpty) {
+                                  return 'Please enter confirmpassword';
+                                }
+                                else{
+                                  if (confirmpasswordValue != password) {
+                                    return 'Password Not Matched';
+                                  }
+                                }
+                                return null;
+                              },
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -131,9 +188,18 @@ class _SignupPageState extends State<SignupPage> {
                       color: Color.fromRGBO(49, 39, 79, 1),
                     ),
                     child: Center(
-                      child: Text(
-                        "SignUp",
-                        style: TextStyle(color: Colors.white),
+                      child: FlatButton(
+                        child: Text(
+                          _isLoading ? 'Proccessing...' : 'Register',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: ()
+                        {
+                          if (_formKey.currentState.validate())
+                            {
+                              _register();
+                            }
+                        },
                       ),
                     ),
                   ),
@@ -141,9 +207,17 @@ class _SignupPageState extends State<SignupPage> {
                     height: 15,
                   ),
                   Center(
-                    child: Text(
-                      "Already have an Account? SignIn",
-                      style: TextStyle(color: Color.fromRGBO(49, 39, 79, .6)),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()));
+                      },
+                      child: Text(
+                        "Already have an Account? SignIn",
+                        style: TextStyle(color: Color.fromRGBO(49, 39, 79, .6)),
+                      ),
                     ),
                   )
                 ],
@@ -153,5 +227,34 @@ class _SignupPageState extends State<SignupPage> {
         ),
       ),
     );
+  }
+
+  void _register()async{
+    setState(() {
+      _isLoading = true;
+    });
+    var data = {
+      'email' : email,
+      'password': password,
+      'username':username,
+      'user_type':'serviceuser'
+    };
+
+    var res = await Network().authData(data, '/register');
+    var body = json.decode(res.body);
+    if(body['success']){
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.setString('token', json.encode(body['token']));
+      localStorage.setString('user', json.encode(body['user']));
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) => LoginPage()
+        ),
+      );
+    }
+    setState(() {
+      _isLoading = false;
+    });
   }
 }

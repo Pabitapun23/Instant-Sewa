@@ -8,7 +8,7 @@ class ProfilesService {
         username: "pabita123",
         img: "https://robohash.org/1?set=set2",
         address: "Pokhara",
-        phone_number: "9809090307",
+        phoneNumber: "9809090307",
         email: "pabita@gmail.com",
       ),
     ];
