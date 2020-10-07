@@ -8,6 +8,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  Color _purple = HexColor('#603f8b');
+  var email;
+  var password;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -78,35 +81,57 @@ class _LoginPageState extends State<LoginPage> {
                             offset: Offset(0, 10),
                           )
                         ]),
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.grey[200]))),
-                          child: TextField(
+                    child: Form(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                border: Border(
+                                    bottom:
+                                        BorderSide(color: Colors.grey[200]))),
+                            child: TextFormField(
                               decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  prefixIcon: Icon(Icons.email),
-                                  hintText: "Email",
-                                  hintStyle: TextStyle(color: Colors.grey))),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.grey[200]))),
-                          child: TextField(
-                            obscureText: true,
-                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                prefixIcon: Icon(Icons.email),
+                                hintText: "Email",
+                                hintStyle: TextStyle(color: Colors.grey),
+                              ),
+                              validator: (emailValue) {
+                                if (emailValue.isEmpty) {
+                                  return 'Please enter email';
+                                }
+                                email = emailValue;
+                                return null;
+                              },
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                border: Border(
+                                    bottom:
+                                        BorderSide(color: Colors.grey[200]))),
+                            child: TextFormField(
+                              obscureText: true,
+                              decoration: InputDecoration(
                                 border: InputBorder.none,
                                 prefixIcon: Icon(Icons.lock),
                                 hintText: "Password",
-                                hintStyle: TextStyle(color: Colors.grey)),
-                          ),
-                        )
-                      ],
+                                hintStyle: TextStyle(color: Colors.grey),
+                              ),
+                              validator: (passwordValue) {
+                                if (passwordValue.isEmpty) {
+                                  return 'Please enter your password';
+                                }
+                                password = passwordValue;
+                                return null;
+                              },
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -129,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Center(
                       child: Text(
                         "Login",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.white, fontSize: 17.0),
                       ),
                     ),
                   ),
@@ -151,4 +176,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-
