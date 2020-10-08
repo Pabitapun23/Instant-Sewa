@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instantsewa/util/hexcode.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class SchedulePage extends StatefulWidget {
@@ -11,6 +12,7 @@ class SchedulePage extends StatefulWidget {
 class _SchedulePageState extends State<SchedulePage> {
   CalendarController _controller;
   DateTime _dateTime;
+  Color _purple = HexColor('#603f8b');
 
   @override
   void initState() {
@@ -23,11 +25,16 @@ class _SchedulePageState extends State<SchedulePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Select your schedule",
-          style: TextStyle(color: Colors.black),
+        title: Center(
+          child: Text(
+            "Select Your Schedule",
+            style: TextStyle(
+              color: _purple,
+              fontSize: 22.0,
+            ),
+          ),
         ),
-        backgroundColor: Colors.grey.shade200,
+        backgroundColor: Colors.purple,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -43,13 +50,13 @@ class _SchedulePageState extends State<SchedulePage> {
                     fontSize: 20),
               ),
               SizedBox(
-                height: 15.0,
+                height: 5.0,
               ),
               TableCalendar(
                 initialCalendarFormat: CalendarFormat.week,
                 calendarStyle: CalendarStyle(
-                  todayColor: Colors.purple,
-                  selectedColor: Colors.grey,
+                  todayColor: Colors.grey,
+                  selectedColor: Colors.purple,
                   todayStyle: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18.0,
@@ -59,7 +66,7 @@ class _SchedulePageState extends State<SchedulePage> {
                 headerStyle: HeaderStyle(
                   centerHeaderTitle: true,
                   formatButtonDecoration: BoxDecoration(
-                    color: Colors.blueGrey,
+                    color: Color.fromRGBO(49, 39, 79, 1),
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                   formatButtonTextStyle: TextStyle(
@@ -73,7 +80,11 @@ class _SchedulePageState extends State<SchedulePage> {
                   ? 'Nothing has been picked yet'
                   : _dateTime.toString()),
               RaisedButton(
-                child: Text('Select the service date'),
+                color: Colors.purple,
+                child: Text(
+                  'Select the service date',
+                  style: TextStyle(color: Colors.white),
+                ),
                 onPressed: () {
                   showDatePicker(
                     context: context,
@@ -88,7 +99,7 @@ class _SchedulePageState extends State<SchedulePage> {
                 },
               ),
               SizedBox(
-                height: 30.0,
+                height: 15.0,
               ),
               Text(
                 "Select the service time",
@@ -98,7 +109,7 @@ class _SchedulePageState extends State<SchedulePage> {
                     fontSize: 20),
               ),
               SizedBox(
-                height: 15.0,
+                height: 10.0,
               ),
               Row(
                 children: <Widget>[
@@ -159,6 +170,23 @@ class _SchedulePageState extends State<SchedulePage> {
                     onPressed: () {},
                   ),
                 ],
+              ),
+              SizedBox(
+                height: 5.0,
+              ),
+              Container(
+                height: 50,
+                margin: EdgeInsets.symmetric(horizontal: 100),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(40),
+                  color: Color.fromRGBO(49, 39, 79, 1),
+                ),
+                child: Center(
+                  child: Text(
+                    "Next",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
               ),
             ],
           ),
