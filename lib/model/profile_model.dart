@@ -13,5 +13,6 @@ class Profile {
       this.img,
       this.address,
       this.phoneNumber,
-      this.email}); //{} optional
+      this.email}
+      );
 }
