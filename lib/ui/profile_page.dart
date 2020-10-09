@@ -21,9 +21,25 @@ class _ProfilePageState extends State<ProfilePage> {
   String address;
   @override
   void initState(){
+    // loginOrNot();
     _loadUserData();
     super.initState();
   }
+  // loginOrNot() async
+  // {
+  //   SharedPreferences localStorage = await SharedPreferences.getInstance();
+  //   var user = jsonDecode(localStorage.getString('user'));
+  //   if(user == null)
+  //   {
+  //     Navigator.push(
+  //       context,
+  //       new MaterialPageRoute(
+  //           builder: (context) => LoginPage()
+  //       ),
+  //     );
+  //   }
+  //
+  // }
   _loadUserData() async{
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var user = jsonDecode(localStorage.getString('user'));

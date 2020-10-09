@@ -16,27 +16,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
-  @override
-  void initState(){
-    _loginOrNot();
-    super.initState();
-  }
-  _loginOrNot() async
-  {
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var user = jsonDecode(localStorage.getString('user'));
-    if(user != null)
-      {
-        Navigator.push(
-          context,
-          new MaterialPageRoute(
-              builder: (context) => ProfilePage()
-          ),
-        );
-      }
-
-  }
   bool _isLoading = false;
   final _formKey = GlobalKey<FormState>();
   var email;
