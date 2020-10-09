@@ -1,8 +1,11 @@
-import 'package:flutter/material.dart';
-
 class Provider {
   String name;
-  Image image;
+  String job;
+  String image;
+  String desc;
+  int rate;
+  double distance;
 
-  Provider({this.name, this.image});
+  Provider(
+      {this.name, this.job, this.image, this.desc, this.rate, this.distance});
 }

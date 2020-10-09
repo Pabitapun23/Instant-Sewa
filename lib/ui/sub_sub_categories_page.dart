@@ -1,13 +1,22 @@
+import 'package:instantsewa/Store/MyStore.dart';
 import 'package:instantsewa/model/sub_categories_model.dart';
+import 'package:instantsewa/ui/sub_sub_categories_details_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SubSubCategoriesPage extends StatelessWidget {
+  final String subSubCategoriesList;
   final String subCategoriesName;
   final SubCategories subCategories;
+  final int subCategoryIndex;
 
   const SubSubCategoriesPage(
-      {Key key, this.subCategoriesName, this.subCategories})
+      {Key key,
+      this.subCategoriesName,
+      this.subCategories,
+      this.subCategoryIndex,
+      this.subSubCategoriesList})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -29,6 +38,7 @@ class SubSubCategoriesPage extends StatelessWidget {
                   subSubCategoriesImage: subCategories.img,
                   subSubCategoriesList: subCategories.subSubCategories,
                   subSubCategoriesPrice: subCategories.price,
+                  subCategoryIndex: subCategoryIndex,
                 ),
               ]),
             )
@@ -61,21 +71,24 @@ class ImageBox extends StatelessWidget {
 class SubSubCategoriesList extends StatelessWidget {
   final List<String> subSubCategoriesList;
   final String subSubCategoriesImage;
-  final List<String> subSubCategoriesPrice;
+  final List<int> subSubCategoriesPrice;
+  final int subCategoryIndex;
   const SubSubCategoriesList(
       {Key key,
       this.subSubCategoriesList,
       this.subSubCategoriesImage,
-      this.subSubCategoriesPrice})
+      this.subSubCategoriesPrice,
+      this.subCategoryIndex})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
+    var service = Provider.of<MyStore>(context);
     Color _purple = HexColor('#603f8b');
     return ListView.builder(
       shrinkWrap: true,
       physics: ClampingScrollPhysics(),
       itemCount: subSubCategoriesList.length,
-      itemBuilder: (context, index) {
+      itemBuilder: (context, subSubCategoryIndex) {
         return Container(
           padding: EdgeInsets.only(top: 8.0),
           height: 80,
@@ -97,15 +110,26 @@ class SubSubCategoriesList extends StatelessWidget {
                 ),
               ),
               title: Text(
-                subSubCategoriesList[index],
+                subSubCategoriesList[subSubCategoryIndex],
                 style: TextStyle(fontSize: 17.0),
               ),
               subtitle: Text(
-                'Starting from:${subSubCategoriesPrice[index]}',
+                'Starting from:\$${subSubCategoriesPrice[subSubCategoryIndex]}',
                 style: TextStyle(fontSize: 13.0),
               ),
               trailing: OutlineButton(
-                onPressed: () {},
+                onPressed: () {
+                  //set the service as active service
+                  service.setActiveService(service.services[subCategoryIndex]);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              SubSubCategoriesDetailsPage(
+                                subSubCategoryIndex: subSubCategoryIndex,
+                                subCategoryIndex: subCategoryIndex,
+                              )));
+                },
                 child: Text(
                   'Add',
                   style: TextStyle(color: _purple, fontSize: 16.0),

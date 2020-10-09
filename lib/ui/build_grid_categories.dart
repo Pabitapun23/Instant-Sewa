@@ -12,18 +12,23 @@ class BulidGridCategory extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(top: 14),
       color: Colors.white10,
-      height: 290,
+      height: MediaQuery.of(context).size.height * 0.43,
       alignment: Alignment.centerLeft,
-      child: GridView.count(
-        crossAxisCount: 3,
-        childAspectRatio: 4 / 3,
-        padding: EdgeInsets.only(left: 16, right: 16),
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        shrinkWrap: true,
-        children: category.map((data) {
-          return Material(
-            child: InkWell(
+      child: GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            childAspectRatio: MediaQuery.of(context).size.width /
+                (MediaQuery.of(context).size.height / 2.4),
+            mainAxisSpacing: 10.0,
+            crossAxisSpacing: 10.0,
+          ),
+          physics: NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.only(left: 16, right: 16),
+          shrinkWrap: true,
+          itemCount: category.length,
+          itemBuilder: (BuildContext context, int index) {
+            var data = category[index];
+            return InkWell(
               onTap: () {
                 Navigator.push(
                     context,
@@ -59,10 +64,8 @@ class BulidGridCategory extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-          );
-        }).toList(),
-      ),
+            );
+          }),
     );
   }
 }
