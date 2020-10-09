@@ -6,7 +6,7 @@ class Network
 {
   final String _url = 'http://10.0.2.2:8000';
   var token;
-  _getToken() async{
+  getToken() async{
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     token = jsonDecode(localStorage.getString('token'))['token'];
   }
@@ -15,19 +15,19 @@ class Network
     return await http.post(
       fullUrl,
       body:jsonEncode(data),
-      headers:_setHeaders()
+      headers:setHeaders()
     );
   }
   getData(apiUrl) async
   {
     var fullUrl = _url+ apiUrl;
-    await _getToken();
+    await getToken();
     return await http.get(
       fullUrl,
-      headers:_setHeaders()
+      headers:setHeaders()
     );
   }
-  _setHeaders() => {
+  setHeaders() => {
     'Content-type' : 'application/json',
     'Accept' : 'application/json',
     'Authorization' : 'Bearer $token'
