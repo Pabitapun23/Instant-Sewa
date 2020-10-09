@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:instantsewa/ui/cart_page.dart';
 import 'package:instantsewa/ui/home_page.dart';
+import 'package:instantsewa/ui/profile_page.dart';
 import 'package:instantsewa/ui/signup_page.dart';
 import 'package:instantsewa/util/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +16,27 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  @override
+  void initState(){
+    _loginOrNot();
+    super.initState();
+  }
+  _loginOrNot() async
+  {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user'));
+    if(user != null)
+      {
+        Navigator.push(
+          context,
+          new MaterialPageRoute(
+              builder: (context) => ProfilePage()
+          ),
+        );
+      }
+
+  }
   bool _isLoading = false;
   final _formKey = GlobalKey<FormState>();
   var email;

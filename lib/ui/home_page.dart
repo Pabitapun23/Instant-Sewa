@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:instantsewa/Store/MyStore.dart';
 import 'package:instantsewa/ui/favorites_page.dart';
@@ -7,6 +9,7 @@ import 'package:instantsewa/ui/profile_page.dart';
 import 'package:instantsewa/ui/signup_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'cart_page.dart';
 import 'home_list.dart';
@@ -22,7 +25,7 @@ class _HomePageState extends State<HomePage> {
     HomeList(),
     Favourites(),
     CartPage(),
-    ProfilePage(),
+    LoginPage(),
   ];
 
   int _index = 0;
@@ -127,7 +130,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
 class ServiceSearch extends SearchDelegate<String> {
   //model
   final services = [
