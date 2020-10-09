@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   List<Widget> _widgetList = [
     HomeList(),
     Favourites(),
-    LoginPage(),
+    CartPage(),
     ProfilePage(),
   ];
 
