@@ -12,7 +12,7 @@ class LogInFormModel
    }
   void setPassword(String password)
   {
-    if(password.length > 6)
+    if(password.length < 6)
     {
       throw LoginError(message: "Password length should more than 6 chars");
     }

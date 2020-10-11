@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'file:///D:/Project-II/instantsewa/lib/ui/Auth/login_page.dart';
+import 'package:instantsewa/ui/Auth/login_page.dart';
 import 'package:instantsewa/util/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

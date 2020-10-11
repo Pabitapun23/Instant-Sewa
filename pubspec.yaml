@@ -32,7 +32,6 @@ dependencies:
   dio: ^3.0.9
   states_rebuilder: ^1.15.0
   shared_preferences: ^0.5.7+1
-  flutter_secure_storage: ^3.3.3
 
 
 
