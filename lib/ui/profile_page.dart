@@ -1,8 +1,9 @@
 import 'dart:convert';
 
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:instantsewa/ui/login_page.dart';
+import 'file:///D:/Project-II/instantsewa/lib/ui/Auth/login_page.dart';
 import 'package:instantsewa/util/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,25 +22,22 @@ class _ProfilePageState extends State<ProfilePage> {
   String address;
   @override
   void initState(){
-    // loginOrNot();
+    loginOrNot();
     _loadUserData();
     super.initState();
   }
-  // loginOrNot() async
-  // {
-  //   SharedPreferences localStorage = await SharedPreferences.getInstance();
-  //   var user = jsonDecode(localStorage.getString('user'));
-  //   if(user == null)
-  //   {
-  //     Navigator.push(
-  //       context,
-  //       new MaterialPageRoute(
-  //           builder: (context) => LoginPage()
-  //       ),
-  //     );
-  //   }
-  //
-  // }
+  loginOrNot() async
+  {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user'));
+    if(user['username'] == null)
+    {
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context)=>LoginPage()));
+    }
+
+  }
   _loadUserData() async{
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var user = jsonDecode(localStorage.getString('user'));

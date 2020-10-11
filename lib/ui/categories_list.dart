@@ -5,7 +5,7 @@ import 'package:instantsewa/model/service_model.dart';
 // ignore: must_be_immutable
 class CategoryList extends StatelessWidget {
   List<Service> category;
-  CategoryList(this.category);
+  CategoryList({this.category});
   @override
   Widget build(BuildContext context) {
     return Container(

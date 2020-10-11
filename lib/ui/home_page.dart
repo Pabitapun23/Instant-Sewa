@@ -1,15 +1,12 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:instantsewa/Store/MyStore.dart';
 import 'package:instantsewa/ui/favorites_page.dart';
 import 'package:instantsewa/ui/home_list.dart';
-import 'package:instantsewa/ui/login_page.dart';
+import 'file:///D:/Project-II/instantsewa/lib/ui/Auth/login_page.dart';
 import 'package:instantsewa/ui/profile_page.dart';
-import 'package:instantsewa/ui/signup_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 import 'cart_page.dart';
 import 'home_list.dart';

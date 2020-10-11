@@ -6,7 +6,7 @@ class LogInFormModel
    {
      if(!validateEmail(email))
        {
-         throw LoginError(message: "Invalid message");
+         throw LoginError(message: "Invalide Email");
        }
      this.email = email;
    }
