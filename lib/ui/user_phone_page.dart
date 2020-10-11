@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:instantsewa/ui/user_phone_page.dart';
+import 'package:instantsewa/ui/user_address_page.dart';
 
-class UserInfoPage extends StatefulWidget {
+class UserPhonePage extends StatefulWidget {
   @override
-  _UserInfoPageState createState() => _UserInfoPageState();
+  _UserPhonePageState createState() => _UserPhonePageState();
 }
 
-class _UserInfoPageState extends State<UserInfoPage> {
-  //bool _checked;
-  var fullName;
-
+class _UserPhonePageState extends State<UserPhonePage> {
+  var phoneNumber;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -41,19 +39,11 @@ class _UserInfoPageState extends State<UserInfoPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Center(
-                    child: Text(
-                      "Give us your information for better user experience.",
-                      style: TextStyle(
-                          color: Color.fromRGBO(49, 39, 79, .6),
-                          fontSize: 20.0),
-                    ),
-                  ),
                   SizedBox(
                     height: 30,
                   ),
                   Text(
-                    "Enter your Full Name.",
+                    "Enter your Phone Number.",
                     style: TextStyle(
                       color: Color.fromRGBO(49, 39, 79, .6),
                       fontSize: 18.0,
@@ -86,19 +76,19 @@ class _UserInfoPageState extends State<UserInfoPage> {
                             child: TextFormField(
                               decoration: InputDecoration(
                                 border: InputBorder.none,
-                                prefixIcon: Icon(Icons.person),
-                                labelText: "Full Name",
+                                prefixIcon: Icon(Icons.phone),
+                                labelText: "Phone Number",
                                 labelStyle: TextStyle(color: Colors.grey),
                               ),
-                              validator: (fullNameValue) {
-                                if (fullNameValue.isEmpty) {
-                                  return 'Please Enter Your Full Name';
+                              validator: (phoneNumberValue) {
+                                if (phoneNumberValue.isEmpty) {
+                                  return 'Please Enter your Phone Number ';
                                 }
-                                fullName = fullNameValue;
+                                phoneNumber = phoneNumberValue;
                                 return null;
                               },
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -119,7 +109,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => UserPhonePage()));
+                                  builder: (context) => UserAddressPage()));
                         },
                         child: Text(
                           "Next",
