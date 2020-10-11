@@ -54,9 +54,10 @@ class _HomeListState extends State<HomeList> {
             ),
             BulidGridCategory(category),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(left: 0.0, top: 4.0),
+                  padding: const EdgeInsets.only(left: 16.0, top: 4.0),
                   child: Text(
                     'Popular Services',
                     style: TextStyle(
@@ -81,38 +82,12 @@ class _HomeListState extends State<HomeList> {
             ),
             CategoryList(category),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(left: 0.0, top: 4.0),
+                  padding: const EdgeInsets.only(left: 16.0, top: 4.0),
                   child: Text(
                     'Featured Service Providers',
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 0.0, top: 4.0),
-                  child: FlatButton(
-                    onPressed: () {},
-                    child: Text(
-                      'View All',
-                      style: TextStyle(
-                        color: _purple,
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-            ProviderList(serviceprovider),
-            Row(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0, top: 4.0),
-                  child: Text(
-                    'Recommendation',
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,

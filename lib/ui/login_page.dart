@@ -1,10 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:instantsewa/ui/cart_page.dart';
 import 'package:instantsewa/ui/home_page.dart';
+import 'package:instantsewa/ui/profile_page.dart';
 import 'package:instantsewa/ui/signup_page.dart';
 import 'package:instantsewa/util/api.dart';
-import 'package:instantsewa/util/hexcode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,7 +16,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  Color _purple = HexColor('#603f8b');
   bool _isLoading = false;
   final _formKey = GlobalKey<FormState>();
   var email;
@@ -173,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                     margin: EdgeInsets.symmetric(horizontal: 80),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
-                      color: _purple,
+                      color: Color.fromRGBO(49, 39, 79, 1),
                     ),
                     child: Center(
                       child: FlatButton(
@@ -215,10 +215,11 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       _isLoading = true;
     });
-    var data ={
+    var data = {
       'email' : email,
       'password' : password
     };
+
     var res = await Network().authData(data, '/login');
     var body = json.decode(res.body);
     if(body['success']){
@@ -238,5 +239,6 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       _isLoading = false;
     });
+
   }
 }

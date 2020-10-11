@@ -28,8 +28,8 @@ class SubCategoriesPage extends StatelessWidget {
       shrinkWrap: true,
       physics: ClampingScrollPhysics(),
       itemCount: subCategories.length,
-      itemBuilder: (context, index) {
-        var data = subCategories[index];
+      itemBuilder: (context, key) {
+        var data = subCategories[key];
         return Container(
           padding: EdgeInsets.only(top: 10.0),
           height: 70,
@@ -60,8 +60,9 @@ class SubCategoriesPage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (BuildContext context) => SubSubCategoriesPage(
-                              subCategoriesName: subCategoriesList[index].name,
-                              subCategories: subCategories[index],
+                              subCategoriesName: subCategoriesList[key].name,
+                              subCategories: subCategories[key],
+                              subCategoryIndex: key,
                             )));
               },
             ),
