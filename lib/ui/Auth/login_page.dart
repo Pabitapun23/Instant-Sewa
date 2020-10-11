@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:instantsewa/ui/Auth/signup_page.dart';
 import 'package:instantsewa/ui/cart_page.dart';
 import 'package:instantsewa/ui/home_page.dart';
 import 'package:instantsewa/ui/profile_page.dart';
-import 'package:instantsewa/ui/signup_page.dart';
 import 'package:instantsewa/util/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -114,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: BoxDecoration(
                                 border: Border(
                                     bottom:
-                                        BorderSide(color: Colors.grey[200]))),
+                                    BorderSide(color: Colors.grey[200]))),
                             child: TextFormField(
                               decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -136,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: BoxDecoration(
                                 border: Border(
                                     bottom:
-                                        BorderSide(color: Colors.grey[200]))),
+                                    BorderSide(color: Colors.grey[200]))),
                             child: TextFormField(
                               obscureText: true,
                               decoration: InputDecoration(
