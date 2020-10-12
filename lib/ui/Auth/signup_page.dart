@@ -14,21 +14,261 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
+    final GlobalKey<ScaffoldState> _key = GlobalKey();
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Injector(
-        inject: [Inject<SignUpFormModel>(() => SignUpFormModel())],
-        builder: (context) {
-    final _singletonRegisterFormModel =
-    Injector.getAsReactive<SignUpFormModel>();
-    return SafeArea() ;
-    }
-      )
-  );
-}}
+        key: _key,
+        backgroundColor: Colors.white,
+        body: Injector(
+            inject: [Inject<SignUpFormModel>(() => SignUpFormModel())],
+            builder: (context) {
+              final _singletonRegisterFormModel =
+                  Injector.getAsReactive<SignUpFormModel>();
+              return SafeArea(
+                child: ListView(
+                  children: <Widget>[
+                    Container(
+                      height: 100,
+                      child: Stack(
+                        children: <Widget>[
+                          Positioned(
+                            bottom: 20,
+                            left: 0,
+                            child: Image.asset(
+                              "images/main_top.png",
+                              width: size.width * 0.40,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 30),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Sign Up",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromRGBO(49, 39, 79, 1),
+                                fontSize: 30),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            //padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Color.fromRGBO(196, 135, 198, .3),
+                                    blurRadius: 20,
+                                    offset: Offset(0, 10),
+                                  )
+                                ]),
+                            child: Form(
+                              child: Column(
+                                children: <Widget>[
+                                  StateBuilder<SignUpFormModel>(
+                                    builder: (_, _singletonRegisterFormModel) {
+                                      return Container(
+                                        padding: EdgeInsets.all(3),
+                                        decoration: BoxDecoration(
+                                            border: Border(
+                                                bottom: BorderSide(
+                                                    color: Colors.grey[200]))),
+                                        child: TextFormField(
+                                          onChanged: (String username) {
+                                            _singletonRegisterFormModel
+                                                .setState(
+                                                    (state) => state
+                                                        .setUsername(username),
+                                                    catchError: true);
+                                          },
+                                          decoration: InputDecoration(
+                                            errorText:
+                                                _singletonRegisterFormModel
+                                                        .hasError
+                                                    ? _singletonRegisterFormModel
+                                                        .error.message
+                                                    : null,
+                                            border: InputBorder.none,
+                                            prefixIcon: Icon(Icons.person),
+                                            hintText: "Username",
+                                            hintStyle:
+                                                TextStyle(color: Colors.grey),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  StateBuilder<SignUpFormModel>(
+                                    builder: (_, _singletonRegisterModel) {
+                                      return Container(
+                                        padding: EdgeInsets.all(5),
+                                        decoration: BoxDecoration(
+                                            border: Border(
+                                                bottom: BorderSide(
+                                                    color: Colors.grey[200]))),
+                                        child: TextFormField(
+                                          onChanged: (String email) {
+                                            _singletonRegisterFormModel
+                                                .setState(
+                                                    (state) =>
+                                                        state.setEmail(email),
+                                                    catchError: true);
+                                          },
+                                          decoration: InputDecoration(
+                                            errorText:
+                                                _singletonRegisterFormModel
+                                                        .hasError
+                                                    ? _singletonRegisterFormModel
+                                                        .error.message
+                                                    : null,
+                                            border: InputBorder.none,
+                                            prefixIcon: Icon(Icons.email),
+                                            hintText: "Email",
+                                            hintStyle:
+                                                TextStyle(color: Colors.grey),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  StateBuilder<SignUpFormModel>(builder:
+                                      (context, _singletonRegisterFormModel) {
+                                    return Container(
+                                      padding: EdgeInsets.all(5),
+                                      decoration: BoxDecoration(
+                                          border: Border(
+                                              bottom: BorderSide(
+                                                  color: Colors.grey[200]))),
+                                      child: TextFormField(
+                                        onChanged: (String password) {
+                                          _singletonRegisterFormModel.setState(
+                                              (state) =>
+                                                  state.setPassword(password),
+                                              catchError: true);
+                                        },
+                                        obscureText: true,
+                                        decoration: InputDecoration(
+                                          errorText: _singletonRegisterFormModel
+                                                  .hasError
+                                              ? _singletonRegisterFormModel
+                                                  .error.message
+                                              : null,
+                                          border: InputBorder.none,
+                                          prefixIcon: Icon(Icons.lock),
+                                          hintText: "Password",
+                                          hintStyle:
+                                              TextStyle(color: Colors.grey),
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                                  StateBuilder<SignUpFormModel>(builder:
+                                      (context, _singletonRegisterFormModel) {
+                                    return Container(
+                                      padding: EdgeInsets.all(5),
+                                      decoration: BoxDecoration(
+                                          border: Border(
+                                              bottom: BorderSide(
+                                                  color: Colors.grey[200]))),
+                                      child: TextFormField(
+                                        onChanged: (String password) {
+                                          _singletonRegisterFormModel.setState(
+                                              (state) =>
+                                                  state.setPassword(password),
+                                              catchError: true);
+                                        },
+                                        obscureText: true,
+                                        decoration: InputDecoration(
+                                          errorText: _singletonRegisterFormModel
+                                                  .hasError
+                                              ? _singletonRegisterFormModel
+                                                  .error.message
+                                              : null,
+                                          border: InputBorder.none,
+                                          prefixIcon: Icon(Icons.lock),
+                                          hintText: "Confirm Password",
+                                          hintStyle:
+                                              TextStyle(color: Colors.grey),
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          StateBuilder(
+                            models: [_singletonRegisterFormModel],
+                            builder: (_, model) {
+                              return Container(
+                                height: 50,
+                                margin: EdgeInsets.symmetric(horizontal: 80),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  color: Color.fromRGBO(49, 39, 79, 1),
+                                ),
+                                child: MaterialButton(
+                                  onPressed: () {
+                                    if (!_singletonRegisterFormModel.state
+                                        .validateData()) {
+                                      _key.currentState.showSnackBar(
+                                        SnackBar(
+                                          backgroundColor: Colors.red,
+                                          content: Text("Data is invalid"),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  height: 55,
+                                  shape: StadiumBorder(),
+                                  color: Theme.of(context).primaryColor,
+                                  child: Center(
+                                    child: Text(
+                                      "Sign Up",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 17.0),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Center(
+                            child: FlatButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, logInRoute);
+                              },
+                              child: Text(
+                                "Already have an account? Login",
+                                style: TextStyle(
+                                    color: Color.fromRGBO(49, 39, 79, .6)),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              );
+            }));
+  }
+}
