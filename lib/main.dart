@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-//import 'package:instantsewa/model/profile_model.dart';
+import 'package:instantsewa/router/route_constants.dart';
+import 'package:instantsewa/router/router.dart';
 import 'package:instantsewa/services/handymans_service.dart';
-import 'package:instantsewa/services/profiles_service.dart';
 import 'package:instantsewa/services/service_providers_service.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +26,8 @@ void main() {
       child: MaterialApp(
         home: HomePage(),
         debugShowCheckedModeBanner: false,
+        onGenerateRoute: Router.onGenerateRoute,
+        initialRoute: homeRoute,
       ),
     ),
   );
