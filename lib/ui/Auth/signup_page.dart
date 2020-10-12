@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:instantsewa/model/sign_up_form_model.dart';
+import 'package:instantsewa/model/Auth/sign_up_form_model.dart';
+import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/util/api.dart';
+import 'package:instantsewa/widgets/show_snackbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
@@ -14,10 +16,10 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final GlobalKey<ScaffoldState> _key = GlobalKey();
     return Scaffold(
         key: _key,
         backgroundColor: Colors.white,
@@ -25,7 +27,7 @@ class _SignupPageState extends State<SignupPage> {
             inject: [Inject<SignUpFormModel>(() => SignUpFormModel())],
             builder: (context) {
               final _singletonRegisterFormModel =
-                  Injector.getAsReactive<SignUpFormModel>();
+              Injector.getAsReactive<SignUpFormModel>();
               return SafeArea(
                 child: ListView(
                   children: <Widget>[
@@ -90,21 +92,21 @@ class _SignupPageState extends State<SignupPage> {
                                             _singletonRegisterFormModel
                                                 .setState(
                                                     (state) => state
-                                                        .setUsername(username),
-                                                    catchError: true);
+                                                    .setUsername(username),
+                                                catchError: true);
                                           },
                                           decoration: InputDecoration(
                                             errorText:
-                                                _singletonRegisterFormModel
-                                                        .hasError
-                                                    ? _singletonRegisterFormModel
-                                                        .error.message
-                                                    : null,
+                                            _singletonRegisterFormModel
+                                                .hasError
+                                                ? _singletonRegisterFormModel
+                                                .error.message
+                                                : null,
                                             border: InputBorder.none,
                                             prefixIcon: Icon(Icons.person),
                                             hintText: "Username",
                                             hintStyle:
-                                                TextStyle(color: Colors.grey),
+                                            TextStyle(color: Colors.grey),
                                           ),
                                         ),
                                       );
@@ -123,21 +125,21 @@ class _SignupPageState extends State<SignupPage> {
                                             _singletonRegisterFormModel
                                                 .setState(
                                                     (state) =>
-                                                        state.setEmail(email),
-                                                    catchError: true);
+                                                    state.setEmail(email),
+                                                catchError: true);
                                           },
                                           decoration: InputDecoration(
                                             errorText:
-                                                _singletonRegisterFormModel
-                                                        .hasError
-                                                    ? _singletonRegisterFormModel
-                                                        .error.message
-                                                    : null,
+                                            _singletonRegisterFormModel
+                                                .hasError
+                                                ? _singletonRegisterFormModel
+                                                .error.message
+                                                : null,
                                             border: InputBorder.none,
                                             prefixIcon: Icon(Icons.email),
                                             hintText: "Email",
                                             hintStyle:
-                                                TextStyle(color: Colors.grey),
+                                            TextStyle(color: Colors.grey),
                                           ),
                                         ),
                                       );
@@ -154,22 +156,22 @@ class _SignupPageState extends State<SignupPage> {
                                       child: TextFormField(
                                         onChanged: (String password) {
                                           _singletonRegisterFormModel.setState(
-                                              (state) =>
+                                                  (state) =>
                                                   state.setPassword(password),
                                               catchError: true);
                                         },
                                         obscureText: true,
                                         decoration: InputDecoration(
                                           errorText: _singletonRegisterFormModel
-                                                  .hasError
+                                              .hasError
                                               ? _singletonRegisterFormModel
-                                                  .error.message
+                                              .error.message
                                               : null,
                                           border: InputBorder.none,
                                           prefixIcon: Icon(Icons.lock),
                                           hintText: "Password",
                                           hintStyle:
-                                              TextStyle(color: Colors.grey),
+                                          TextStyle(color: Colors.grey),
                                         ),
                                       ),
                                     );
@@ -183,24 +185,24 @@ class _SignupPageState extends State<SignupPage> {
                                               bottom: BorderSide(
                                                   color: Colors.grey[200]))),
                                       child: TextFormField(
-                                        onChanged: (String password) {
+                                        onChanged: (String passwordConfirmation) {
                                           _singletonRegisterFormModel.setState(
-                                              (state) =>
-                                                  state.setPassword(password),
+                                                  (state) =>
+                                                  state.setPasswordConfirmation(passwordConfirmation),
                                               catchError: true);
                                         },
                                         obscureText: true,
                                         decoration: InputDecoration(
                                           errorText: _singletonRegisterFormModel
-                                                  .hasError
+                                              .hasError
                                               ? _singletonRegisterFormModel
-                                                  .error.message
+                                              .error.message
                                               : null,
                                           border: InputBorder.none,
                                           prefixIcon: Icon(Icons.lock),
                                           hintText: "Confirm Password",
                                           hintStyle:
-                                              TextStyle(color: Colors.grey),
+                                          TextStyle(color: Colors.grey),
                                         ),
                                       ),
                                     );
@@ -226,12 +228,11 @@ class _SignupPageState extends State<SignupPage> {
                                   onPressed: () {
                                     if (!_singletonRegisterFormModel.state
                                         .validateData()) {
-                                      _key.currentState.showSnackBar(
-                                        SnackBar(
-                                          backgroundColor: Colors.red,
-                                          content: Text("Data is invalid"),
-                                        ),
-                                      );
+                                      showSnackBar(key: _key,color: Colors.red ,message:"Data is invalid,please fill before submitting the form");
+                                    } else {
+                                      _singletonRegisterFormModel.setState(
+                                              (signInFormState) =>
+                                              signInFormState.submitSignUp());
                                     }
                                   },
                                   height: 55,
@@ -254,7 +255,7 @@ class _SignupPageState extends State<SignupPage> {
                           Center(
                             child: FlatButton(
                               onPressed: () {
-                                Navigator.pushNamed(context, logInRoute);
+                                Navigator.pushNamed(context, loginRoute);
                               },
                               child: Text(
                                 "Already have an account? Login",

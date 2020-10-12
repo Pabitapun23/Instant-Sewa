@@ -5,7 +5,7 @@ import 'package:instantsewa/ui/Auth/signup_page.dart';
 import 'package:instantsewa/ui/categories_list.dart';
 import 'package:instantsewa/ui/home_page.dart';
 import 'package:instantsewa/ui/not_found_page_views.dart';
-class Router
+class Routers
 {
   static Route<dynamic> onGenerateRoute(RouteSettings routeSettings)
   {

@@ -1,18 +1,16 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:instantsewa/model/Auth/log_in_form_model.dart';
 import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/ui/Auth/signup_page.dart';
 import 'package:instantsewa/ui/cart_page.dart';
 import 'package:instantsewa/ui/home_page.dart';
 import 'package:instantsewa/ui/profile_page.dart';
 import 'package:instantsewa/util/api.dart';
+import 'package:instantsewa/widgets/show_snackbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
-
-import '../../model/log_in_form_model.dart';
-import '../../model/log_in_form_model.dart';
-import '../../model/log_in_form_model.dart';
 
 class LoginPage extends StatefulWidget {
   //LoginPage({Key key}) : super(key: key);
@@ -23,9 +21,9 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   @override
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final GlobalKey<ScaffoldState> _key = GlobalKey();
     return Scaffold(
       key: _key,
       backgroundColor: Colors.white,
@@ -191,13 +189,14 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               child: MaterialButton(
                                 onPressed: () {
-                                  if (!_singletonLogInFormModel.state
+                                  if (_singletonLogInFormModel.state
                                       .validateData()) {
-                                    _key.currentState.showSnackBar(
-                                      SnackBar(
-                                        backgroundColor: Colors.red,
-                                        content: Text("Data is invalid"),
-                                      ),
+                                    showSnackBar(key: _key,color: Colors.red ,message:"Data is invalid,please fill before submitting the form");
+                                  } else {
+                                    _singletonLogInFormModel.setState(
+                                        (signInFormState) =>
+                                            signInFormState.submitSignIn(),
+                                    onError: (context,error) => showSnackBar(key: _key,color: Colors.red ,message:"{$error.message}")
                                     );
                                   }
                                 },

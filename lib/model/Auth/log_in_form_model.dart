@@ -1,17 +1,22 @@
+import 'package:instantsewa/application/classes/errors/common_error.dart';
+import 'package:instantsewa/state/auth_state.dart';
+import 'package:states_rebuilder/states_rebuilder.dart';
+
 class LogInFormModel {
+  final AuthState _authState = Injector.get<AuthState>();
   String email;
   String password;
 
   void setEmail(String email) {
     if (!validateEmail(email)) {
-      throw LoginError(message: "Invalide Email");
+        throw CommonError(message: "Invalide Email");
     }
     this.email = email;
   }
 
   void setPassword(String password) {
     if (password.length < 6) {
-      throw LoginError(message: "Password length should more than 6 chars");
+      throw CommonError(message: "Password length should more than 6 chars");
     }
     this.password = password;
   }
@@ -28,10 +33,8 @@ class LogInFormModel {
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(email);
   }
-}
-
-class LoginError extends Error {
-  final String message;
-
-  LoginError({this.message});
+  submitSignIn() async
+  {
+   await _authState.signIn(email: this.email, password: this.password);
+  }
 }
