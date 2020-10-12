@@ -22,17 +22,18 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    print("Hii");
+    final GlobalKey<ScaffoldState> _key = GlobalKey();
     return Scaffold(
+      key: _key,
       backgroundColor: Colors.white,
       body: Injector(
-          inject: [Inject<LogInFormModel>(() =>LogInFormModel())],
-          builder: (context)
-          {
+          inject: [Inject<LogInFormModel>(() => LogInFormModel())],
+          builder: (context) {
+            final _singletonLogInFormModel =
+                Injector.getAsReactive<LogInFormModel>();
             return SafeArea(
               child: ListView(
                 children: <Widget>[
@@ -103,52 +104,66 @@ class _LoginPageState extends State<LoginPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 StateBuilder<LogInFormModel>(
-                                  builder: (_,signFormModel){
+                                  builder: (_, _singletonLogInFormModel) {
                                     return Container(
                                       padding: EdgeInsets.all(5),
                                       decoration: BoxDecoration(
                                           border: Border(
-                                              bottom:
-                                              BorderSide(color: Colors.grey[200]))),
+                                              bottom: BorderSide(
+                                                  color: Colors.grey[200]))),
                                       child: TextFormField(
-                                        onChanged: (String email){
-                                          signFormModel.setState((state) => state.setEmail(email),catchError: true);
+                                        onChanged: (String email) {
+                                          _singletonLogInFormModel.setState(
+                                              (state) => state.setEmail(email),
+                                              catchError: true);
                                         },
                                         decoration: InputDecoration(
-                                          errorText: signFormModel.hasError?signFormModel.error.message:null,
+                                          errorText:
+                                              _singletonLogInFormModel.hasError
+                                                  ? _singletonLogInFormModel
+                                                      .error.message
+                                                  : null,
                                           border: InputBorder.none,
                                           prefixIcon: Icon(Icons.email),
                                           hintText: "Email",
-                                          hintStyle: TextStyle(color: Colors.grey),
+                                          hintStyle:
+                                              TextStyle(color: Colors.grey),
                                         ),
                                       ),
                                     );
                                   },
                                 ),
-                                StateBuilder<LogInFormModel>(
-                                  builder: (context,signInFormModel) {
-                                    return Container(
-                                      padding: EdgeInsets.all(5),
-                                      decoration: BoxDecoration(
-                                          border: Border(
-                                              bottom:
-                                              BorderSide(color: Colors.grey[200]))),
-                                      child: TextFormField(
-                                        onChanged: (String password){
-                                          signInFormModel.setState((state) => state.setPassword(password),catchError: true);
-                                        },
-                                        obscureText: true,
-                                        decoration: InputDecoration(
-                                          errorText: signInFormModel.hasError?signInFormModel.error.message:null,
-                                          border: InputBorder.none,
-                                          prefixIcon: Icon(Icons.lock),
-                                          hintText: "Password",
-                                          hintStyle: TextStyle(color: Colors.grey),
-                                        ),
+                                StateBuilder<LogInFormModel>(builder:
+                                    (context, _singletonLogInFormModel) {
+                                  return Container(
+                                    padding: EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                            bottom: BorderSide(
+                                                color: Colors.grey[200]))),
+                                    child: TextFormField(
+                                      onChanged: (String password) {
+                                        _singletonLogInFormModel.setState(
+                                            (state) =>
+                                                state.setPassword(password),
+                                            catchError: true);
+                                      },
+                                      obscureText: true,
+                                      decoration: InputDecoration(
+                                        errorText:
+                                            _singletonLogInFormModel.hasError
+                                                ? _singletonLogInFormModel
+                                                    .error.message
+                                                : null,
+                                        border: InputBorder.none,
+                                        prefixIcon: Icon(Icons.lock),
+                                        hintText: "Password",
+                                        hintStyle:
+                                            TextStyle(color: Colors.grey),
                                       ),
-                                    );
-                                  }
-                                ),
+                                    ),
+                                  );
+                                }),
                               ],
                             ),
                           ),
@@ -158,43 +173,62 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         Text(
                           "Forgot Password?",
-                          style: TextStyle(color: Color.fromRGBO(49, 39, 79, .6)),
+                          style:
+                              TextStyle(color: Color.fromRGBO(49, 39, 79, .6)),
                         ),
                         SizedBox(
                           height: 15,
                         ),
-                        Container(
-                          height: 50,
-                          margin: EdgeInsets.symmetric(horizontal: 80),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            color: Color.fromRGBO(49, 39, 79, 1),
-                          ),
-                          child: Center(
-                            child: FlatButton(
-                              child: Text(
-                                "Login",
-                                style: TextStyle(color: Colors.white, fontSize: 17.0),
+                        StateBuilder(
+                          models: [_singletonLogInFormModel],
+                          builder: (_, model) {
+                            return Container(
+                              height: 50,
+                              margin: EdgeInsets.symmetric(horizontal: 80),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                color: Color.fromRGBO(49, 39, 79, 1),
                               ),
-                              onPressed: ()
-                              {
-                              },
-                            ),
-                          ),
+                              child: MaterialButton(
+                                onPressed: () {
+                                  if (!_singletonLogInFormModel.state
+                                      .validateData()) {
+                                    _key.currentState.showSnackBar(
+                                      SnackBar(
+                                        backgroundColor: Colors.red,
+                                        content: Text("Data is invalid"),
+                                      ),
+                                    );
+                                  }
+                                },
+                                height: 55,
+                                shape: StadiumBorder(),
+                                color: Theme.of(context).primaryColor,
+                                child: Center(
+                                  child: Text(
+                                    "Login",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 17.0),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                         ),
                         SizedBox(
                           height: 10,
                         ),
                         Center(
-                            child: FlatButton(
-                              onPressed: () {
-                                Navigator.pushNamed(context, signUpRoute);
-                              },
-                              child: Text(
-                                "Create an Account",
-                                style: TextStyle(color: Color.fromRGBO(49, 39, 79, .6)),
-                              ),
+                          child: FlatButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, signUpRoute);
+                            },
+                            child: Text(
+                              "Create an Account",
+                              style: TextStyle(
+                                  color: Color.fromRGBO(49, 39, 79, .6)),
                             ),
+                          ),
                         )
                       ],
                     ),
@@ -202,9 +236,7 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             );
-          }
-      ),
+          }),
     );
   }
-
 }

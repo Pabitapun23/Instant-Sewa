@@ -1,6 +1,9 @@
-class LogInFormModel {
+class SignUpFormModel {
   String email;
   String password;
+  String passwordConfirmation;
+  String username;
+  String phoneNo;
 
   void setEmail(String email) {
     if (!validateEmail(email)) {
@@ -25,7 +28,7 @@ class LogInFormModel {
 
   bool validateEmail(String email) {
     return RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(email);
   }
 }
