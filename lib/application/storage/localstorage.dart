@@ -4,13 +4,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LocalStorage{
   static SharedPreferences _sharedPreferences;
   static LocalStorage _singleton = new LocalStorage._internal();
-
+  factory LocalStorage()
+  {
+    return _singleton;
+  }
   LocalStorage._internal()
   {
     initializeSharedPreference();
   }
 
-  Future<void>initializeSharedPreference() async {
+  static Future<void>initializeSharedPreference() async {
     _sharedPreferences = await SharedPreferences.getInstance();
   }
   static Future<bool> setItem(String key,String value)

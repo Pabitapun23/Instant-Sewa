@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:instantsewa/application/storage/localstorage.dart';
 import 'package:instantsewa/repositories/auth_repository.dart';
 import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/router/router.dart';
@@ -17,8 +18,10 @@ void setup() {
       .registerSingleton<ServiceProvidersService>(ServiceProvidersService());
 }
 
-void main() {
+void main() async {
   setup();
+  WidgetsFlutterBinding.ensureInitialized();
+   await LocalStorage.initializeSharedPreference();
   runApp(InstantSewa());
 }
 

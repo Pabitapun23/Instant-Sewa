@@ -194,8 +194,10 @@ class _LoginPageState extends State<LoginPage> {
                                     showSnackBar(key: _key,color: Colors.red ,message:"Data is invalid,please fill before submitting the form");
                                   } else {
                                     _singletonLogInFormModel.setState(
-                                        (signInFormState) =>
-                                            signInFormState.submitSignIn(),
+                                        (signInFormState) async {
+                                         await signInFormState.submitSignIn();
+                                         Navigator.pushNamed(context, homeRoute);
+                                        },
                                     onError: (context,error) => showSnackBar(key: _key,color: Colors.red ,message:"{$error.message}")
                                     );
                                   }
