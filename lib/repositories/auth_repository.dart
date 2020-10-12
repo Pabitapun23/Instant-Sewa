@@ -27,12 +27,11 @@ class AuthRepositoryImpl implements AuthRepository {
       Response response = await InstantSewaAPI.dio
           .post("/auth/login", data: {"email": email, "password": password});
       print(response);
+      String accessToken = response.data['accessToken'];
+      String expiresAt = response.data['expiresAt'];
     }on DioError catch(e)
     {
-     if(e.response != null)
-       {
-         throw CommonError(message: e.response.data);
-       }
+      showNetworkError(e);
     }
 
   }
@@ -54,10 +53,7 @@ class AuthRepositoryImpl implements AuthRepository {
       },);
     } on DioError catch(e)
     {
-      if(e.response != null)
-      {
-        throw CommonError(message: e.response.data);
-      }
+      showNetworkError(e);
     }
   }
 
