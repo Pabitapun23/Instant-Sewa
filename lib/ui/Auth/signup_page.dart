@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:instantsewa/model/Auth/sign_up_form_model.dart';
 import 'package:instantsewa/router/route_constants.dart';
-import 'package:instantsewa/util/api.dart';
 import 'package:instantsewa/widgets/show_snackbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
@@ -27,7 +26,7 @@ class _SignupPageState extends State<SignupPage> {
             inject: [Inject<SignUpFormModel>(() => SignUpFormModel())],
             builder: (context) {
               final _singletonRegisterFormModel =
-              Injector.getAsReactive<SignUpFormModel>();
+              RM.get<SignUpFormModel>();
               return SafeArea(
                 child: ListView(
                   children: <Widget>[
@@ -215,7 +214,7 @@ class _SignupPageState extends State<SignupPage> {
                             height: 20,
                           ),
                           StateBuilder(
-                            models: [_singletonRegisterFormModel],
+                            observe:()=> _singletonRegisterFormModel,
                             builder: (_, model) {
                               return Container(
                                 height: 50,

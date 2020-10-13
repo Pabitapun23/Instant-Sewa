@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:instantsewa/Store/MyStore.dart';
-import 'package:instantsewa/ui/Auth/login_page.dart';
+import 'package:instantsewa/model/profile_model.dart';
 import 'package:instantsewa/ui/Auth/signup_page.dart';
 import 'package:instantsewa/ui/favorites_page.dart';
 import 'package:instantsewa/ui/home_list.dart';
@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
     HomeList(),
     Favourites(),
     CartPage(),
-    SignupPage(),
+    ProfilePage(),
   ];
 
   int _index = 0;

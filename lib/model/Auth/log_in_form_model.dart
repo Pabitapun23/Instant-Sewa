@@ -33,7 +33,7 @@ class LogInFormModel {
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(email);
   }
-  submitSignIn() async
+   Future<void>submitSignIn() async
   {
    await _authState.signIn(email: this.email, password: this.password);
   }

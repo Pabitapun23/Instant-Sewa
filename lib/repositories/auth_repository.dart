@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:instantsewa/application/InstantSewa_api.dart';
 import 'package:instantsewa/application/classes/errors/common_error.dart';
+import 'package:instantsewa/application/storage/localstorage.dart';
+import 'package:instantsewa/application/storage/storage_keys.dart';
 
 abstract class AuthRepository {
   Future signIn({
@@ -26,9 +28,11 @@ class AuthRepositoryImpl implements AuthRepository {
       Dio dio = new Dio();
       Response response = await InstantSewaAPI.dio
           .post("/auth/login", data: {"email": email, "password": password});
-      print(response);
       String accessToken = response.data['accessToken'];
       String expiresAt = response.data['expiresAt'];
+     await LocalStorage.setItem(TOKEN, accessToken);
+      await LocalStorage.setItem(TOKEN_EXPIRATION, expiresAt);
+      return ;
     }on DioError catch(e)
     {
       showNetworkError(e);
