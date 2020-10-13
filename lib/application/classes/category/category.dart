@@ -1,11 +1,9 @@
  class Category{
   String categoryId;
   String categoryName;
-  String categoryDetail;
   String categoryImage;
   Category.fromJson(Map<String,dynamic> jsonMap):
-      categoryId = jsonMap['identifier'] ?? 0,
-        categoryName = jsonMap['title'] ?? "",
-        categoryDetail = jsonMap['details'] ?? "",
-        categoryImage = jsonMap['image'] ?? "";
+      categoryId = jsonMap['identifier'].toString(),
+        categoryName = jsonMap['title'],
+        categoryImage = jsonMap['image'];
 }

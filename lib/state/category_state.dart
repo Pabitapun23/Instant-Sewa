@@ -5,7 +5,7 @@ class CategoryState
 {
   final CategoryRepository _categoryRepository;
   CategoryState(this._categoryRepository);
-  List<Category> _categories;
+  List<Category> _categories = [];
   List<Category> get categories => _categories;
   Future getAllCategories() async
   {

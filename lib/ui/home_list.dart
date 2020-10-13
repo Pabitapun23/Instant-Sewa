@@ -52,7 +52,7 @@ class _HomeListState extends State<HomeList> {
                 ),
               ],
             ),
-            BulidGridCategory(category),
+            BuildGridCategory(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[

@@ -1,10 +1,8 @@
 import 'dart:convert';
 
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:instantsewa/ui/Auth/login_page.dart';
-import 'package:instantsewa/util/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -22,32 +20,10 @@ class _ProfilePageState extends State<ProfilePage> {
   String address;
   @override
   void initState(){
-    loginOrNot();
     _loadUserData();
     super.initState();
   }
-  loginOrNot() async
-  {
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var user = jsonDecode(localStorage.getString('user'));
-    if(user['username'] == null)
-    {
-      Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context)=>LoginPage()));
-    }
-
-  }
   _loadUserData() async{
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var user = jsonDecode(localStorage.getString('user'));
-    if(user != null) {
-      setState(() {
-        fullName = user['fullname'];
-        userName = user['username'];
-        email = user['email'];
-        phoneNumber = user['phoneno'];
-        address = user['address'];
 
       });
     }

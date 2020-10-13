@@ -3,11 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:instantsewa/model/Auth/log_in_form_model.dart';
 import 'package:instantsewa/router/route_constants.dart';
-import 'package:instantsewa/ui/Auth/signup_page.dart';
-import 'package:instantsewa/ui/cart_page.dart';
-import 'package:instantsewa/ui/home_page.dart';
-import 'package:instantsewa/ui/profile_page.dart';
-import 'package:instantsewa/util/api.dart';
 import 'package:instantsewa/widgets/show_snackbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
@@ -31,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
           inject: [Inject<LogInFormModel>(() => LogInFormModel())],
           builder: (context) {
             final _singletonLogInFormModel =
-                Injector.getAsReactive<LogInFormModel>();
+                RM.get<LogInFormModel>();
             return SafeArea(
               child: ListView(
                 children: <Widget>[
@@ -178,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                           height: 15,
                         ),
                         StateBuilder(
-                          models: [_singletonLogInFormModel],
+                          observe:()=> _singletonLogInFormModel,
                           builder: (_, model) {
                             return Container(
                               height: 50,
