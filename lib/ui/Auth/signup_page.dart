@@ -229,6 +229,8 @@ class _SignupPageState extends State<SignupPage> {
                                       _singletonRegisterFormModel.setState(
                                               (signInFormState) =>
                                               signInFormState.submitSignUp());
+                                      Navigator.pushNamed(context, loginRoute);
+
                                     }
                                   },
                                   height: 55,
