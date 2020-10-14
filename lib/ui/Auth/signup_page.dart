@@ -222,7 +222,7 @@ class _SignupPageState extends State<SignupPage> {
                                 ),
                                 child: MaterialButton(
                                   onPressed: () {
-                                    if (!_singletonRegisterFormModel.state
+                                    if (_singletonRegisterFormModel.state
                                         .validateData()) {
                                       showSnackBar(key: _key,color: Colors.red ,message:"Data is invalid,please fill before submitting the form");
                                     } else {

@@ -182,7 +182,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               child: MaterialButton(
                                 onPressed: () {
-                                  if (!_singletonLogInFormModel.state
+                                  if (_singletonLogInFormModel.state
                                       .validateData()) {
                                     showSnackBar(key: _key,color: Colors.red ,message:"Data is invalid,please fill before submitting the form");
                                   } else {
