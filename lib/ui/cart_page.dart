@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instantsewa/providers/cart.dart' show Cart;
 import 'package:instantsewa/ui/address_page.dart';
+import 'package:instantsewa/ui/home_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:provider/provider.dart';
 import '../widgets/cart_item.dart';
@@ -56,7 +57,10 @@ class CartPage extends StatelessWidget {
                           color: _purple),
                     ),
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => HomePage()));
                     },
                   ),
                   FlatButton(

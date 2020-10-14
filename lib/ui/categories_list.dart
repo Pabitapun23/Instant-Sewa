@@ -1,54 +1,92 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instantsewa/model/service_model.dart';
+import 'package:instantsewa/router/route_constants.dart';
+import 'package:instantsewa/state/category_state.dart';
+import 'package:states_rebuilder/states_rebuilder.dart';
 
 // ignore: must_be_immutable
-class CategoryList extends StatelessWidget {
+class CategoryList extends StatefulWidget {
   List<Service> category;
   CategoryList({this.category});
+
+  @override
+  _CategoryListState createState() => _CategoryListState();
+}
+
+class _CategoryListState extends State<CategoryList>
+    with AutomaticKeepAliveClientMixin {
+  final _categoriesStateRM = RM.get<CategoryState>();
+
+  @override
+  void initState() {
+    _categoriesStateRM
+        .setState((categoryState) => categoryState.getAllCategories());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Container(
       height: 120,
       alignment: Alignment.center,
-      child: ListView.builder(
-        shrinkWrap: true,
-        physics: ClampingScrollPhysics(),
-        itemCount: category.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          var data = category[index];
-          return Container(
-            width: 160,
-            child: Card(
-              semanticContainer: true,
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              elevation: 5.0,
-              shadowColor: Colors.black38,
-              margin: EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  Image.asset(
-                    data.img,
-                    width: 70,
-                    fit: BoxFit.fill,
-                  ),
-                  SizedBox(
-                    height: 15.0,
-                  ),
-                  Divider(
-                    color: Colors.black38,
-                  ),
-                  Text(
-                    data.name,
-                    style: TextStyle(fontSize: 16.0),
-                  ),
-                ],
+      child: StateBuilder<CategoryState>(
+        observe: () => _categoriesStateRM,
+        builder: (context, model) {
+          return ListView(
+            shrinkWrap: true,
+            physics: ClampingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            children: [
+              ...model.state.categories.map(
+                (category) => Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, subCategoryRoute);
+                      },
+                      child: Container(
+                        width: 160,
+                        child: Card(
+                          semanticContainer: true,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          elevation: 5.0,
+                          shadowColor: Colors.black38,
+                          margin: EdgeInsets.all(10),
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                "${category.categoryImage}",
+                                width: 70,
+                                fit: BoxFit.fill,
+                              ),
+                              SizedBox(
+                                height: 15.0,
+                              ),
+                              Divider(
+                                color: Colors.black38,
+                              ),
+                              Text(
+                                "${category.categoryName}",
+                                style: TextStyle(fontSize: 16.0),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
+            ],
           );
         },
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => throw UnimplementedError();
 }
