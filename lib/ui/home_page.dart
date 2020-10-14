@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     HomeList(),
     Favourites(),
     CartPage(),
-    ProfilePage(),
+    LoginPage(),
   ];
 
   int _index = 0;
@@ -70,6 +70,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
 class ServiceSearch extends SearchDelegate<String> {
   //model
   final services = [
