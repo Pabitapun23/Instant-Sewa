@@ -69,6 +69,9 @@ class _HomeListState extends State<HomeList> {
         child: ListView(
           children: <Widget>[
             BulidSlider(),
+            SizedBox(
+              height: 20,
+            ),
             Row(
               children: <Widget>[
                 Padding(
@@ -82,6 +85,9 @@ class _HomeListState extends State<HomeList> {
                   ),
                 ),
               ],
+            ),
+            SizedBox(
+              height: 20,
             ),
             BuildGridCategory(),
             Row(

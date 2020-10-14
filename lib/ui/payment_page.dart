@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instantsewa/util/hexcode.dart';
 
 class PaymentPage extends StatefulWidget {
   //PaymentPage({Key key}) : super(key: key);
@@ -23,8 +24,13 @@ class _PaymentPageState extends State<PaymentPage> {
 
   @override
   Widget build(BuildContext context) {
+    Color _purple = HexColor('#603f8b');
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Payment'),
+        backgroundColor: _purple,
+      ),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: ListView(
@@ -52,22 +58,14 @@ class _PaymentPageState extends State<PaymentPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    "Payment Page",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(49, 39, 79, 1),
-                        fontSize: 30),
-                  ),
-                  SizedBox(
-                    height: 25,
-                  ),
                   Container(
-                    child: Text(
-                      "How do you want to pay?",
-                      style: TextStyle(
-                        color: Color.fromRGBO(49, 39, 79, .6),
-                        fontSize: 20,
+                    child: Center(
+                      child: Text(
+                        "How do you want to pay?",
+                        style: TextStyle(
+                          color: Color.fromRGBO(49, 39, 79, .6),
+                          fontSize: 20,
+                        ),
                       ),
                     ),
                   ),
@@ -131,17 +129,26 @@ class _PaymentPageState extends State<PaymentPage> {
                   SizedBox(
                     height: 20,
                   ),
-                  Container(
-                    height: 50,
-                    margin: EdgeInsets.symmetric(horizontal: 80),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(40),
-                      color: Color.fromRGBO(49, 39, 79, 1),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Done",
-                        style: TextStyle(color: Colors.white),
+                  Center(
+                    child: SizedBox(
+                      height: 45.0,
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      child: RaisedButton(
+                        color: _purple,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0)),
+                        onPressed: () {},
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15.0, vertical: 12.0),
+                          child: Text(
+                            'Done',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 17.0),
+                          ),
+                        ),
                       ),
                     ),
                   ),

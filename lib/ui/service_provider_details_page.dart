@@ -131,9 +131,11 @@ class _ServiceProviderDetailsPageState
                     Center(
                       child: RaisedButton(
                         onPressed: () {
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => PaymentPage(),
-                          );
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      PaymentPage()));
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25.0),
