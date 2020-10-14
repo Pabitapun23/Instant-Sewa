@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instantsewa/model/provider_model.dart';
 import 'package:instantsewa/model/service_model.dart';
-import 'package:instantsewa/services/handymans_service.dart';
 import 'package:instantsewa/services/service_providers_service.dart';
 import 'package:instantsewa/ui/bulid_slider.dart';
 import 'package:instantsewa/ui/build_grid_categories.dart';
@@ -21,14 +20,12 @@ class HomeList extends StatefulWidget {
 
 class _HomeListState extends State<HomeList> {
   Color _purple = HexColor('#603f8b');
-  var service = GetIt.instance<HandyMansService>();
   var provider = GetIt.instance<ServiceProvidersService>();
   List<Service> category = [];
   List<Provider> serviceprovider = [];
 
   @override
   void initState() {
-    category = service.addServices();
     serviceprovider = provider.addProvider();
     super.initState();
   }

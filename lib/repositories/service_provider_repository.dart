@@ -22,7 +22,6 @@ class ServiceProviderRepositoryImpl implements ServiceProviderRepository{
             'Authorization':"Bearer ${LocalStorage.getItem(TOKEN)}"
           }
       ));
-      print("response");
       List _temp = response.data['data'];
       List<User> _serviceProviders = _temp.map((serviceprovider) => User.fromJson(serviceprovider)).toList();
       return _serviceProviders;
