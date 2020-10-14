@@ -12,7 +12,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   @override
   Widget build(BuildContext context) {
@@ -23,8 +22,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Injector(
           inject: [Inject<LogInFormModel>(() => LogInFormModel())],
           builder: (context) {
-            final _singletonLogInFormModel =
-                RM.get<LogInFormModel>();
+            final _singletonLogInFormModel = RM.get<LogInFormModel>();
             return SafeArea(
               child: ListView(
                 children: <Widget>[
@@ -171,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                           height: 15,
                         ),
                         StateBuilder(
-                          observe:()=> _singletonLogInFormModel,
+                          observe: () => _singletonLogInFormModel,
                           builder: (_, model) {
                             return Container(
                               height: 50,
@@ -182,17 +180,24 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               child: MaterialButton(
                                 onPressed: () {
-                                  if (!_singletonLogInFormModel.state
+                                  if (_singletonLogInFormModel.state
                                       .validateData()) {
-                                    showSnackBar(key: _key,color: Colors.red ,message:"Data is invalid,please fill before submitting the form");
+                                    showSnackBar(
+                                        key: _key,
+                                        color: Colors.red,
+                                        message:
+                                            "Data is invalid,please fill before submitting the form");
                                   } else {
                                     _singletonLogInFormModel.setState(
                                         (signInFormState) async {
-                                         await signInFormState.submitSignIn();
-                                         Navigator.pushNamed(context, homeRoute);
-                                        },
-                                    onError: (context,error) => showSnackBar(key: _key,color: Colors.red ,message:"{$error.message}")
-                                    );
+                                      await signInFormState.submitSignIn();
+                                      Navigator.pushNamed(context, homeRoute);
+                                    },
+                                        onError: (context, error) =>
+                                            showSnackBar(
+                                                key: _key,
+                                                color: Colors.red,
+                                                message: "{$error.message}"));
                                   }
                                 },
                                 height: 55,
