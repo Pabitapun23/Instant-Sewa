@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:instantsewa/model/provider_model.dart';
 import 'package:instantsewa/services/service_providers_service.dart';
+import 'package:instantsewa/ui/payment_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
 
 class ServiceProviderDetailsPage extends StatefulWidget {
@@ -129,7 +130,11 @@ class _ServiceProviderDetailsPageState
                     ),
                     Center(
                       child: RaisedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => PaymentPage(),
+                          );
+                        },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25.0),
                         ),

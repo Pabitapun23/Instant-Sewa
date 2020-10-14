@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:instantsewa/application/storage/localstorage.dart';
+import 'package:instantsewa/providers/cart.dart';
 import 'package:instantsewa/repositories/auth_repository.dart';
 import 'package:instantsewa/repositories/category_repository.dart';
 import 'package:instantsewa/router/route_constants.dart';
@@ -11,7 +12,6 @@ import 'package:instantsewa/state/auth_state.dart';
 import 'package:instantsewa/state/category_state.dart';
 import 'package:provider/provider.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
-import 'Store/MyStore.dart';
 import 'application/storage/storage_keys.dart';
 import 'ui/home_page.dart';
 import 'package:instantsewa/providers/categories.dart';
@@ -35,17 +35,24 @@ class InstantSewa extends StatelessWidget {
     return Injector(
       inject: [
         Inject<AuthState>(() => AuthState(AuthRepositoryImpl())),
-        Inject<CategoryState>(() => CategoryState(CategoryRepositoryImpl())),],
+        Inject<CategoryState>(() => CategoryState(CategoryRepositoryImpl())),
+      ],
       builder: (context) {
-        return ChangeNotifierProvider(
-          create: (context) {
-            return MyStore();
-          },
+        return MultiProvider(
+          providers: [
+            ChangeNotifierProvider(
+              create: (ctx) => Categories(),
+            ),
+            ChangeNotifierProvider(
+              create: (ctx) => Cart(),
+            ),
+          ],
           child: MaterialApp(
             home: HomePage(),
             debugShowCheckedModeBanner: false,
             onGenerateRoute: Routers.onGenerateRoute,
-            initialRoute:LocalStorage.getItem(TOKEN) != null ? homeRoute : loginRoute,
+            initialRoute:
+                LocalStorage.getItem(TOKEN) != null ? homeRoute : loginRoute,
           ),
         );
       },
