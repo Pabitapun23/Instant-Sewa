@@ -25,7 +25,7 @@ CommonError showNetworkError(DioError networkError)
       }
     }
   else{
-    String message = "Can't reach to the server";
+    message = "Can't reach to the server";
   }
   throw CommonError(message: message);
 }

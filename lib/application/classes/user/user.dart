@@ -8,12 +8,12 @@ class User {
   String phoneNumber;
   String email;
 
-  User.fromJson(Map<String,dynamic> jsonMap):
-        id = jsonMap['id'].toString(),
+  User.fromJson(Map<String, dynamic> jsonMap)
+      : id = jsonMap['id'].toString(),
         userName = jsonMap['username'],
         fullName = jsonMap['fullname'],
         img = jsonMap['avatar'],
         address = jsonMap['address'],
-        email = jsonMap['email'];
-
+        email = jsonMap['email'],
+        phoneNumber = jsonMap['phoneno'];
 }

@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:instantsewa/application/InstantSewa_api.dart';
 import 'package:instantsewa/application/classes/errors/common_error.dart';
 import 'package:instantsewa/application/storage/localstorage.dart';
 import 'package:instantsewa/application/storage/storage_keys.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class AuthRepository {
   Future signIn({
@@ -32,6 +35,8 @@ class AuthRepositoryImpl implements AuthRepository {
       String expiresAt = response.data['expiresAt'];
      await LocalStorage.setItem(TOKEN, accessToken);
       await LocalStorage.setItem(TOKEN_EXPIRATION, expiresAt);
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+     await localStorage.setString('user', json.encode(response.data['user']));
       return ;
     }on DioError catch(e)
     {

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
-import 'package:instantsewa/ui/Auth/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -13,18 +12,29 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
 
+
   String email;
   String userName;
   String fullName;
   String phoneNumber;
   String address;
+
   @override
-  void initState(){
+  void initState() {
     _loadUserData();
     super.initState();
   }
   _loadUserData() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user'));
 
+    if(user != null) {
+      setState(() {
+        userName = user['username'];
+        fullName = user['fullname'];
+        address = user['address'];
+        email = user['email'];
+        phoneNumber = user['phoneno'];
       });
     }
   }
@@ -43,7 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
-        backgroundColor: _purple,
+        backgroundColor:Colors.deepPurpleAccent,
         centerTitle: true,
         elevation: 0,
       ),
@@ -159,11 +169,10 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Center(
                 child: RaisedButton(
                   elevation: 10,
-                  onPressed: (){
-                    logout();
-                  },
+                  onPressed: () {},
                   color: Colors.deepPurple,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
                   child: Text(
                     "Sign Out",
                     style: TextStyle(color: Colors.white),
@@ -175,17 +184,5 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
-  }
-  void logout() async{
-    var res = await Network().getData('/logout');
-    var body = json.decode(res.body);
-    if(body['success']){
-      SharedPreferences localStorage = await SharedPreferences.getInstance();
-      localStorage.remove('user');
-      localStorage.remove('token');
-      Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context)=>LoginPage()));
-    }
   }
 }

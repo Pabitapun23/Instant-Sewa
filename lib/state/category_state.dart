@@ -9,6 +9,6 @@ class CategoryState
   List<Category> get categories => _categories;
   Future getAllCategories() async
   {
-   _categories= await _categoryRepository.getAllCategories();
+    _categories= await _categoryRepository.getAllCategories();
   }
 }

@@ -6,10 +6,10 @@ class UserState
 {
   final UserRepository _userRepository;
   UserState(this._userRepository);
-  List<User> _profile = [];
-  List<User> get profile => _profile;
+  List<User> _users = [];
+  List<User> get users => _users;
   Future getUserInformation() async
   {
-    _profile= await _userRepository.getUserInformation();
+    _users= await _userRepository.getUserInformation();
   }
 }
