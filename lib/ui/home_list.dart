@@ -11,6 +11,9 @@ import 'package:instantsewa/ui/categories_list.dart';
 import 'package:instantsewa/ui/provider_list.dart';
 import 'package:instantsewa/util/hexcode.dart';
 
+import 'home_page.dart';
+import 'main_drawer.dart';
+
 class HomeList extends StatefulWidget {
   @override
   _HomeListState createState() => _HomeListState();
@@ -33,6 +36,34 @@ class _HomeListState extends State<HomeList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        brightness: Brightness.dark,
+        elevation: 0,
+        backgroundColor: _purple,
+        title: Text(
+          'Instant Sewa',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              showSearch(context: context, delegate: ServiceSearch());
+            },
+          ),
+          Icon(
+            Icons.notifications,
+            color: Colors.white,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+        ],
+      ),
+      drawer: MainDrawer(),
       body: Container(
         color: Colors.white38,
         child: ListView(

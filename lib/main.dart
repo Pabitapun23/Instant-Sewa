@@ -14,6 +14,7 @@ import 'package:states_rebuilder/states_rebuilder.dart';
 import 'Store/MyStore.dart';
 import 'application/storage/storage_keys.dart';
 import 'ui/home_page.dart';
+import 'package:instantsewa/providers/categories.dart';
 
 void setup() {
   GetIt.instance.registerSingleton<HandyMansService>(HandyMansService());

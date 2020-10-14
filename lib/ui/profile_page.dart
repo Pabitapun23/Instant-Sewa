@@ -41,6 +41,12 @@ class _ProfilePageState extends State<ProfilePage> {
       phoneNumber,
     ];
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Profile'),
+        backgroundColor: _purple,
+        centerTitle: true,
+        elevation: 0,
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[

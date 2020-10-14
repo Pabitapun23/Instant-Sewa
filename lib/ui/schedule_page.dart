@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instantsewa/ui/service_provider_selection.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -25,16 +26,10 @@ class _SchedulePageState extends State<SchedulePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text(
-            "Select Your Schedule",
-            style: TextStyle(
-              color: _purple,
-              fontSize: 22.0,
-            ),
-          ),
+        title: Text(
+          "Select Your Schedule",
         ),
-        backgroundColor: Colors.purple,
+        backgroundColor: _purple,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -56,7 +51,7 @@ class _SchedulePageState extends State<SchedulePage> {
                 initialCalendarFormat: CalendarFormat.week,
                 calendarStyle: CalendarStyle(
                   todayColor: Colors.grey,
-                  selectedColor: Colors.purple,
+                  selectedColor: _purple,
                   todayStyle: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18.0,
@@ -76,11 +71,18 @@ class _SchedulePageState extends State<SchedulePage> {
                 ),
                 calendarController: _controller,
               ),
-              Text(_dateTime == null
-                  ? 'Nothing has been picked yet'
-                  : _dateTime.toString()),
+              Text(
+                _dateTime == null
+                    ? 'Nothing has been picked yet'
+                    : _dateTime.toString(),
+              ),
+              SizedBox(
+                height: 5.0,
+              ),
               RaisedButton(
-                color: Colors.purple,
+                color: _purple,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0)),
                 child: Text(
                   'Select the service date',
                   style: TextStyle(color: Colors.white),
@@ -172,19 +174,34 @@ class _SchedulePageState extends State<SchedulePage> {
                 ],
               ),
               SizedBox(
-                height: 5.0,
+                height: 15.0,
               ),
-              Container(
-                height: 50,
-                margin: EdgeInsets.symmetric(horizontal: 100),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(40),
-                  color: Color.fromRGBO(49, 39, 79, 1),
-                ),
-                child: Center(
-                  child: Text(
-                    "Next",
-                    style: TextStyle(color: Colors.white),
+              Center(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  height: 45.0,
+                  child: RaisedButton(
+                    color: _purple,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0)),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  ServiceProviderSelection()));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 14.0, vertical: 12.0),
+                      child: Text(
+                        'Next',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 17.0),
+                      ),
+                    ),
                   ),
                 ),
               ),

@@ -1,173 +1,24 @@
-class SubCategories {
-  String img;
-  String name;
-  List<String> subSubCategories;
-  List<int> price;
-  List<int> qty;
-  SubCategories(
-      {this.img, this.name, this.subSubCategories, this.price, this.qty});
-  static List<SubCategories> getSubCategories() => [
-        SubCategories(
-            img: 'images/photos/switchAndSockets.jpg',
-            name: 'Switch board and Socket',
-            subSubCategories: [
-              'Socket Installation and Repair',
-              'Switch Installation and Repair',
-              'Holder Installation and Repair',
-              'Switch/ Socket Replacement',
-            ],
-            price: [
-              20,
-              10,
-              15,
-              11,
-            ],
-            qty: [
-              1,
-              1,
-              1,
-              1
-            ]),
-        SubCategories(
-            img: 'images/photos/fan.jpg',
-            name: 'Fan',
-            subSubCategories: [
-              'Celing Fan Servicing',
-              'Wall Fan Servicing',
-              'Table Stand Servicing',
-              'Exhaust Fan Servicing',
-              'Fan installation',
-            ],
-            price: [
-              20,
-              10,
-              15,
-              11,
-              11,
-            ],
-            qty: [
-              1,
-              1,
-              1,
-              1,
-              1,
-            ]),
-        SubCategories(
-            img: 'images/photos/electrician.jpg',
-            name: 'Light',
-            subSubCategories: [
-              'Tubelight/ Energy lights Installation',
-              'Bulb/ CFL/ LED Replacement',
-              'Bulb holder installation',
-              'Choke Replacement',
-              'Fancy Light Installation/Repair',
-            ],
-            price: [
-              20,
-              10,
-              15,
-              11,
-              11
-            ],
-            qty: [
-              1,
-              1,
-              1,
-              1,
-              1,
-            ]),
-        SubCategories(
-            img: 'images/photos/mcbAndFuse.jpg',
-            name: 'MCB and Fuse',
-            subSubCategories: [
-              'Fuse Replacement',
-              'Single Pole MCB Replacement',
-              'Sub Meter Installation',
-              'Pannel Board Installation',
-              'Air Circuit Breaker Installation',
-            ],
-            price: [
-              20,
-              10,
-              15,
-              11,
-              11,
-            ],
-            qty: [
-              1,
-              1,
-              1,
-              1,
-              1,
-            ]),
-        SubCategories(
-            img: 'images/photos/inverter.jpg',
-            name: 'Inverter and Stabilizer',
-            subSubCategories: [
-              'Inverter Installation and Repair',
-              'Stabilizer Installation and Repair',
-            ],
-            price: [
-              20,
-              10,
-            ],
-            qty: [
-              1,
-              1,
-            ]),
-        SubCategories(
-            img: 'images/photos/wiring.jpg',
-            name: 'Wiring',
-            subSubCategories: [
-              'Full house electric wiring',
-              'Cable Wiring',
-              'Network Cable Wiring',
-            ],
-            price: [
-              20,
-              10,
-              15,
-            ],
-            qty: [
-              1,
-              1,
-              1,
-            ]),
-        SubCategories(
-            img: 'images/photos/doorbell.jpg',
-            name: 'Doorbell',
-            subSubCategories: [
-              'Doorbell Installation and Repair',
-            ],
-            price: [
-              10,
-            ],
-            qty: [
-              1,
-            ]),
-        SubCategories(
-            img: 'images/photos/securitycam.jpg',
-            name: 'Securitycam Installation',
-            subSubCategories: [
-              'Security Cam Installation and Repair',
-            ],
-            price: [
-              20,
-            ],
-            qty: [
-              1,
-            ]),
-        SubCategories(
-            img: 'images/photos/electricmotor.jpg',
-            name: 'Electric Motor',
-            subSubCategories: [
-              'Electric Motor Installation and Repair',
-            ],
-            price: [
-              20,
-            ],
-            qty: [
-              1,
-            ]),
-      ];
+import 'package:flutter/foundation.dart';
+
+class Service {
+  final String categories;
+  final String img;
+  final String subCategories;
+  final List<String> subSubCategories;
+  final List<String> subSubCategoriesImage;
+  final List<String> subSubCategoriesId;
+  final List<double> price;
+  final List<int> qty;
+  final List<String> desc;
+
+  Service(
+      {@required this.subSubCategoriesImage,
+      @required this.categories,
+      @required this.img,
+      @required this.subCategories,
+      @required this.desc,
+      @required this.subSubCategories,
+      @required this.subSubCategoriesId,
+      @required this.price,
+      @required this.qty});
 }
