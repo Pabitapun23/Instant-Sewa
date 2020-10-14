@@ -139,7 +139,7 @@ class _HomeListState extends State<HomeList> {
                 )
               ],
             ),
-            ProviderList(serviceprovider),
+            ProviderList(),
           ],
         ),
       ),
