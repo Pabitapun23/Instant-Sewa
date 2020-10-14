@@ -69,7 +69,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
 class ServiceSearch extends SearchDelegate<String> {
   //model
   final services = [

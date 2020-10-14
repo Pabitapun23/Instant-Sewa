@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
-import 'package:instantsewa/util/hexcode.dart';
-//import 'package:instantsewa/widgets/top_bar.dart';
+import 'package:instantsewa/ui/Auth/login_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -9,28 +12,34 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  // final List icon = [
-  //   "Icons.email",
-  //   "Icons.phone",
-  //   "Icons.home",
-  // ];
 
-  final List title = [
-    "pabitapun6230@gmail.com",
-    "Pokhara",
-    "9881238976",
-  ];
+  String email;
+  String userName;
+  String fullName;
+  String phoneNumber;
+  String address;
+  @override
+  void initState(){
+    _loadUserData();
+    super.initState();
+  }
+  _loadUserData() async{
 
-  final List subtitle = [
-    "Email",
-    "Address",
-    "Phone Number",
-  ];
-
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
-    Color _purple = HexColor('#603f8b');
-
+    final List subtitle = [
+      "Email",
+      "Address",
+      "Phone Number",
+    ];
+    final List title = [
+      email,
+      address,
+      phoneNumber,
+    ];
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
@@ -64,14 +73,14 @@ class _ProfilePageState extends State<ProfilePage> {
                           height: 5.0,
                         ),
                         Text(
-                          "Pabita Pun",
+                          fullName,
                           style: TextStyle(
                             fontSize: 28.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
-                          "pabitaPun623",
+                          userName,
                           style: TextStyle(
                             fontSize: 18.0,
                             color: Colors.black38,
@@ -145,13 +154,20 @@ class _ProfilePageState extends State<ProfilePage> {
               height: 50,
               margin: EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25.0),
-                color: _purple,
+                borderRadius: BorderRadius.circular(10),
               ),
               child: Center(
-                child: Text(
-                  "Sign Out",
-                  style: TextStyle(color: Colors.white),
+                child: RaisedButton(
+                  elevation: 10,
+                  onPressed: (){
+                    logout();
+                  },
+                  color: Colors.deepPurple,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                  child: Text(
+                    "Sign Out",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             ),
@@ -159,5 +175,17 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
+  }
+  void logout() async{
+    var res = await Network().getData('/logout');
+    var body = json.decode(res.body);
+    if(body['success']){
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.remove('user');
+      localStorage.remove('token');
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context)=>LoginPage()));
+    }
   }
 }
