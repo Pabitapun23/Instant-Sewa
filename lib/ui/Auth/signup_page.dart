@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:instantsewa/model/Auth/sign_up_form_model.dart';
 import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/widgets/show_snackbar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
 class SignupPage extends StatefulWidget {
