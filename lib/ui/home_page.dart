@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     HomeList(),
     Favourites(),
     CartPage(),
-    LoginPage(),
+    ProfilePage(),
   ];
 
   int _index = 0;

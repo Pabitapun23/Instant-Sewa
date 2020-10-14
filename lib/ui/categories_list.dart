@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instantsewa/model/service_model.dart';
 import 'package:instantsewa/router/route_constants.dart';
@@ -40,7 +39,7 @@ class _CategoryListState extends State<CategoryList>
             scrollDirection: Axis.horizontal,
             children: [
               ...model.state.categories.map(
-                (category) => Column(
+                    (category) => Column(
                   children: [
                     InkWell(
                       onTap: () {
@@ -88,5 +87,5 @@ class _CategoryListState extends State<CategoryList>
 
   @override
   // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => throw UnimplementedError();
+  bool get wantKeepAlive => true;
 }

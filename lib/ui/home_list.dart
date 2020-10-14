@@ -111,7 +111,7 @@ class _HomeListState extends State<HomeList> {
                 )
               ],
             ),
-            CategoryList(category:category),
+            CategoryList(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
