@@ -1,7 +1,33 @@
+import 'dart:convert';
+
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class MainDrawer extends StatelessWidget {
+class MainDrawer extends StatefulWidget {
+  @override
+  _MainDrawerState createState() => _MainDrawerState();
+}
+
+class _MainDrawerState extends State<MainDrawer> {
+  String email;
+  String userName;
+  @override
+  void initState() {
+    _loadUserData();
+    super.initState();
+  }
+  _loadUserData() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user'));
+
+    if(user != null) {
+      setState(() {
+        userName = user['username'];
+        email = user['email'];
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     Color _purple = HexColor('#603f8b');
@@ -9,8 +35,8 @@ class MainDrawer extends StatelessWidget {
       child: ListView(children: <Widget>[
         UserAccountsDrawerHeader(
           decoration: BoxDecoration(color: _purple),
-          accountName: Text('User'),
-          accountEmail: Text('User@gmail.com'),
+          accountName: Text(userName),
+          accountEmail: Text(email),
           currentAccountPicture: CircleAvatar(
             backgroundColor: Colors.white,
             child: Text(
