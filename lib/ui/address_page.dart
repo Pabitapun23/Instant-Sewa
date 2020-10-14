@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:instantsewa/ui/schedule_page.dart';
+import 'package:instantsewa/util/hexcode.dart';
 
 class AddressPage extends StatefulWidget {
   //AddressPage({Key key}) : super(key: key);
@@ -8,10 +10,15 @@ class AddressPage extends StatefulWidget {
 }
 
 class _AddressPageState extends State<AddressPage> {
+  Color _purple = HexColor('#603f8b');
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Address Details'),
+        backgroundColor: _purple,
+      ),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: ListView(
@@ -44,7 +51,8 @@ class _AddressPageState extends State<AddressPage> {
                   ),
                   Text(
                     "Give us your address below.",
-                    style: TextStyle(color: Color.fromRGBO(49, 39, 79, .6)),
+                    style: TextStyle(
+                        color: Color.fromRGBO(49, 39, 79, .6), fontSize: 17.0),
                   ),
                   SizedBox(
                     height: 30,
@@ -80,17 +88,32 @@ class _AddressPageState extends State<AddressPage> {
                   SizedBox(
                     height: 30,
                   ),
-                  Container(
-                    height: 50,
-                    margin: EdgeInsets.symmetric(horizontal: 80),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(40),
-                      color: Color.fromRGBO(49, 39, 79, 1),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Next",
-                        style: TextStyle(color: Colors.white),
+                  Center(
+                    child: SizedBox(
+                      height: 45.0,
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      child: RaisedButton(
+                        color: _purple,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0)),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      SchedulePage()));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15.0, vertical: 12.0),
+                          child: Text(
+                            'Next',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 17.0),
+                          ),
+                        ),
                       ),
                     ),
                   ),

@@ -127,18 +127,20 @@ class _ServiceProviderDetailsPageState
                     SizedBox(
                       height: 10,
                     ),
-                    RaisedButton(
-                      onPressed: () {},
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      color: _purple,
-                      padding: EdgeInsets.fromLTRB(35, 10, 35, 10),
-                      child: Text(
-                        'Book Now',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
+                    Center(
+                      child: RaisedButton(
+                        onPressed: () {},
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                        color: _purple,
+                        padding: EdgeInsets.fromLTRB(35, 12, 35, 12),
+                        child: Text(
+                          'Book Now',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 17.0,
+                          ),
                         ),
                       ),
                     ),

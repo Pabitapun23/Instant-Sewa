@@ -4,9 +4,15 @@ import 'package:instantsewa/model/service_model.dart';
 import 'package:instantsewa/ui/sub_categories_page.dart';
 
 // ignore: must_be_immutable
-class BulidGridCategory extends StatelessWidget {
+class BulidGridCategory extends StatefulWidget {
   List<Service> category;
   BulidGridCategory(this.category);
+
+  @override
+  _BulidGridCategoryState createState() => _BulidGridCategoryState();
+}
+
+class _BulidGridCategoryState extends State<BulidGridCategory> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,9 +31,9 @@ class BulidGridCategory extends StatelessWidget {
           physics: NeverScrollableScrollPhysics(),
           padding: EdgeInsets.only(left: 16, right: 16),
           shrinkWrap: true,
-          itemCount: category.length,
+          itemCount: widget.category.length,
           itemBuilder: (BuildContext context, int index) {
-            var data = category[index];
+            var data = widget.category[index];
             return InkWell(
               onTap: () {
                 Navigator.push(

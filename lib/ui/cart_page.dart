@@ -1,153 +1,102 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:instantsewa/Store/MyStore.dart';
-import 'package:instantsewa/ui/service_provider_selection.dart';
+import 'package:instantsewa/providers/cart.dart' show Cart;
+import 'package:instantsewa/ui/address_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:provider/provider.dart';
+import '../widgets/cart_item.dart';
 
 class CartPage extends StatelessWidget {
-  final int cartIndex;
-  const CartPage({Key key, this.cartIndex}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    var service = Provider.of<MyStore>(context);
-
-    Color _purple = HexColor('#603f8b');
+    final Color _purple = HexColor('#603f8b');
+    final cart = Provider.of<Cart>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cart'),
+        title: Text('Your Cart'),
         backgroundColor: _purple,
+        centerTitle: true,
+        elevation: 0,
       ),
-      body: Material(
-        child: Stack(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
+      body: Column(
+        children: [
+          Card(
+            margin: EdgeInsets.all(15),
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Row(
+                  Column(
                     children: [
-                      Expanded(
-                        flex: 2,
-                        child: Text(
-                          'DESCRIPTION',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 17.0),
-                        ),
+                      Text(
+                        'Total',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w500),
                       ),
-                      Expanded(
-                        flex: 1,
-                        child: Text(
-                          'RATE',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 17.0),
-                        ),
+                      SizedBox(
+                        height: 5,
                       ),
-                      Expanded(
-                        flex: 1,
-                        child: Text(
-                          'QTY',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 17.0),
+                      Chip(
+                        label: Text(
+                          '\$${cart.totalAmount}',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Text(
-                          'AMOUNT',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 17.0),
-                        ),
+                        backgroundColor: _purple,
                       ),
                     ],
                   ),
-                  Divider(
-                    thickness: 1.0,
-                    color: Colors.black,
+                  Spacer(),
+                  FlatButton(
+                    child: Text(
+                      'ADD MORE',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: _purple),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                   ),
+                  FlatButton(
+                    child: Text(
+                      'CONTINUE',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: _purple),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  AddressPage()));
+                    },
+                  )
                 ],
               ),
             ),
-            Positioned(
-              top: 40.0,
-              child: ListView.separated(
-                  itemBuilder: (context, index) {
-                    return Container(
-                      alignment: AlignmentDirectional.topStart,
-                      height: (MediaQuery.of(context).size.height) * 0.3,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              service.services[index].categories,
-                              style: TextStyle(
-                                  fontSize: 17.0, fontWeight: FontWeight.w500),
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  flex: 2,
-                                  child: Text(
-                                    service.services[index]
-                                        .subSubCategories[index],
-                                    style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                    service.services[index].price[index]
-                                        .toString(),
-                                    style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                    service.services[index].qty[index]
-                                        .toString(),
-                                    style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                    service.services[index].price[index]
-                                        .toString(),
-                                    style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return Divider(
-                      thickness: 1.0,
-                      color: Colors.black,
-                    );
-                  },
-                  itemCount: service.carts.length),
-            )
-          ],
-        ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: cart.services.length,
+              itemBuilder: (ctx, i) => CartItem(
+                id: cart.services.values.toList()[i].id,
+                price: cart.services.values.toList()[i].price,
+                qty: cart.services.values.toList()[i].quantity,
+                subCategory: cart.services.values.toList()[i].subCategoryName,
+                subSubCategory:
+                    cart.services.values.toList()[i].subSubCategoryName,
+                serviceId: cart.services.keys.toList()[i],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

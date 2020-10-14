@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:instantsewa/model/provider_model.dart';
 import 'package:instantsewa/services/service_providers_service.dart';
 import 'package:instantsewa/ui/service_provider_details_page.dart';
+import 'package:instantsewa/util/hexcode.dart';
 
 class Favourites extends StatefulWidget {
   @override
@@ -20,7 +21,14 @@ class _FavouritesState extends State<Favourites> {
   }
 
   Widget build(BuildContext context) {
+    Color _purple = HexColor('#603f8b');
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Favourites'),
+        backgroundColor: _purple,
+        centerTitle: true,
+        elevation: 0,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: GridView.builder(

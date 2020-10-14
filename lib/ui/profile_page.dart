@@ -1,5 +1,6 @@
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:instantsewa/util/hexcode.dart';
 //import 'package:instantsewa/widgets/top_bar.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -8,7 +9,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
   // final List icon = [
   //   "Icons.email",
   //   "Icons.phone",
@@ -29,7 +29,15 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    Color _purple = HexColor('#603f8b');
+
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Profile'),
+        backgroundColor: _purple,
+        centerTitle: true,
+        elevation: 0,
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -137,8 +145,8 @@ class _ProfilePageState extends State<ProfilePage> {
               height: 50,
               margin: EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.deepPurple,
+                borderRadius: BorderRadius.circular(25.0),
+                color: _purple,
               ),
               child: Center(
                 child: Text(

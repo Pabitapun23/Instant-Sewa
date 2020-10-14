@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:instantsewa/providers/cart.dart';
 import 'package:instantsewa/ui/cart_page.dart';
-import 'package:instantsewa/ui/service_provider_selection.dart';
 import 'package:instantsewa/util/hexcode.dart';
-import 'package:instantsewa/Store/MyStore.dart';
+import 'package:instantsewa/providers/categories.dart';
+import 'package:instantsewa/widgets/badge.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -16,46 +17,38 @@ class SubSubCategoriesDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var service = Provider.of<MyStore>(context);
+    final serviceData = Provider.of<Categories>(context);
+    final subCategory = serviceData.services[subCategoryIndex].subCategories;
+    final subSubCategoryId =
+        serviceData.services[subCategoryIndex].subSubCategoriesId;
+    final subSubCategory =
+        serviceData.services[subCategoryIndex].subSubCategories;
+    final image = serviceData.services[subCategoryIndex].subSubCategoriesImage;
+    final qty = serviceData.services[subCategoryIndex].qty;
+    final desc = serviceData.services[subCategoryIndex].desc;
+    final price = serviceData.services[subCategoryIndex].price;
+    final cart = Provider.of<Cart>(context, listen: false);
     Color _purple = HexColor('#603f8b');
     return Scaffold(
       appBar: AppBar(
         actions: [
-          Stack(
-            children: <Widget>[
-              IconButton(
-                icon: Icon(
-                  Icons.shopping_cart,
-                ),
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => CartPage(),
-                  ),
-                ),
-              ),
-              Stack(
-                children: <Widget>[
-                  Icon(Icons.brightness_1, size: 20.0, color: Colors.red[700]),
-                  Positioned(
-                      top: 3.0,
-                      right: 7,
-                      child: Center(
-                        child: Text(
-                          service.getCartNumber(subSubCategoryIndex).toString(),
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      )),
-                ],
-              ),
-            ],
-          ),
+          Consumer<Cart>(
+            builder: (_, cart, ch) => Badge(
+              child: ch,
+              value: cart.serviceCount.toString(),
+            ),
+            child: IconButton(
+              icon: Icon(Icons.shopping_cart),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => CartPage()));
+              },
+            ),
+          )
         ],
-        title:
-            Text(service.activeService.subSubCategories[subSubCategoryIndex]),
+        title: Text(subSubCategory[subSubCategoryIndex]),
         backgroundColor: _purple,
       ),
       body: Container(
@@ -65,7 +58,7 @@ class SubSubCategoriesDetailsPage extends StatelessWidget {
               height: 200,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                image: ExactAssetImage(service.services[subCategoryIndex].img),
+                image: ExactAssetImage(image[subSubCategoryIndex]),
               )),
             ),
             SizedBox(
@@ -83,11 +76,7 @@ class SubSubCategoriesDetailsPage extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(13),
                     ),
-                    onPressed: () {
-                      //add the value in qty
-                      service.decreaseQty(
-                          service.activeService, subSubCategoryIndex);
-                    },
+                    onPressed: () {},
                     child: Icon(
                       Icons.remove,
                     ),
@@ -96,8 +85,7 @@ class SubSubCategoriesDetailsPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Text(
-                    service.services[subCategoryIndex].qty[subSubCategoryIndex]
-                        .toString(),
+                    qty[subSubCategoryIndex].toString(),
                     style:
                         TextStyle(fontSize: 20.0, fontWeight: FontWeight.w800),
                   ),
@@ -112,11 +100,7 @@ class SubSubCategoriesDetailsPage extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(13),
                     ),
-                    onPressed: () {
-                      //remove the value from qty
-                      service.increaseQty(
-                          service.activeService, subSubCategoryIndex);
-                    },
+                    onPressed: () {},
                     child: Icon(
                       Icons.add,
                     ),
@@ -132,15 +116,13 @@ class SubSubCategoriesDetailsPage extends StatelessWidget {
               child: RaisedButton(
                 color: _purple,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0)),
+                    borderRadius: BorderRadius.circular(25.0)),
                 onPressed: () {
-//                  service.addOneItemToCart(
-//                      service.activeService, subSubCategoryIndex);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              ServiceProviderSelection()));
+                  cart.addServices(
+                      subSubCategoryId[subSubCategoryIndex],
+                      subCategory,
+                      subSubCategory[subSubCategoryIndex],
+                      price[subSubCategoryIndex]);
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(14.0),
@@ -163,7 +145,7 @@ class SubSubCategoriesDetailsPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
-                service.services[subCategoryIndex].desc[subSubCategoryIndex],
+                desc[subSubCategoryIndex],
                 style: TextStyle(fontSize: 18.0),
               ),
             )
