@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:instantsewa/model/Auth/log_in_form_model.dart';
 import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/widgets/show_snackbar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,8 +12,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  @override
+
   final GlobalKey<ScaffoldState> _key = GlobalKey();
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -184,7 +182,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               child: MaterialButton(
                                 onPressed: () {
-                                  if (_singletonLogInFormModel.state
+                                  if (!_singletonLogInFormModel.state
                                       .validateData()) {
                                     showSnackBar(key: _key,color: Colors.red ,message:"Data is invalid,please fill before submitting the form");
                                   } else {
