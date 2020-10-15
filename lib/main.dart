@@ -9,7 +9,6 @@ import 'package:instantsewa/repositories/sub_category_repository.dart';
 import 'package:instantsewa/repositories/user_repository.dart';
 import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/router/router.dart';
-import 'package:instantsewa/services/handymans_service.dart';
 import 'package:instantsewa/services/service_providers_service.dart';
 import 'package:instantsewa/state/auth_state.dart';
 import 'package:instantsewa/state/category_state.dart';
@@ -21,7 +20,6 @@ import 'application/storage/storage_keys.dart';
 import 'ui/home_page.dart';
 
 void setup() {
-  GetIt.instance.registerSingleton<HandyMansService>(HandyMansService());
   GetIt.instance
       .registerSingleton<ServiceProvidersService>(ServiceProvidersService());
 }

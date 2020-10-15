@@ -223,7 +223,7 @@ class _SignupPageState extends State<SignupPage> {
                                 ),
                                 child: MaterialButton(
                                   onPressed: () {
-                                    if (_singletonRegisterFormModel.state
+                                    if (!_singletonRegisterFormModel.state
                                         .validateData()) {
                                       showSnackBar(
                                           key: _key,
