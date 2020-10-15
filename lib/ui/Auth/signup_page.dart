@@ -22,8 +22,7 @@ class _SignupPageState extends State<SignupPage> {
         body: Injector(
             inject: [Inject<SignUpFormModel>(() => SignUpFormModel())],
             builder: (context) {
-              final _singletonRegisterFormModel =
-              RM.get<SignUpFormModel>();
+              final _singletonRegisterFormModel = RM.get<SignUpFormModel>();
               return SafeArea(
                 child: ListView(
                   children: <Widget>[
@@ -88,21 +87,21 @@ class _SignupPageState extends State<SignupPage> {
                                             _singletonRegisterFormModel
                                                 .setState(
                                                     (state) => state
-                                                    .setUsername(username),
-                                                catchError: true);
+                                                        .setUsername(username),
+                                                    catchError: true);
                                           },
                                           decoration: InputDecoration(
                                             errorText:
-                                            _singletonRegisterFormModel
-                                                .hasError
-                                                ? _singletonRegisterFormModel
-                                                .error.message
-                                                : null,
+                                                _singletonRegisterFormModel
+                                                        .hasError
+                                                    ? _singletonRegisterFormModel
+                                                        .error.message
+                                                    : null,
                                             border: InputBorder.none,
                                             prefixIcon: Icon(Icons.person),
                                             hintText: "Username",
                                             hintStyle:
-                                            TextStyle(color: Colors.grey),
+                                                TextStyle(color: Colors.grey),
                                           ),
                                         ),
                                       );
@@ -121,21 +120,21 @@ class _SignupPageState extends State<SignupPage> {
                                             _singletonRegisterFormModel
                                                 .setState(
                                                     (state) =>
-                                                    state.setEmail(email),
-                                                catchError: true);
+                                                        state.setEmail(email),
+                                                    catchError: true);
                                           },
                                           decoration: InputDecoration(
                                             errorText:
-                                            _singletonRegisterFormModel
-                                                .hasError
-                                                ? _singletonRegisterFormModel
-                                                .error.message
-                                                : null,
+                                                _singletonRegisterFormModel
+                                                        .hasError
+                                                    ? _singletonRegisterFormModel
+                                                        .error.message
+                                                    : null,
                                             border: InputBorder.none,
                                             prefixIcon: Icon(Icons.email),
                                             hintText: "Email",
                                             hintStyle:
-                                            TextStyle(color: Colors.grey),
+                                                TextStyle(color: Colors.grey),
                                           ),
                                         ),
                                       );
@@ -152,22 +151,22 @@ class _SignupPageState extends State<SignupPage> {
                                       child: TextFormField(
                                         onChanged: (String password) {
                                           _singletonRegisterFormModel.setState(
-                                                  (state) =>
+                                              (state) =>
                                                   state.setPassword(password),
                                               catchError: true);
                                         },
                                         obscureText: true,
                                         decoration: InputDecoration(
                                           errorText: _singletonRegisterFormModel
-                                              .hasError
+                                                  .hasError
                                               ? _singletonRegisterFormModel
-                                              .error.message
+                                                  .error.message
                                               : null,
                                           border: InputBorder.none,
                                           prefixIcon: Icon(Icons.lock),
                                           hintText: "Password",
                                           hintStyle:
-                                          TextStyle(color: Colors.grey),
+                                              TextStyle(color: Colors.grey),
                                         ),
                                       ),
                                     );
@@ -181,24 +180,26 @@ class _SignupPageState extends State<SignupPage> {
                                               bottom: BorderSide(
                                                   color: Colors.grey[200]))),
                                       child: TextFormField(
-                                        onChanged: (String passwordConfirmation) {
+                                        onChanged:
+                                            (String passwordConfirmation) {
                                           _singletonRegisterFormModel.setState(
-                                                  (state) =>
-                                                  state.setPasswordConfirmation(passwordConfirmation),
+                                              (state) =>
+                                                  state.setPasswordConfirmation(
+                                                      passwordConfirmation),
                                               catchError: true);
                                         },
                                         obscureText: true,
                                         decoration: InputDecoration(
                                           errorText: _singletonRegisterFormModel
-                                              .hasError
+                                                  .hasError
                                               ? _singletonRegisterFormModel
-                                              .error.message
+                                                  .error.message
                                               : null,
                                           border: InputBorder.none,
                                           prefixIcon: Icon(Icons.lock),
                                           hintText: "Confirm Password",
                                           hintStyle:
-                                          TextStyle(color: Colors.grey),
+                                              TextStyle(color: Colors.grey),
                                         ),
                                       ),
                                     );
@@ -211,7 +212,7 @@ class _SignupPageState extends State<SignupPage> {
                             height: 20,
                           ),
                           StateBuilder(
-                            observe:()=> _singletonRegisterFormModel,
+                            observe: () => _singletonRegisterFormModel,
                             builder: (_, model) {
                               return Container(
                                 height: 50,
@@ -224,13 +225,16 @@ class _SignupPageState extends State<SignupPage> {
                                   onPressed: () {
                                     if (!_singletonRegisterFormModel.state
                                         .validateData()) {
-                                      showSnackBar(key: _key,color: Colors.red ,message:"Data is invalid,please fill before submitting the form");
+                                      showSnackBar(
+                                          key: _key,
+                                          color: Colors.red,
+                                          message:
+                                              "Data is invalid,please fill before submitting the form");
                                     } else {
                                       _singletonRegisterFormModel.setState(
-                                              (signInFormState) =>
+                                          (signInFormState) =>
                                               signInFormState.submitSignUp());
                                       Navigator.pushNamed(context, loginRoute);
-
                                     }
                                   },
                                   height: 55,

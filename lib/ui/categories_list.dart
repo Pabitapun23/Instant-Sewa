@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:instantsewa/model/service_model.dart';
 import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/state/category_state.dart';
+import 'package:instantsewa/ui/sub_categories_page.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
 // ignore: must_be_immutable
@@ -39,11 +40,18 @@ class _CategoryListState extends State<CategoryList>
             scrollDirection: Axis.horizontal,
             children: [
               ...model.state.categories.map(
-                    (category) => Column(
+                (category) => Column(
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, subCategoryRoute);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    SubCategoriesPage(
+                                      categoryIndex: category.categoryId,
+                                      categoryName: category.categoryName,
+                                    )));
                       },
                       child: Container(
                         width: 160,
@@ -86,6 +94,5 @@ class _CategoryListState extends State<CategoryList>
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }

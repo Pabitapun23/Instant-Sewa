@@ -5,13 +5,15 @@ import 'package:instantsewa/providers/cart.dart';
 import 'package:instantsewa/providers/categories.dart';
 import 'package:instantsewa/repositories/auth_repository.dart';
 import 'package:instantsewa/repositories/category_repository.dart';
-import 'package:instantsewa/repositories/service_provider_repository.dart';
+import 'package:instantsewa/repositories/sub_category_repository.dart';
+import 'package:instantsewa/repositories/user_repository.dart';
 import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/router/router.dart';
 import 'package:instantsewa/services/service_providers_service.dart';
 import 'package:instantsewa/state/auth_state.dart';
 import 'package:instantsewa/state/category_state.dart';
-import 'package:instantsewa/state/service_provider_state.dart';
+import 'package:instantsewa/state/sub_category_state.dart';
+import 'package:instantsewa/state/user_state.dart';
 import 'package:provider/provider.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 import 'application/storage/storage_keys.dart';
@@ -36,7 +38,9 @@ class InstantSewa extends StatelessWidget {
       inject: [
         Inject<AuthState>(() => AuthState(AuthRepositoryImpl())),
         Inject<CategoryState>(() => CategoryState(CategoryRepositoryImpl())),
-        Inject<ServiceProviderState>(() => ServiceProviderState(ServiceProviderRepositoryImpl())),
+        Inject<SubCategoryState>(
+            () => SubCategoryState(SubCategoryRepositoryImpl())),
+        Inject<UserState>(() => UserState(UserRepositoryImpl())),
       ],
       builder: (context) {
         return MultiProvider(
