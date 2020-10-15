@@ -8,10 +8,8 @@ import 'package:provider/provider.dart';
 class SubSubCategoriesPage extends StatelessWidget {
   final int subCategoryIndex;
 
-  const SubSubCategoriesPage({
-    Key key,
-    this.subCategoryIndex,
-  }) : super(key: key);
+  const SubSubCategoriesPage({Key key, this.subCategoryIndex})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     final serviceData = Provider.of<Categories>(context);
