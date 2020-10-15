@@ -180,7 +180,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               child: MaterialButton(
                                 onPressed: () {
-                                  if (!_singletonLogInFormModel.state
+                                  if (_singletonLogInFormModel.state
                                       .validateData()) {
                                     showSnackBar(
                                         key: _key,

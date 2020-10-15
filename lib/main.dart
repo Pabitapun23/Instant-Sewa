@@ -40,11 +40,10 @@ class InstantSewa extends StatelessWidget {
       inject: [
         Inject<AuthState>(() => AuthState(AuthRepositoryImpl())),
         Inject<CategoryState>(() => CategoryState(CategoryRepositoryImpl())),
-        Inject<SubCategoryState>(
-            () => SubCategoryState(SubCategoryRepositoryImpl())),
-        Inject<ServiceProviderState>(
-            () => ServiceProviderState(ServiceProviderRepositoryImpl())),
+        Inject<SubCategoryState>(() => SubCategoryState(SubCategoryRepositoryImpl())),
         Inject<UserState>(() => UserState(UserRepositoryImpl())),
+        Inject<ServiceProviderState>(() => ServiceProviderState(ServiceProviderRepositoryImpl())),
+
       ],
       builder: (context) {
         return MultiProvider(
