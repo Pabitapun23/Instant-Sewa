@@ -1,18 +1,16 @@
-import 'package:instantsewa/application/classes/common/Job/job.dart';
-
 class User {
   //model = database
-  final String id;
-  final String fullName;
-  final String userName;
-  final String img;
-  final String address;
-  final String phoneNumber;
-  final String email;
-  final String job;
+  int id;
+  String fullName;
+  String userName;
+  String img;
+  String address;
+  String phoneNumber;
+  String email;
+  String job;
 
   User.fromJson(Map<String, dynamic> jsonMap)
-      : id = jsonMap['id'].toString(),
+      : id = jsonMap['identifier'],
         userName = jsonMap['username'],
         fullName = jsonMap['fullname'],
         img = jsonMap['avatar'],
