@@ -8,47 +8,44 @@ import 'package:instantsewa/application/storage/localstorage.dart';
 import 'package:instantsewa/application/storage/storage_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class ServiceProviderRepository
-{
+abstract class ServiceProviderRepository {
   Future<List<User>> getServiceProviderInformation();
   Future<List<User>> getServiceProviderDetails($id);
 }
-class ServiceProviderRepositoryImpl implements ServiceProviderRepository{
 
+class ServiceProviderRepositoryImpl implements ServiceProviderRepository {
   @override
   Future<List<User>> getServiceProviderInformation() async {
-    try{
-      final response = await InstantSewaAPI.dio.get("/serviceprovider",options: Options(
-          headers: {
-            'Authorization':"Bearer ${LocalStorage.getItem(TOKEN)}"
-          }
-      ));
+    try {
+      final response = await InstantSewaAPI.dio.get("/serviceprovider",
+          options: Options(headers: {
+            'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
+          }));
       List _temp = response.data['data'];
-      List<User> _serviceProviders = _temp.map((serviceprovider) => User.fromJson(serviceprovider)).toList();
+      List<User> _serviceProviders = _temp
+          .map((serviceprovider) => User.fromJson(serviceprovider))
+          .toList();
       return _serviceProviders;
-
-    }on DioError catch(e){
+    } on DioError catch (e) {
       throw showNetworkError(e);
     }
   }
 
   @override
   Future<List<User>> getServiceProviderDetails($id) async {
-   String url = "/serviceprovider/"+$id.toString();
-    try{
-      final response = await InstantSewaAPI.dio.get(url,options: Options(
-          headers: {
-            'Authorization':"Bearer ${LocalStorage.getItem(TOKEN)}"
-          }
-      ));
-      print(response);
+    String url = "/serviceprovider/" + $id.toString();
+    try {
+      final response = await InstantSewaAPI.dio.get(url,
+          options: Options(headers: {
+            'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
+          }));
       List _temp = response.data['data'];
-      List<User> _serviceProviders = _temp.map((serviceprovider) => User.fromJson(serviceprovider)).toList();
+      List<User> _serviceProviders = _temp
+          .map((serviceprovider) => User.fromJson(serviceprovider))
+          .toList();
       return _serviceProviders;
-
-    }on DioError catch(e){
+    } on DioError catch (e) {
       throw showNetworkError(e);
     }
   }
-
 }
