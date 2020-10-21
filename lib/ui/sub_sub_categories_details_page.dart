@@ -7,7 +7,6 @@ import 'package:instantsewa/widgets/badge.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
-
 // ignore: must_be_immutable
 class SubSubCategoriesDetailsPage extends StatefulWidget {
   final String serviceName;
