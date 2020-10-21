@@ -5,7 +5,7 @@ class CartItem {
   final String subCategoryName;
   final String subSubCategoryName;
   final int quantity;
-  final double price;
+  final int price;
 
   CartItem(
       {@required this.id,
@@ -37,7 +37,7 @@ class Cart with ChangeNotifier {
     String serviceId,
     String subCategoryName,
     String subSubCategoryName,
-    double price,
+    int price,
   ) {
     if (_services.containsKey(serviceId)) {
       //change quantity

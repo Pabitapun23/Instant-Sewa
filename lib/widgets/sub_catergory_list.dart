@@ -71,6 +71,10 @@ class _SubCategoriesListState extends State<SubCategoriesList>
                                         SubSubCategoriesPage(
                                           subCategoryIndex:
                                               subCategory.subCategoryId,
+                                          subCategoryImage:
+                                              subCategory.subCategoryImage,
+                                          subCategoryName:
+                                              subCategory.subCategoryName,
                                         )));
                           },
                         ),

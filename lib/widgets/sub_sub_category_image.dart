@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:instantsewa/providers/categories.dart';
-import 'package:provider/provider.dart';
 
 class SubSubCategoryImage extends StatelessWidget {
-  final int subCategoryIndex;
+  final String subCategoryImage;
 
-  const SubSubCategoryImage({Key key, this.subCategoryIndex}) : super(key: key);
+  const SubSubCategoryImage({Key key, this.subCategoryImage}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final serviceData = Provider.of<Categories>(context);
-    final img = serviceData.services[subCategoryIndex].img;
     return Container(
       height: 200,
       decoration: BoxDecoration(
         image: DecorationImage(
-            image: ExactAssetImage(
-              img,
-            ),
-            fit: BoxFit.contain),
+            image: ExactAssetImage(subCategoryImage), fit: BoxFit.contain),
       ),
     );
   }
