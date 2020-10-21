@@ -47,7 +47,7 @@ class _FavouritesState extends State<Favourites> {
                     MaterialPageRoute(
                         builder: (BuildContext context) =>
                             ServiceProviderDetailsPage(
-                              index: index,
+                              index: index.toString(),
                             )));
               },
               child: Container(

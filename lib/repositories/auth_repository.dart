@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:instantsewa/application/InstantSewa_api.dart';
 import 'package:instantsewa/application/classes/errors/common_error.dart';
 import 'package:instantsewa/application/storage/localstorage.dart';
@@ -13,9 +14,7 @@ abstract class AuthRepository {
     @required String email,
     @required String password,
   });
-//  Future logOut({
-//  @required String id,
-//  });
+  Future logOut();
   Future signUp({
     @required String username,
     @required String email,
@@ -63,6 +62,26 @@ class AuthRepositoryImpl implements AuthRepository {
         },
       );
     } on DioError catch (e) {
+      showNetworkError(e);
+    }
+  }
+
+  @override
+  Future logOut() async
+  {
+    try{
+      final response = await InstantSewaAPI.dio.get("/auth/logout",options: Options(
+          headers: {
+            'Authorization':"Bearer ${LocalStorage.getItem(TOKEN)}"
+          }
+      ));
+      if(response.statusCode==200)
+        {
+          LocalStorage.deleteItem (TOKEN);
+          SharedPreferences localStorage = await SharedPreferences.getInstance();
+          await localStorage.remove('user');
+        }
+    }on DioError catch (e) {
       showNetworkError(e);
     }
   }

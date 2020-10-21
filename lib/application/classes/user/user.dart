@@ -1,6 +1,6 @@
 class User {
   //model = database
-  int id;
+  String id;
   String fullName;
   String userName;
   String img;
@@ -10,7 +10,7 @@ class User {
   String job;
 
   User.fromJson(Map<String, dynamic> jsonMap)
-      : id = jsonMap['identifier'],
+      : id = jsonMap['identifier'].toString(),
         userName = jsonMap['username'],
         fullName = jsonMap['fullname'],
         img = jsonMap['avatar'],

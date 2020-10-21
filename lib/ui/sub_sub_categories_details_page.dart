@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:instantsewa/providers/cart.dart';
-import 'package:instantsewa/state/service_details_state.dart';
+import 'package:instantsewa/state/service_state.dart';
 import 'package:instantsewa/ui/cart_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
-import 'package:instantsewa/providers/categories.dart';
 import 'package:instantsewa/widgets/badge.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +24,7 @@ class SubSubCategoriesDetailsPage extends StatefulWidget {
 class _SubSubCategoriesDetailsPageState
     extends State<SubSubCategoriesDetailsPage>
     with AutomaticKeepAliveClientMixin {
-  final _serviceDetailsStateRM = RM.get<ServiceDetailsState>();
+  final _serviceDetailsStateRM = RM.get<ServiceState>();
 
   _SubSubCategoriesDetailsPageState(this.serviceName, this.subCategoryName);
   @override
@@ -66,7 +65,7 @@ class _SubSubCategoriesDetailsPageState
         backgroundColor: _purple,
       ),
       body: Container(
-        child: StateBuilder<ServiceDetailsState>(
+        child: StateBuilder<ServiceState>(
             observe: () => _serviceDetailsStateRM,
             builder: (context, model) {
               return ListView(

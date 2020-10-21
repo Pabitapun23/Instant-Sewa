@@ -58,7 +58,7 @@ class _ServiceProviderSelectionState extends State<ServiceProviderSelection> {
                         MaterialPageRoute(
                             builder: (BuildContext context) =>
                                 ServiceProviderDetailsPage(
-                                  index: index,
+                                  index: index.toString(),
                                 )));
                   },
                   child: Container(
@@ -132,7 +132,7 @@ class _ServiceProviderSelectionState extends State<ServiceProviderSelection> {
                         MaterialPageRoute(
                             builder: (BuildContext context) =>
                                 ServiceProviderDetailsPage(
-                                  index: index,
+                                  index: index.toString(),
                                 )));
                   },
                   child: Container(

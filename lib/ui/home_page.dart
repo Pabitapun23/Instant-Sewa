@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:instantsewa/providers/cart.dart';
-import 'package:instantsewa/ui/Auth/login_page.dart';
 import 'package:instantsewa/ui/cart_page.dart';
 import 'package:instantsewa/ui/favorites_page.dart';
 import 'package:instantsewa/ui/home_list.dart';

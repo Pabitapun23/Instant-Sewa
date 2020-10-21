@@ -13,6 +13,7 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPageState extends State<SignupPage> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -232,9 +233,16 @@ class _SignupPageState extends State<SignupPage> {
                                               "Data is invalid,please fill before submitting the form");
                                     } else {
                                       _singletonRegisterFormModel.setState(
-                                          (signInFormState) =>
-                                              signInFormState.submitSignUp());
-                                      Navigator.pushNamed(context, loginRoute);
+                                          (signInFormState) async {
+                                            signInFormState.submitSignUp();
+                                        Navigator.pushNamed(
+                                            context, loginRoute);
+                                      },
+                                          onError: (context, error) =>
+                                              showSnackBar(
+                                                  key: _key,
+                                                  color: Colors.red,
+                                                  message: "{$error.message}"));
                                     }
                                   },
                                   height: 55,

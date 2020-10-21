@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/state/category_state.dart';
 import 'package:instantsewa/ui/sub_categories_page.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';

@@ -24,4 +24,8 @@ class LocalStorage{
   {
     return _sharedPreferences.getString(key);
   }
+  static void deleteItem(String key)
+  {
+    _sharedPreferences.remove(key);
+  }
 }

@@ -1,13 +1,9 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:instantsewa/application/InstantSewa_api.dart';
 import 'package:instantsewa/application/classes/errors/common_error.dart';
 import 'package:instantsewa/application/classes/user/user.dart';
 import 'package:instantsewa/application/storage/localstorage.dart';
 import 'package:instantsewa/application/storage/storage_keys.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 abstract class ServiceProviderRepository {
   Future<List<User>> getServiceProviderInformation();
   Future<List<User>> getServiceProviderDetails($id);
@@ -33,7 +29,7 @@ class ServiceProviderRepositoryImpl implements ServiceProviderRepository {
 
   @override
   Future<List<User>> getServiceProviderDetails($id) async {
-    String url = "/serviceprovider/" + $id.toString();
+    String url = "/serviceprovider/" + $id;
     try {
       final response = await InstantSewaAPI.dio.get(url,
           options: Options(headers: {

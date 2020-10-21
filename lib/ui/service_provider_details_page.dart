@@ -1,15 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:instantsewa/model/provider_model.dart';
-import 'package:instantsewa/services/service_providers_service.dart';
 import 'package:instantsewa/state/service_provider_state.dart';
 import 'package:instantsewa/ui/payment_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
 class ServiceProviderDetailsPage extends StatefulWidget {
-  final index;
+  final String index;
 
   const ServiceProviderDetailsPage({this.index});
   @override
@@ -30,6 +27,7 @@ class _ServiceProviderDetailsPageState extends State<ServiceProviderDetailsPage>
   }
 
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;

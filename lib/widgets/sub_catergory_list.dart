@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:instantsewa/providers/categories.dart';
 import 'package:instantsewa/state/sub_category_state.dart';
 import 'package:instantsewa/ui/sub_sub_categories_page.dart';
-import 'package:provider/provider.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
+// ignore: must_be_immutable
 class SubCategoriesList extends StatefulWidget {
   String id;
   SubCategoriesList(this.id);

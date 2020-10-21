@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:instantsewa/model/provider_model.dart';
 import 'package:instantsewa/state/service_provider_state.dart';
 import 'package:instantsewa/ui/service_provider_details_page.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';

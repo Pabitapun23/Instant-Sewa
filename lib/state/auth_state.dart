@@ -20,4 +20,7 @@ class AuthState {
   }) async {
     await _authRepository.signUp(username: username, email: email, password: password,);
   }
+  Future logOut() async{
+    await _authRepository.logOut();
+  }
 }
