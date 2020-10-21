@@ -14,6 +14,7 @@ class ServiceDetailsRepositoryImpl implements ServiceDetailsRepository {
 
   @override
   Future<List<ServiceDetails>> getAllServiceDetails(id) async {
+    print(id);
     String url = '/service/' + id;
     try {
       final response = await InstantSewaAPI.dio.get(url,
@@ -25,6 +26,7 @@ class ServiceDetailsRepositoryImpl implements ServiceDetailsRepository {
       List<ServiceDetails> _serviceDetails = _temp
           .map((serviceDetails) => ServiceDetails.fromJson(serviceDetails))
           .toList();
+
       return _serviceDetails;
     } on DioError catch (e) {
       throw showNetworkError(e);

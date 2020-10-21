@@ -75,14 +75,15 @@ class _SubSubCategoryListState extends State<SubSubCategoryList>
                           ),
                           trailing: OutlineButton(
                             onPressed: () {
-//                              Navigator.push(
-//                                  context,
-//                                  MaterialPageRoute(
-//                                      builder: (BuildContext context) =>
-//                                          SubSubCategoriesDetailsPage(
-//                                              subCategoryName,
-//                                              service.serviceName,
-//                                              service.serviceId)));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          SubSubCategoriesDetailsPage(
+                                            subCategoryName: subCategoryName,
+                                            serviceName: service.serviceName,
+                                            id: service.serviceId,
+                                          )));
                             },
                             child: Text(
                               'Add',

@@ -13,8 +13,9 @@ import 'package:states_rebuilder/states_rebuilder.dart';
 class SubSubCategoriesDetailsPage extends StatefulWidget {
   final String serviceName;
   final String subCategoryName;
-  String id;
-  SubSubCategoriesDetailsPage(this.id, this.serviceName, this.subCategoryName);
+  final String id;
+  SubSubCategoriesDetailsPage(
+      {this.id, this.serviceName, this.subCategoryName});
 
   @override
   _SubSubCategoriesDetailsPageState createState() =>
