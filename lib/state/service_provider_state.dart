@@ -13,13 +13,13 @@ class ServiceProviderState
   // ignore: non_constant_identifier_names
   Future setFavouriteServiceProvider({String $service_provider_id}) async
   {
-    await _serviceProviderRepository.setFavouriteServiceProvider($service_provider_id: $service_provider_id);
+    await _serviceProviderRepository.setFavouriteServiceProvider(service_provider_id: $service_provider_id);
   }
   // ignore: non_constant_identifier_names
   Future<bool> getFavouriteServiceProvider({String service_provider_id}) async
   {
     print(service_provider_id);
-   return await _serviceProviderRepository.getFavouriteServiceProvider($service_provider_id: service_provider_id);
+   return await _serviceProviderRepository.getFavouriteServiceProvider(service_provider_id: service_provider_id);
   }
 
   Future getServiceProviderInformation() async

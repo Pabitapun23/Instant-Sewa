@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:instantsewa/application/InstantSewa_api.dart';
@@ -5,13 +7,14 @@ import 'package:instantsewa/application/classes/errors/common_error.dart';
 import 'package:instantsewa/application/classes/user/user.dart';
 import 'package:instantsewa/application/storage/localstorage.dart';
 import 'package:instantsewa/application/storage/storage_keys.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 abstract class ServiceProviderRepository {
   Future<List<User>> getServiceProviderInformation();
   Future<List<User>> getServiceProviderDetails($id);
   Future setFavouriteServiceProvider({
-    @required String $service_provider_id});
+    @required String service_provider_id});
   Future<bool> getFavouriteServiceProvider({
-    @required String $service_provider_id});
+    @required String service_provider_id});
 }
 class ServiceProviderRepositoryImpl implements ServiceProviderRepository {
   @override
@@ -51,27 +54,58 @@ class ServiceProviderRepositoryImpl implements ServiceProviderRepository {
 
   @override
   // ignore: non_constant_identifier_names
-  Future setFavouriteServiceProvider({String $service_provider_id}) async
+  Future setFavouriteServiceProvider({String service_provider_id}) async
   {
-    try {
-      Dio dio = new Dio();
-      Response response = await InstantSewaAPI.dio
-          .post("/favourite", data: {"service_user_id":2,"service_provider_id":$service_provider_id}, options: Options(headers: {
-        'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
-      }));
-           return true;
-    } on DioError catch (e) {
-      showNetworkError(e);
+    String id;
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user'));
+    id = user['id'].toString();
+    bool result = await getFavouriteServiceProvider(service_provider_id: service_provider_id);
+    if(!result)
+      {
+        try {
+          Dio dio = new Dio();
+          Response response = await InstantSewaAPI.dio
+              .post("/favourite", data: {
+            "service_user_id": id,
+            "service_provider_id": service_provider_id
+          }, options: Options(headers: {
+            'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
+          }));
+          return true;
+        } on DioError catch (e) {
+          showNetworkError(e);
+        }
+      }
+    else{
+      try {
+        Dio dio = new Dio();
+        Response response = await InstantSewaAPI.dio
+            .post("/deleteFavourite", data: {
+          "service_user_id": id,
+          "service_provider_id": service_provider_id
+        }, options: Options(headers: {
+          'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
+        }));
+        return true;
+      } on DioError catch (e) {
+        showNetworkError(e);
+      }
     }
+
   }
 
   @override
   // ignore: non_constant_identifier_names
-  Future<bool> getFavouriteServiceProvider({String $service_provider_id}) async {
+  Future<bool> getFavouriteServiceProvider({String service_provider_id}) async {
+   String id;
     try {
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      var user = jsonDecode(localStorage.getString('user'));
+      id = user['id'].toString();
       Dio dio = new Dio();
       Response response = await InstantSewaAPI.dio
-          .post("/checker", data: {"service_user_id":2,"service_provider_id":$service_provider_id}, options: Options(headers: {
+          .post("/checker", data: {"service_user_id":id,"service_provider_id":service_provider_id}, options: Options(headers: {
         'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
       }));
       if(response.data['data']=='true')

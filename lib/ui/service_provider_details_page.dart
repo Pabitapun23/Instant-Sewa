@@ -188,6 +188,7 @@ class _ServiceProviderDetailsPageState extends State<ServiceProviderDetailsPage>
                                 onTap: () {
                                   _serviceProviderStateRM.setState((favouritestate)async{
                                     await favouritestate.setFavouriteServiceProvider($service_provider_id: provider.id);
+                                    _like = await favouritestate.getFavouriteServiceProvider(service_provider_id: provider.id);
                                   }
                                   );
                                 },
