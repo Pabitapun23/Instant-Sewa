@@ -184,9 +184,10 @@ class _ServiceProviderDetailsPageState extends State<ServiceProviderDetailsPage>
                               top: height * 0.40,
                               child: GestureDetector(
                                 onTap: () {
-                                  setState(() {
-                                    _like = !_like;
-                                  });
+                                  _serviceProviderStateRM.setState((favouritestate)async{
+                                    await favouritestate.setFavouriteServiceProvider($service_provider_id: provider.id);
+                                  }
+                                  );
                                 },
                                 child: Container(
                                   height: 50,
