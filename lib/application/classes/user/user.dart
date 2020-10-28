@@ -8,6 +8,7 @@ class User {
   String phoneNumber;
   String email;
   String job;
+  String rating;
 
   User.fromJson(Map<String, dynamic> jsonMap)
       : id = jsonMap['identifier'].toString(),
@@ -17,5 +18,6 @@ class User {
         address = jsonMap['address'],
         email = jsonMap['email'],
         phoneNumber = jsonMap['phoneno'],
+        rating = jsonMap['rate'].toString(),
         job = jsonMap['occupation'][0];
 }
