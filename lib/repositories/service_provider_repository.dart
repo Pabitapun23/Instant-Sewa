@@ -10,8 +10,9 @@ abstract class ServiceProviderRepository {
   Future<List<User>> getServiceProviderDetails($id);
   Future setFavouriteServiceProvider({
     @required String $service_provider_id});
+  Future<bool> getFavouriteServiceProvider({
+    @required String $service_provider_id});
 }
-
 class ServiceProviderRepositoryImpl implements ServiceProviderRepository {
   @override
   Future<List<User>> getServiceProviderInformation() async {
@@ -59,6 +60,27 @@ class ServiceProviderRepositoryImpl implements ServiceProviderRepository {
         'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
       }));
            return true;
+    } on DioError catch (e) {
+      showNetworkError(e);
+    }
+  }
+
+  @override
+  // ignore: non_constant_identifier_names
+  Future<bool> getFavouriteServiceProvider({String $service_provider_id}) async {
+    try {
+      Dio dio = new Dio();
+      Response response = await InstantSewaAPI.dio
+          .post("/checker", data: {"service_user_id":2,"service_provider_id":$service_provider_id}, options: Options(headers: {
+        'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
+      }));
+      if(response.data['data']=='true')
+        {
+          return true;
+        }
+      else{
+        return false;
+      }
     } on DioError catch (e) {
       showNetworkError(e);
     }

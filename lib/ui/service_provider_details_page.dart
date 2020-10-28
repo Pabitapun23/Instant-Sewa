@@ -17,12 +17,14 @@ class ServiceProviderDetailsPage extends StatefulWidget {
 class _ServiceProviderDetailsPageState extends State<ServiceProviderDetailsPage>
     with AutomaticKeepAliveClientMixin {
   Color _purple = HexColor('#603f8b');
-  bool _like = false;
   final _serviceProviderStateRM = RM.get<ServiceProviderState>();
+  bool _like;
   @override
   void initState() {
     _serviceProviderStateRM.setState(
-        (profileState) => profileState.getServiceProviderDetails(widget.index));
+        (profileState) async{ profileState.getServiceProviderDetails(widget.index);
+        _like = await profileState.getFavouriteServiceProvider(service_provider_id: widget.index);
+        });
     super.initState();
   }
 
