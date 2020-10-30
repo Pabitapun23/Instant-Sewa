@@ -11,7 +11,7 @@ class LogInFormModel {
     if (!validateEmail(email)) {
         throw CommonError(message: "Invalide Email");
     }
-    this.email = email;
+    this.email = email.allInCaps.capitalizeFirstofEach;
   }
 
   void setPassword(String password) {
@@ -37,4 +37,9 @@ class LogInFormModel {
   {
    await _authState.signIn(email: this.email, password: this.password);
   }
+}
+extension CapExtension on String {
+  String get inCaps => '${this[0].toUpperCase()}${this.substring(1)}';
+  String get allInCaps => this.toLowerCase();
+  String get capitalizeFirstofEach => this.split(" ").map((str) => str.inCaps).join(" ");
 }

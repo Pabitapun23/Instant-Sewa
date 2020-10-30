@@ -9,13 +9,13 @@ class SignUpFormModel {
   String passwordConfirmation;
   String username;
   void setUsername(String username) {
-    this.username = username;
+    this.username = username.allInCaps.capitalizeFirstofEach;
   }
   void setEmail(String email) {
     if (!validateEmail(email)) {
       throw CommonError(message: "Invalide Email");
     }
-    this.email = email;
+    this.email = email.allInCaps;
   }
   void setPasswordConfirmation(String passwordConfirmation) {
     if (password!=passwordConfirmation) {
@@ -53,4 +53,8 @@ class SignUpFormModel {
   }
 
 }
-
+extension CapExtension on String {
+  String get inCaps => '${this[0].toUpperCase()}${this.substring(1)}';
+  String get allInCaps => this.toLowerCase();
+  String get capitalizeFirstofEach => this.split(" ").map((str) => str.inCaps).join(" ");
+}
