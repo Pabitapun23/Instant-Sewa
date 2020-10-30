@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,9 @@ import 'package:instantsewa/application/InstantSewa_api.dart';
 import 'package:instantsewa/application/classes/errors/common_error.dart';
 import 'package:instantsewa/application/storage/localstorage.dart';
 import 'package:instantsewa/application/storage/storage_keys.dart';
+import 'package:instantsewa/router/route_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:states_rebuilder/states_rebuilder.dart';
 
 abstract class AuthRepository {
   Future signIn({
@@ -38,6 +39,29 @@ class AuthRepositoryImpl implements AuthRepository {
       await LocalStorage.setItem(TOKEN_EXPIRATION, expiresAt);
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       await localStorage.setString('user', json.encode(response.data['user']));
+      var user = jsonDecode(localStorage.getString('user'));
+      await LocalStorage.setItem(TOKEN, accessToken);
+      if(user['address'] != null){
+        await LocalStorage.setItem(FUllNAME,user['fullname']);
+          await LocalStorage.setItem(PHONE,user['phoneno']);
+        await LocalStorage.setItem(ADDRESS,user['address']);
+        Navigator.pushNamed(RM.context, homeRoute);
+      }
+      else if(user['phoneno'] != null)
+        {
+          await LocalStorage.setItem(FUllNAME,user['fullname']);
+          await LocalStorage.setItem(PHONE,user['phoneno']);
+          Navigator.pushNamed(RM.context, addressUpdateRoute);
+        }
+      else if(user['fullname'] != null)
+      {
+        await LocalStorage.setItem(FUllNAME,user['fullname']);
+        Navigator.pushNamed(RM.context, phoneUpdateRoute);
+      }
+      else
+        {
+          Navigator.pushNamed(RM.context, fullNameUpdateRoute);
+        }
       return;
     } on DioError catch (e) {
       showNetworkError(e);

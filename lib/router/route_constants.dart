@@ -8,3 +8,6 @@ const String onBoardingRoute = "onBoarding";
 const String loginRoute = "login";
 const String signUpRoute = "signUp";
 const String subCategoryRoute = "subCategory";
+const String fullNameUpdateRoute = 'fullNameUpdate';
+const String addressUpdateRoute = 'addressUpdate';
+const String phoneUpdateRoute = 'phoneUpdate';

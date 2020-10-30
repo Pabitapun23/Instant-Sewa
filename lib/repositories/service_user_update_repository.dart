@@ -34,6 +34,7 @@ class ServiceUserUpdateRepositoryImpl implements ServiceUserUpdateRepository
       }, options: Options(headers: {
         'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
       }));
+      await LocalStorage.setItem(ADDRESS,address);
       return true;
     } on DioError catch (e) {
       showNetworkError(e);
@@ -57,6 +58,7 @@ class ServiceUserUpdateRepositoryImpl implements ServiceUserUpdateRepository
       }, options: Options(headers: {
         'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
       }));
+      await LocalStorage.setItem(FUllNAME,fullName);
       return true;
     } on DioError catch (e) {
       showNetworkError(e);
@@ -74,12 +76,13 @@ class ServiceUserUpdateRepositoryImpl implements ServiceUserUpdateRepository
     try {
       Dio dio = new Dio();
       Response response = await InstantSewaAPI.dio
-          .post("/fullnameUpdate", data: {
+          .post("/phoneNoUpdate", data: {
         "id": id,
         "phoneno": phoneNo
       }, options: Options(headers: {
         'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
       }));
+      await LocalStorage.setItem(PHONE,phoneNo);
       return true;
     } on DioError catch (e) {
       showNetworkError(e);

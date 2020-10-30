@@ -8,6 +8,7 @@ import 'package:instantsewa/repositories/category_repository.dart';
 import 'package:instantsewa/repositories/favourite_repository.dart';
 import 'package:instantsewa/repositories/service_provider_repository.dart';
 import 'package:instantsewa/repositories/service_repository.dart';
+import 'package:instantsewa/repositories/service_user_update_repository.dart';
 import 'package:instantsewa/repositories/sub_category_repository.dart';
 import 'package:instantsewa/repositories/user_repository.dart';
 import 'package:instantsewa/router/route_constants.dart';
@@ -18,6 +19,7 @@ import 'package:instantsewa/state/category_state.dart';
 import 'package:instantsewa/state/favourite_state.dart';
 import 'package:instantsewa/state/service_provider_state.dart';
 import 'package:instantsewa/state/service_state.dart';
+import 'package:instantsewa/state/service_user_update_state.dart';
 import 'package:instantsewa/state/sub_category_state.dart';
 import 'package:instantsewa/state/user_state.dart';
 import 'package:provider/provider.dart';
@@ -51,6 +53,7 @@ class InstantSewa extends StatelessWidget {
             () => ServiceProviderState(ServiceProviderRepositoryImpl())),
         Inject<ServiceState>(() => ServiceState(ServiceRepositoryImpl())),
         Inject<FavouriteState>(() => FavouriteState(FavouriteRepositoryImpl())),
+        Inject<ServiceUserUpdateState>(() => ServiceUserUpdateState(ServiceUserUpdateRepositoryImpl())),
       ],
       builder: (context) {
         return MultiProvider(
@@ -62,12 +65,18 @@ class InstantSewa extends StatelessWidget {
               create: (ctx) => Cart(),
             ),
           ],
-          child: MaterialApp(
+          child: MaterialApp (
             home: HomePage(),
             debugShowCheckedModeBanner: false,
             onGenerateRoute: Routers.onGenerateRoute,
             initialRoute: LocalStorage.getItem(TOKEN) != null
-                ? homeRoute
+                ?LocalStorage.getItem(FUllNAME) ==null
+            ?fullNameUpdateRoute
+            :LocalStorage.getItem(ADDRESS) ==null
+                ?phoneUpdateRoute
+                :LocalStorage.getItem(FUllNAME) ==null
+                ?addressUpdateRoute
+                :homeRoute
                 : onBoardingRoute,
           ),
         );

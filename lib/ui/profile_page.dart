@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:instantsewa/application/storage/localstorage.dart';
+import 'package:instantsewa/application/storage/storage_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -31,10 +33,10 @@ class _ProfilePageState extends State<ProfilePage> {
     if(user != null) {
       setState(() {
         userName = user['username'];
-        fullName = user['fullname'];
-        address = user['address'];
+        fullName = LocalStorage.getItem(FUllNAME);
+        address = LocalStorage.getItem(ADDRESS);
         email = user['email'];
-        phoneNumber = user['phoneno'];
+        phoneNumber = LocalStorage.getItem(PHONE);
       });
     }
   }

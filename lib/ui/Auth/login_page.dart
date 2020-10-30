@@ -180,7 +180,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               child: MaterialButton(
                                 onPressed: () {
-                                  if (_singletonLogInFormModel.state
+                                  if (!_singletonLogInFormModel.state
                                       .validateData()) {
                                     showSnackBar(
                                         key: _key,
@@ -191,7 +191,6 @@ class _LoginPageState extends State<LoginPage> {
                                     _singletonLogInFormModel.setState(
                                         (signInFormState) async {
                                       await signInFormState.submitSignIn();
-                                      Navigator.pushNamed(context, homeRoute);
                                     },
                                         onError: (context, error) =>
                                             showSnackBar(

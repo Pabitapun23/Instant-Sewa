@@ -1,3 +1,9 @@
 const String TOKEN = 'token';
 const String TOKEN_EXPIRATION = 'token_expiration';
 const String USER = 'user';
+const String FUllNAME = 'fullname';
+const String ID = 'id';
+const String EMAIL = 'email';
+const String PHONE = 'phone';
+const String ADDRESS = 'address';
+const String USERNAME = 'username';
