@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instantsewa/util/hexcode.dart';
 import 'package:provider/provider.dart';
 import '../providers/cart.dart';
 
@@ -20,7 +21,36 @@ class CartItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color _purple = HexColor('#603f8b');
     return Dismissible(
+      confirmDismiss: (DismissDirection direction) async {
+        return await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text("Delete Confirmation"),
+              content:
+                  const Text("Are you sure you want to delete this service?"),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: Text(
+                    "Delete",
+                    style: TextStyle(color: _purple),
+                  ),
+                ),
+                FlatButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: Text(
+                    "Cancel",
+                    style: TextStyle(color: _purple),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
       key: ValueKey(id),
       background: Container(
         color: Colors.red[700],

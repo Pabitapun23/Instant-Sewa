@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:instantsewa/model/Auth/log_in_form_model.dart';
 import 'package:instantsewa/router/route_constants.dart';
+import 'package:instantsewa/util/hexcode.dart';
 import 'package:instantsewa/widgets/show_snackbar.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
@@ -16,6 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    Color _purple = HexColor('#603f8b');
     return Scaffold(
       key: _key,
       backgroundColor: Colors.white,
@@ -171,42 +173,45 @@ class _LoginPageState extends State<LoginPage> {
                         StateBuilder(
                           observe: () => _singletonLogInFormModel,
                           builder: (_, model) {
-                            return Container(
-                              height: 50,
-                              margin: EdgeInsets.symmetric(horizontal: 80),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                color: Color.fromRGBO(49, 39, 79, 1),
-                              ),
-                              child: MaterialButton(
-                                onPressed: () {
-                                  if (!_singletonLogInFormModel.state
-                                      .validateData()) {
-                                    showSnackBar(
-                                        key: _key,
-                                        color: Colors.red,
-                                        message:
-                                            "Data is invalid,please fill before submitting the form");
-                                  } else {
-                                    _singletonLogInFormModel.setState(
-                                        (signInFormState) async {
-                                      await signInFormState.submitSignIn();
-                                    },
-                                        onError: (context, error) =>
-                                            showSnackBar(
-                                                key: _key,
-                                                color: Colors.red,
-                                                message: "{$error.message}"));
-                                  }
-                                },
-                                height: 55,
-                                shape: StadiumBorder(),
-                                color: Theme.of(context).primaryColor,
-                                child: Center(
-                                  child: Text(
-                                    "Login",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 17.0),
+                            return Center(
+                              child: SizedBox(
+                                height: 45.0,
+                                width: size.width * 0.4,
+                                child: RaisedButton(
+                                  onPressed: () {
+                                    if (!_singletonLogInFormModel.state
+                                        .validateData()) {
+                                      showSnackBar(
+                                          key: _key,
+                                          color: Colors.red[700],
+                                          message:
+                                              "Data is invalid,please fill before submitting the form");
+                                    } else {
+                                      _singletonLogInFormModel.setState(
+                                          (signInFormState) async {
+                                        await signInFormState.submitSignIn();
+                                      },
+                                          onError: (context, error) =>
+                                              showSnackBar(
+                                                  key: _key,
+                                                  color: Colors.red[700],
+                                                  message: "{$error.message}"));
+                                    }
+                                  },
+                                  color: _purple,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(25.0)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15.0, vertical: 12.0),
+                                    child: Text(
+                                      'Log In',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 17.0),
+                                    ),
                                   ),
                                 ),
                               ),
