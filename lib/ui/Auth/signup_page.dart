@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:instantsewa/model/Auth/sign_up_form_model.dart';
 import 'package:instantsewa/router/route_constants.dart';
+import 'package:instantsewa/util/hexcode.dart';
 import 'package:instantsewa/widgets/show_snackbar.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
@@ -17,6 +18,7 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    Color _purple = HexColor('#603f8b');
     return Scaffold(
         key: _key,
         backgroundColor: Colors.white,
@@ -215,45 +217,49 @@ class _SignupPageState extends State<SignupPage> {
                           StateBuilder(
                             observe: () => _singletonRegisterFormModel,
                             builder: (_, model) {
-                              return Container(
-                                height: 50,
-                                margin: EdgeInsets.symmetric(horizontal: 80),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  color: Color.fromRGBO(49, 39, 79, 1),
-                                ),
-                                child: MaterialButton(
-                                  onPressed: () {
-                                    if (!_singletonRegisterFormModel.state
-                                        .validateData()) {
-                                      showSnackBar(
-                                          key: _key,
-                                          color: Colors.red,
-                                          message:
-                                              "Data is invalid,please fill before submitting the form");
-                                    } else {
-                                      _singletonRegisterFormModel.setState(
-                                          (signInFormState) async {
-                                            signInFormState.submitSignUp();
-                                        Navigator.pushNamed(
-                                            context, loginRoute);
-                                      },
-                                          onError: (context, error) =>
-                                              showSnackBar(
-                                                  key: _key,
-                                                  color: Colors.red,
-                                                  message: "{$error.message}"));
-                                    }
-                                  },
-                                  height: 55,
-                                  shape: StadiumBorder(),
-                                  color: Theme.of(context).primaryColor,
-                                  child: Center(
-                                    child: Text(
-                                      "Sign Up",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 17.0),
+                              return Center(
+                                child: SizedBox(
+                                  height: 45.0,
+                                  width: size.width * 0.4,
+                                  child: RaisedButton(
+                                    color: _purple,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(25.0)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 14.0, vertical: 12.0),
+                                      child: Text(
+                                        'Sign In',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 17.0),
+                                      ),
                                     ),
+                                    onPressed: () {
+                                      if (!_singletonRegisterFormModel.state
+                                          .validateData()) {
+                                        showSnackBar(
+                                            key: _key,
+                                            color: Colors.red,
+                                            message:
+                                                "Data is invalid,please fill before submitting the form");
+                                      } else {
+                                        _singletonRegisterFormModel.setState(
+                                            (signInFormState) async {
+                                          signInFormState.submitSignUp();
+                                          Navigator.pushNamed(
+                                              context, loginRoute);
+                                        },
+                                            onError: (context, error) =>
+                                                showSnackBar(
+                                                    key: _key,
+                                                    color: Colors.red,
+                                                    message:
+                                                        "{$error.message}"));
+                                      }
+                                    },
                                   ),
                                 ),
                               );

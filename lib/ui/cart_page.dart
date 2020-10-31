@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instantsewa/providers/cart.dart' show Cart;
+import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/ui/address_page.dart';
+import 'package:instantsewa/ui/categories_list_page.dart';
 import 'package:instantsewa/ui/home_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:provider/provider.dart';
@@ -18,8 +20,14 @@ class CartPage extends StatelessWidget {
         backgroundColor: _purple,
         centerTitle: true,
         elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushNamed(context, homeRoute);
+          },
+        ),
       ),
-      body: Column(
+      bottomSheet: Wrap(
         children: [
           Card(
             margin: EdgeInsets.all(15),
@@ -60,7 +68,8 @@ class CartPage extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (BuildContext context) => HomePage()));
+                              builder: (BuildContext context) =>
+                                  AllCategoryList()));
                     },
                   ),
                   FlatButton(
@@ -72,17 +81,44 @@ class CartPage extends StatelessWidget {
                           color: _purple),
                     ),
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  AddressPage()));
+                      if (cart.services.isEmpty) {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text("Alert"),
+                              content: const Text("Cart is empty!!"),
+                              actions: <Widget>[
+                                FlatButton(
+                                  onPressed: () =>
+                                      Navigator.of(context).pop(true),
+                                  child: Text(
+                                    "Ok",
+                                    style:
+                                        TextStyle(color: _purple, fontSize: 18),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      } else {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    AddressPage()));
+                      }
                     },
                   )
                 ],
               ),
             ),
           ),
+        ],
+      ),
+      body: Column(
+        children: [
           SizedBox(
             height: 10,
           ),

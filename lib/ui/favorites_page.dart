@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:instantsewa/model/provider_model.dart';
+import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/services/service_providers_service.dart';
 import 'package:instantsewa/state/favourite_state.dart';
 import 'package:instantsewa/ui/service_provider_details_page.dart';
@@ -33,6 +34,12 @@ class _FavouritesState extends State<Favourites>
         backgroundColor: _purple,
         centerTitle: true,
         elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushNamed(context, homeRoute);
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
