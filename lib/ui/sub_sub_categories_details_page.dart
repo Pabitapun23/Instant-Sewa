@@ -7,6 +7,7 @@ import 'package:instantsewa/widgets/badge.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
+
 // ignore: must_be_immutable
 class SubSubCategoriesDetailsPage extends StatefulWidget {
   final String serviceName;
@@ -39,7 +40,7 @@ class _SubSubCategoriesDetailsPageState
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final cart = Provider.of<Cart>(context, listen: false);
+    final cart = Provider.of<Cart>(context, listen: true);
     Color _purple = HexColor('#603f8b');
     return Scaffold(
       appBar: AppBar(
@@ -94,7 +95,57 @@ class _SubSubCategoriesDetailsPageState
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(13),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                if (cart.quantityCount(
+                                        serviceDetails.serviceName) ==
+                                    '1') {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title:
+                                            const Text("Delete Confirmation"),
+                                        content: const Text(
+                                            "Are you sure you want to delete this service?"),
+                                        actions: <Widget>[
+                                          FlatButton(
+                                            onPressed: () {
+                                              cart.deleteService(
+                                                serviceDetails.serviceId,
+                                                subCategoryName,
+                                                serviceDetails.serviceName,
+                                                int.parse(serviceDetails
+                                                    .servicePrice),
+                                              );
+                                              Navigator.of(context).pop(true);
+                                            },
+                                            child: Text(
+                                              "Delete",
+                                              style: TextStyle(color: _purple),
+                                            ),
+                                          ),
+                                          FlatButton(
+                                            onPressed: () =>
+                                                Navigator.of(context)
+                                                    .pop(false),
+                                            child: Text(
+                                              "Cancel",
+                                              style: TextStyle(color: _purple),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  cart.deleteService(
+                                    serviceDetails.serviceId,
+                                    subCategoryName,
+                                    serviceDetails.serviceName,
+                                    int.parse(serviceDetails.servicePrice),
+                                  );
+                                }
+                              },
                               child: Icon(
                                 Icons.remove,
                               ),
@@ -104,7 +155,7 @@ class _SubSubCategoriesDetailsPageState
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Text(
-                              serviceDetails.serviceQuantity,
+                              cart.quantityCount(serviceDetails.serviceName),
                               style: TextStyle(
                                   fontSize: 20.0, fontWeight: FontWeight.w800),
                             ),
@@ -119,7 +170,13 @@ class _SubSubCategoriesDetailsPageState
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(13),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                cart.addServices(
+                                    serviceDetails.serviceId,
+                                    subCategoryName,
+                                    serviceDetails.serviceName,
+                                    int.parse(serviceDetails.servicePrice));
+                              },
                               child: Icon(
                                 Icons.add,
                               ),

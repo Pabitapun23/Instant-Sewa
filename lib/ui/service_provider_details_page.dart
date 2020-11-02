@@ -21,10 +21,11 @@ class _ServiceProviderDetailsPageState extends State<ServiceProviderDetailsPage>
   bool _like;
   @override
   void initState() {
-    _serviceProviderStateRM.setState(
-        (profileState) async{ profileState.getServiceProviderDetails(widget.index);
-        _like = await profileState.getFavouriteServiceProvider(service_provider_id: widget.index);
-        });
+    _serviceProviderStateRM.setState((profileState) async {
+      profileState.getServiceProviderDetails(widget.index);
+      _like = await profileState.getFavouriteServiceProvider(
+          service_provider_id: widget.index);
+    });
     super.initState();
   }
 
@@ -34,6 +35,10 @@ class _ServiceProviderDetailsPageState extends State<ServiceProviderDetailsPage>
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Provider Details'),
+        backgroundColor: _purple,
+      ),
       body: StateBuilder<ServiceProviderState>(
           observe: () => _serviceProviderStateRM,
           builder: (context, model) {
@@ -168,29 +173,19 @@ class _ServiceProviderDetailsPageState extends State<ServiceProviderDetailsPage>
                               ),
                             ),
                             Positioned(
-                              top: height * 0.05,
-                              left: 15,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Icon(
-                                  Icons.keyboard_backspace,
-                                  size: 30,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            Positioned(
                               right: 25,
                               top: height * 0.40,
                               child: GestureDetector(
                                 onTap: () {
-                                  _serviceProviderStateRM.setState((favouritestate)async{
-                                    await favouritestate.setFavouriteServiceProvider($service_provider_id: provider.id);
-                                    _like = await favouritestate.getFavouriteServiceProvider(service_provider_id: provider.id);
-                                  }
-                                  );
+                                  _serviceProviderStateRM
+                                      .setState((favouritestate) async {
+                                    await favouritestate
+                                        .setFavouriteServiceProvider(
+                                            $service_provider_id: provider.id);
+                                    _like = await favouritestate
+                                        .getFavouriteServiceProvider(
+                                            service_provider_id: provider.id);
+                                  });
                                 },
                                 child: Container(
                                   height: 50,
