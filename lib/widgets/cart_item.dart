@@ -21,6 +21,7 @@ class CartItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<Cart>(context, listen: true);
     Color _purple = HexColor('#603f8b');
     return Dismissible(
       confirmDismiss: (DismissDirection direction) async {
@@ -65,7 +66,7 @@ class CartItem extends StatelessWidget {
       ),
       direction: DismissDirection.endToStart,
       onDismissed: (direction) {
-        Provider.of<Cart>(context, listen: false).removeItem(serviceId);
+        cart.removeItem(serviceId);
       },
       child: Card(
         margin: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
@@ -80,9 +81,106 @@ class CartItem extends StatelessWidget {
               'Total: \$${(price * qty)}',
               style: TextStyle(fontSize: 15),
             ),
-            trailing: Text(
-              '$qty x',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+            trailing: Container(
+              width: 100,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 30,
+                    height: 20,
+                    child: OutlineButton(
+                      padding: EdgeInsets.zero,
+                      borderSide: BorderSide(color: _purple, width: 2),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      onPressed: () {
+                        if (cart.quantityCount(subSubCategory) == '1') {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text("Delete Confirmation"),
+                                content: const Text(
+                                    "Are you sure you want to delete this service?"),
+                                actions: <Widget>[
+                                  FlatButton(
+                                    onPressed: () {
+                                      cart.deleteService(
+                                        serviceId,
+                                        subCategory,
+                                        subSubCategory,
+                                        price,
+                                      );
+                                      Navigator.of(context).pop(true);
+                                    },
+                                    child: Text(
+                                      "Delete",
+                                      style: TextStyle(color: _purple),
+                                    ),
+                                  ),
+                                  FlatButton(
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(false),
+                                    child: Text(
+                                      "Cancel",
+                                      style: TextStyle(color: _purple),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        } else {
+                          cart.deleteService(
+                            serviceId,
+                            subCategory,
+                            subSubCategory,
+                            price,
+                          );
+                        }
+                      },
+                      child: Icon(
+                        Icons.remove,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      cart.quantityCount(subSubCategory),
+                      style: TextStyle(
+                          fontSize: 18.0, fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 30,
+                    height: 20,
+                    child: OutlineButton(
+                      borderSide: BorderSide(color: _purple, width: 2),
+                      focusColor: _purple,
+                      padding: EdgeInsets.zero,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      onPressed: () {
+                        cart.addServices(
+                          serviceId,
+                          subCategory,
+                          subSubCategory,
+                          price,
+                        );
+                      },
+                      child: Icon(
+                        Icons.add,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

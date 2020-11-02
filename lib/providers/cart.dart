@@ -33,6 +33,40 @@ class Cart with ChangeNotifier {
     return total;
   }
 
+  String quantityCount(String subSubCategoryName) {
+    String quantity = '0';
+    _services.forEach((key, cardItem) {
+      if (cardItem.subSubCategoryName == subSubCategoryName) {
+        quantity = cardItem.quantity.toString();
+      }
+    });
+
+    return quantity;
+  }
+
+  void deleteService(
+    String serviceId,
+    String subCategoryName,
+    String subSubCategoryName,
+    int price,
+  ) {
+    if (quantityCount(subSubCategoryName) == '1') {
+      removeItem(serviceId);
+    } else if (quantityCount(subSubCategoryName) == '0') {
+    } else {
+      _services.update(
+          serviceId,
+          (existingCartService) => CartItem(
+                id: existingCartService.id,
+                subSubCategoryName: existingCartService.subSubCategoryName,
+                subCategoryName: existingCartService.subCategoryName,
+                price: existingCartService.price,
+                quantity: existingCartService.quantity - 1,
+              ));
+    }
+    notifyListeners();
+  }
+
   void addServices(
     String serviceId,
     String subCategoryName,
