@@ -13,11 +13,12 @@ class BuildGridCategory extends StatefulWidget {
 class _BuildGridCategoryState extends State<BuildGridCategory>
     with AutomaticKeepAliveClientMixin {
   final _categoriesStateRM = RM.get<CategoryState>();
-
+  bool _isLoading = false;
   @override
   void initState() {
     _categoriesStateRM
         .setState((categoryState) => categoryState.getAllCategories());
+    _isLoading = false;
     super.initState();
   }
 
@@ -41,48 +42,61 @@ class _BuildGridCategoryState extends State<BuildGridCategory>
             shrinkWrap: true,
             children: <Widget>[
               ...model.state.categories
-                  .map((category) => Column(children: <Widget>[
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        SubCategoriesPage(
-                                          categoryIndex: category.categoryId,
-                                          categoryName: category.categoryName,
-                                        )));
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white10,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Image.asset(
-                                  "${category.categoryImage}",
-                                  width: 50,
-                                ),
-                                SizedBox(
-                                  height: 16,
-                                ),
-                                Text(
-                                  "${category.categoryName}",
-                                  style: GoogleFonts.openSans(
-                                    textStyle: TextStyle(
-                                      color: Colors.black54,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                  .map((category) {
+                    _isLoading = true;
+                return Column(children: <Widget>[
+                  (!_isLoading) ? new Center(
+                    child: new SizedBox(
+                      height: 50.0,
+                      width: 50.0,
+                      child: new CircularProgressIndicator(
+                        value: null,
+                        strokeWidth: 7.0,
+                      ),
+                    ),
+                  )
+                      : InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  SubCategoriesPage(
+                                    categoryIndex: category.categoryId,
+                                    categoryName: category.categoryName,
+                                  )));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white10,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Image.asset(
+                            "${category.categoryImage}",
+                            width: 50,
+                          ),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          Text(
+                            "${category.categoryName}",
+                            style: GoogleFonts.openSans(
+                              textStyle: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
-                        )
-                      ]))
+                        ],
+                      ),
+                    ),
+                  )
+                ]);
+              })
             ],
           );
         },

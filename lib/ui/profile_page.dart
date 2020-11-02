@@ -1,12 +1,17 @@
 import 'dart:convert';
 
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:instantsewa/application/classes/errors/common_error.dart';
 import 'package:instantsewa/application/storage/localstorage.dart';
 import 'package:instantsewa/application/storage/storage_keys.dart';
 import 'package:instantsewa/router/route_constants.dart';
+import 'package:instantsewa/ui/Auth/login_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:states_rebuilder/states_rebuilder.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -19,7 +24,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String fullName;
   String phoneNumber;
   String address;
-
+  bool _isLoading = false;
   @override
   void initState() {
     _loadUserData();
@@ -37,6 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
         address = LocalStorage.getItem(ADDRESS);
         email = user['email'];
         phoneNumber = LocalStorage.getItem(PHONE);
+        _isLoading = true;
       });
     }
   }
@@ -67,7 +73,19 @@ class _ProfilePageState extends State<ProfilePage> {
           },
         ),
       ),
-      body: SingleChildScrollView(
+      body:
+      (!_isLoading) ?  new Center(
+        child: new SizedBox(
+          height: 50.0,
+          width: 50.0,
+          child: new CircularProgressIndicator(
+            value: null,
+            strokeWidth: 7.0,
+          ),
+        ),
+      )
+          :
+      SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Container(
@@ -176,12 +194,14 @@ class _ProfilePageState extends State<ProfilePage> {
                     color: _purple,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25.0)),
-                    onPressed: () {},
+                    onPressed: () {
+                      logout();
+                    },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 14.0, vertical: 12.0),
                       child: Text(
-                        'Sign Out',
+                        'LogOut',
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w500,
@@ -196,5 +216,32 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
+  }
+  void logout()
+  async
+  {
+    try{
+      var token = LocalStorage.getItem(TOKEN);
+      final response = await http.get("http://10.0.2.2:8000/auth/logout",headers:
+      {'Content-type' : 'application/json',
+      'Accept' : 'application/json',
+          'Authorization' : 'Bearer $token'});
+      if(response.statusCode==200) {
+        LocalStorage.deleteItem(TOKEN);
+        SharedPreferences localStorage = await SharedPreferences.getInstance();
+        await localStorage.remove('user');
+        LocalStorage.deleteItem(PHONE);
+        LocalStorage.deleteItem(FUllNAME);
+        LocalStorage.deleteItem(ADDRESS);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) =>LoginPage()));
+      }
+    }
+    on DioError catch(e)
+    {
+      showNetworkError(e);
+    }
   }
 }

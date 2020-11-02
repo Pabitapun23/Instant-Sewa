@@ -19,12 +19,13 @@ class _SubSubCategoryListState extends State<SubSubCategoryList>
     with AutomaticKeepAliveClientMixin {
   final String subCategoryName;
   final _servicesStateRM = RM.get<ServiceState>();
-
+  bool _isLoading;
   _SubSubCategoryListState(this.subCategoryName);
   @override
   void initState() {
     _servicesStateRM
         .setState((serviceState) => serviceState.getAllServices(widget.id));
+    _isLoading = false;
     super.initState();
   }
 
@@ -42,8 +43,21 @@ class _SubSubCategoryListState extends State<SubSubCategoryList>
             physics: ClampingScrollPhysics(),
             children: [
               ...model.state.services.map(
-                (service) => Column(
+                (service) {
+                  _isLoading = true;
+                  return Column(
                   children: [
+                    (!_isLoading) ? new Center(
+                      child: new SizedBox(
+                        height: 50.0,
+                        width: 50.0,
+                        child: new CircularProgressIndicator(
+                          value: null,
+                          strokeWidth: 7.0,
+                        ),
+                      ),
+                    )
+                        :
                     Container(
                       padding: EdgeInsets.only(top: 8.0),
                       height: 80,
@@ -95,7 +109,7 @@ class _SubSubCategoryListState extends State<SubSubCategoryList>
                       ),
                     ),
                   ],
-                ),
+                );}
               ),
             ],
           );

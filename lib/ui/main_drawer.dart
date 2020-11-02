@@ -12,9 +12,12 @@ class MainDrawer extends StatefulWidget {
 class _MainDrawerState extends State<MainDrawer> {
   String email;
   String userName;
+  bool _isLoading;
   @override
   void initState() {
+    _isLoading = false;
     _loadUserData();
+    _isLoading = true;
     super.initState();
   }
   _loadUserData() async{
@@ -33,6 +36,17 @@ class _MainDrawerState extends State<MainDrawer> {
     Color _purple = HexColor('#603f8b');
     return Drawer(
       child: ListView(children: <Widget>[
+        (!_isLoading) ? new Center(
+          child: new SizedBox(
+            height: 50.0,
+            width: 50.0,
+            child: new CircularProgressIndicator(
+              value: null,
+              strokeWidth: 7.0,
+            ),
+          ),
+        )
+            :
         UserAccountsDrawerHeader(
           decoration: BoxDecoration(color: _purple),
           accountName: Text(userName),
