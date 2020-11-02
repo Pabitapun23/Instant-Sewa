@@ -8,31 +8,39 @@ class SignUpFormModel {
   String password;
   String passwordConfirmation;
   String username;
-  void setUsername(String username) {
+  void setUsername(String username)
+  {
     this.username = username.allInCaps.capitalizeFirstofEach;
   }
-  void setEmail(String email) {
-    if (!validateEmail(email)) {
+  void setEmail(String email)
+  {
+    if (!validateEmail(email))
+    {
       throw CommonError(message: "Invalide Email");
     }
     this.email = email.allInCaps;
   }
-  void setPasswordConfirmation(String passwordConfirmation) {
-    if (password!=passwordConfirmation) {
+  void setPasswordConfirmation(String passwordConfirmation)
+  {
+    if (password!=passwordConfirmation)
+    {
       throw CommonError(message: "Password does not match");
     }
     this.passwordConfirmation = passwordConfirmation;
   }
 
 
-  void setPassword(String password) {
-    if (password.length < 6) {
+  void setPassword(String password)
+  {
+    if (password.length < 6)
+    {
       throw CommonError(message: "Password length should more than 6 chars");
     }
     this.password = password;
   }
 
-  bool validateData() {
+  bool validateData()
+  {
     return this.username!= null &&
       this.email != null &&
         this.password != null &&
@@ -42,7 +50,8 @@ class SignUpFormModel {
     ;
   }
 
-  bool validateEmail(String email) {
+  bool validateEmail(String email)
+  {
     return RegExp(
         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(email);
@@ -53,7 +62,8 @@ class SignUpFormModel {
   }
 
 }
-extension CapExtension on String {
+extension CapExtension on String
+{
   String get inCaps => '${this[0].toUpperCase()}${this.substring(1)}';
   String get allInCaps => this.toLowerCase();
   String get capitalizeFirstofEach => this.split(" ").map((str) => str.inCaps).join(" ");

@@ -11,7 +11,7 @@ class LogInFormModel {
     if (!validateEmail(email)) {
         throw CommonError(message: "Invalide Email");
     }
-    this.email = email.allInCaps.capitalizeFirstofEach;
+    this.email = email.allInCaps;
   }
 
   void setPassword(String password) {
