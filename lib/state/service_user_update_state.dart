@@ -15,10 +15,10 @@ class ServiceUserUpdateState
       return false;
     }
   }
-  Future<bool> updateFullName({String fullName})
+  Future<bool> updateFullName({String fullName,String gender})
   async
   {
-    if(await _serviceUserUpdateRepository.updateFullName(fullName: fullName)){
+    if(await _serviceUserUpdateRepository.updateFullName(fullName: fullName,gender: gender)){
       return true;
     }
     else{

@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class ServiceUserUpdateRepository
 {
-  Future<bool> updateFullName({@required String fullName});
+  Future<bool> updateFullName({@required String fullName,@required String gender});
   Future<bool> updateAddress({@required String address});
   Future<bool> updatePhone({@required String phoneNo});
 }
@@ -43,7 +43,7 @@ class ServiceUserUpdateRepositoryImpl implements ServiceUserUpdateRepository
   }
 
   @override
-  Future<bool> updateFullName({String fullName}) async
+  Future<bool> updateFullName({String fullName,String gender}) async
   {
     String id;
     SharedPreferences localStorage = await SharedPreferences.getInstance();
@@ -54,7 +54,8 @@ class ServiceUserUpdateRepositoryImpl implements ServiceUserUpdateRepository
       Response response = await InstantSewaAPI.dio
           .post("/fullnameUpdate", data: {
         "id": id,
-        "fullname": fullName
+        "fullname": fullName,
+        'gender': gender,
       }, options: Options(headers: {
         'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
       }));
