@@ -12,6 +12,7 @@ class UserInfoPage extends StatefulWidget {
 
 class _UserInfoPageState extends State<UserInfoPage> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
+  String dropdownValue = null;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -113,7 +114,42 @@ class _UserInfoPageState extends State<UserInfoPage> {
                                     ),
                                   );
                                 },
-                              )
+                              ),
+                              StateBuilder<FullNameUpdateModel>(
+                                builder: ( context,_fullNameUpdateModel){
+                                  return Container(
+                                    padding: EdgeInsets.all(2),
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        bottom: BorderSide(color: Colors.grey[200]),
+                                      ),
+                                    ),
+                                    child: DropdownButton<String>(
+                                      value: dropdownValue,
+                                      icon: Icon(Icons.arrow_downward),
+                                      iconSize: 24,
+                                      elevation: 16,
+                                      style: TextStyle(color: Colors.deepPurple),
+                                      underline: Container(
+                                        height: 2,
+                                        color: Colors.deepPurpleAccent,
+                                      ),
+                                      onChanged: (String newValue) {
+                                        setState(() {
+                                          dropdownValue = newValue;
+                                        });
+                                      },
+                                      items: <String>['Male','Female']
+                                          .map<DropdownMenuItem<String>>((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  );
+                                },
+                              ),
                             ],
                           ),
                         ),

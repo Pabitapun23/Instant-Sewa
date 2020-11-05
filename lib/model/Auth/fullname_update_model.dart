@@ -4,16 +4,19 @@ import 'package:states_rebuilder/states_rebuilder.dart';
 class FullNameUpdateModel {
   final ServiceUserUpdateState _serviceUserUpdateState = Injector.get<ServiceUserUpdateState>();
   String fullname;
+  String gender;
   void setFullName(String fullname) {
     this.fullname = fullname.allInCaps.capitalizeFirstofEach;
   }
+  void setGender(String gender) {
+    this.gender= gender;
+  }
   bool validateData() {
-    return this.fullname!= null
-    ;
+    return this.fullname!= null&& this.gender!=null;
   }
   Future<void> updateFullName() async
   {
-    await _serviceUserUpdateState.updateFullName(fullName: fullname);
+    await _serviceUserUpdateState.updateFullName(fullName: fullname,gender: gender);
   }
 
 }
