@@ -1,16 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:instantsewa/ui/schedule_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:search_map_place/search_map_place.dart';
 
 class AddressPage extends StatefulWidget {
-  //AddressPage({Key key}) : super(key: key);
-
   @override
   _AddressPageState createState() => _AddressPageState();
 }
 
 class _AddressPageState extends State<AddressPage> {
+  GoogleMapController _controller;
+  Position position;
+  Widget _child;
+  @override
+  void initState() {
+    _getCurrentLocation();
+    super.initState();
+  }
+
+  void _getCurrentLocation() async {
+    Position res = await Geolocator.getCurrentPosition();
+    setState(() {
+      position = res;
+      _child = _mapWidget();
+    });
+  }
+
+  Set<Marker> _createMarker(double latitude, double longitude) {
+    return <Marker>[
+      Marker(
+        markerId: MarkerId('home'),
+        position: LatLng(latitude, longitude),
+        icon: BitmapDescriptor.defaultMarker,
+        infoWindow: InfoWindow(title: 'My Current Location'),
+      )
+    ].toSet();
+  }
+
   Color _purple = HexColor('#603f8b');
+
+  Widget _mapWidget() {
+    return GoogleMap(
+      markers: _createMarker(position.latitude, position.longitude),
+      onMapCreated: (GoogleMapController googleMapController) {
+        setState(() {
+          _controller = googleMapController;
+        });
+      },
+      initialCameraPosition: CameraPosition(
+        zoom: 15.0,
+        target: LatLng(position.latitude, position.longitude),
+      ),
+      mapType: MapType.normal,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -42,7 +89,7 @@ class _AddressPageState extends State<AddressPage> {
               height: 5,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 50),
+              padding: EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -55,68 +102,27 @@ class _AddressPageState extends State<AddressPage> {
                         color: Color.fromRGBO(49, 39, 79, .6), fontSize: 17.0),
                   ),
                   SizedBox(
-                    height: 30,
+                    height: 20,
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color.fromRGBO(196, 135, 198, .3),
-                            blurRadius: 20,
-                            offset: Offset(0, 10),
-                          )
-                        ]),
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.grey[200]))),
-                          child: TextField(
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  prefixIcon: Icon(Icons.home),
-                                  labelText: "Address",
-                                  labelStyle: TextStyle(color: Colors.grey))),
-                        ),
-                      ],
-                    ),
+                  SearchMapPlaceWidget(
+                    placeholder: 'Enter your address',
+                    placeType: PlaceType.address,
+                    hasClearButton: true,
+                    apiKey: 'AIzaSyBUILBxCa5yyQZawAAOpD6HII48R3haimM',
+                    onSelected: (Place place) async {
+                      Geolocation geolocation = await place.geolocation;
+                      _controller.animateCamera(
+                        CameraUpdate.newLatLng(geolocation.coordinates),
+                      );
+                      _controller.animateCamera(
+                        CameraUpdate.newLatLngBounds(geolocation.bounds, 0),
+                      );
+                    },
                   ),
                   SizedBox(
-                    height: 30,
+                    height: 10,
                   ),
-                  Center(
-                    child: SizedBox(
-                      height: 45.0,
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      child: RaisedButton(
-                        color: _purple,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0)),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      SchedulePage()));
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15.0, vertical: 12.0),
-                          child: Text(
-                            'Next',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 17.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  SizedBox(height: 350.0, child: _mapWidget()),
                 ],
               ),
             )

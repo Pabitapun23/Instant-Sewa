@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:instantsewa/application/storage/localstorage.dart';
 import 'package:instantsewa/providers/cart.dart';
@@ -22,6 +23,7 @@ import 'package:instantsewa/state/service_state.dart';
 import 'package:instantsewa/state/service_user_update_state.dart';
 import 'package:instantsewa/state/sub_category_state.dart';
 import 'package:instantsewa/state/user_state.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 import 'application/storage/storage_keys.dart';
@@ -30,6 +32,15 @@ import 'ui/home_page.dart';
 void setup() {
   GetIt.instance
       .registerSingleton<ServiceProvidersService>(ServiceProvidersService());
+}
+
+Future<void> getPermission() async {
+  PermissionStatus permission =
+      await PermissionHandler().checkPermissionStatus(PermissionGroup.location);
+  if (permission == PermissionStatus.denied) {
+    await PermissionHandler()
+        .requestPermissions([PermissionGroup.locationAlways]);
+  }
 }
 
 void main() async {
@@ -53,7 +64,8 @@ class InstantSewa extends StatelessWidget {
             () => ServiceProviderState(ServiceProviderRepositoryImpl())),
         Inject<ServiceState>(() => ServiceState(ServiceRepositoryImpl())),
         Inject<FavouriteState>(() => FavouriteState(FavouriteRepositoryImpl())),
-        Inject<ServiceUserUpdateState>(() => ServiceUserUpdateState(ServiceUserUpdateRepositoryImpl())),
+        Inject<ServiceUserUpdateState>(
+            () => ServiceUserUpdateState(ServiceUserUpdateRepositoryImpl())),
       ],
       builder: (context) {
         return MultiProvider(
@@ -65,18 +77,18 @@ class InstantSewa extends StatelessWidget {
               create: (ctx) => Cart(),
             ),
           ],
-          child: MaterialApp (
+          child: MaterialApp(
             home: HomePage(),
             debugShowCheckedModeBanner: false,
             onGenerateRoute: Routers.onGenerateRoute,
             initialRoute: LocalStorage.getItem(TOKEN) != null
-                ?LocalStorage.getItem(FUllNAME) ==null
-            ?fullNameUpdateRoute
-            :LocalStorage.getItem(ADDRESS) ==null
-                ?phoneUpdateRoute
-                :LocalStorage.getItem(FUllNAME) ==null
-                ?addressUpdateRoute
-                :homeRoute
+                ? LocalStorage.getItem(FUllNAME) == null
+                    ? fullNameUpdateRoute
+                    : LocalStorage.getItem(ADDRESS) == null
+                        ? phoneUpdateRoute
+                        : LocalStorage.getItem(FUllNAME) == null
+                            ? addressUpdateRoute
+                            : homeRoute
                 : onBoardingRoute,
           ),
         );
