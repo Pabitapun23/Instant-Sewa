@@ -11,14 +11,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class ServiceUserUpdateRepository
 {
   Future<bool> updateFullName({@required String fullName,@required String gender});
-  Future<bool> updateAddress({@required String address});
+  Future<bool> updateAddress({@required String address,@required double latitude,@required double longitude});
   Future<bool> updatePhone({@required String phoneNo});
 }
 
 class ServiceUserUpdateRepositoryImpl implements ServiceUserUpdateRepository
 {
   @override
-  Future<bool> updateAddress({String address})
+  Future<bool> updateAddress({String address,double latitude,double longitude,})
   async
   {
     String id;
@@ -30,7 +30,9 @@ class ServiceUserUpdateRepositoryImpl implements ServiceUserUpdateRepository
       Response response = await InstantSewaAPI.dio
           .post("/addressUpdate", data: {
         "id": id,
-        "address": address
+        "address_address": address,
+        "latitude": latitude,
+        "address_longitude":longitude
       }, options: Options(headers: {
         'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
       }));

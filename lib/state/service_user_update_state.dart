@@ -4,10 +4,10 @@ class ServiceUserUpdateState
 {
   final ServiceUserUpdateRepository _serviceUserUpdateRepository;
   ServiceUserUpdateState(this._serviceUserUpdateRepository):assert(_serviceUserUpdateRepository!=null);
-  Future<bool> updateAddress({String address})
+  Future<bool> updateAddress({String address,double latitude,double longitude})
   async
   {
-    if(await _serviceUserUpdateRepository.updateAddress(address: address))
+    if(await _serviceUserUpdateRepository.updateAddress(address: address,latitude:latitude,longitude: longitude))
       {
         return true;
       }
