@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:instantsewa/model/Auth/address_update_model.dart';
 import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/ui/user_image_page.dart';
 import 'package:instantsewa/widgets/show_snackbar.dart';
+import 'package:search_map_place/search_map_place.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
 class UserAddressPage extends StatefulWidget {
@@ -12,6 +15,50 @@ class UserAddressPage extends StatefulWidget {
 
 class _UserAddressPageState extends State<UserAddressPage> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
+  GoogleMapController _controller;
+  Position position;
+  Widget _child;
+  @override
+  void initState() {
+    _getCurrentLocation();
+    super.initState();
+  }
+
+  void _getCurrentLocation() async {
+    Position res = await Geolocator.getCurrentPosition();
+    setState(() {
+      position = res;
+      _child = _mapWidget();
+    });
+  }
+
+  Set<Marker> _createMarker() {
+    return <Marker>[
+      Marker(
+        markerId: MarkerId('home'),
+        position: LatLng(position.latitude, position.longitude),
+        icon: BitmapDescriptor.defaultMarker,
+        infoWindow: InfoWindow(title: 'My Current Location'),
+      )
+    ].toSet();
+  }
+  Widget _mapWidget() {
+    return GoogleMap(
+      myLocationEnabled: true,
+      markers: _createMarker(),
+      onMapCreated: (GoogleMapController googleMapController) {
+        setState(() {
+          _controller = googleMapController;
+        });
+      },
+      initialCameraPosition: CameraPosition(
+        zoom: 15.0,
+        target: LatLng(position.latitude, position.longitude),
+      ),
+      mapType: MapType.normal,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -19,9 +66,8 @@ class _UserAddressPageState extends State<UserAddressPage> {
       key: _key,
       backgroundColor: Colors.white,
       body: Injector(
-        inject: [Inject<AddressUpdateModel>(()=>AddressUpdateModel())],
-        builder: (context)
-        {
+        inject: [Inject<AddressUpdateModel>(() => AddressUpdateModel())],
+        builder: (context) {
           final _addressUpdateModel = RM.get<AddressUpdateModel>();
           return SafeArea(
             child: ListView(
@@ -78,28 +124,53 @@ class _UserAddressPageState extends State<UserAddressPage> {
                           child: Column(
                             children: <Widget>[
                               StateBuilder(
-                           observe: ()=>_addressUpdateModel,
-                           builder: (_,model){
-                             return TextFormField(
-                               onChanged: (String address){
-                                 _addressUpdateModel.setState((state) => state.setAddress(address),
-                                     catchError: true);
-                               },
-                               decoration: InputDecoration(
-                                 errorText:
-                                 _addressUpdateModel
-                                     .hasError
-                                     ? _addressUpdateModel
-                                     .error.message
-                                     : null,
-                                 border: InputBorder.none,
-                                 prefixIcon: Icon(Icons.place),
-                                 labelText: "Address",
-                                 labelStyle: TextStyle(color: Colors.grey),
-                               ),
-                             );
-                           },
-                          ),
+                                observe: () => _addressUpdateModel,
+                                builder: (_, model) {
+                                  return TextFormField(
+                                    onChanged: (String address) {
+                                      _addressUpdateModel.setState(
+                                          (state) => state.setAddress(address),
+                                          catchError: true);
+                                    },
+                                    decoration: InputDecoration(
+                                      errorText: _addressUpdateModel.hasError
+                                          ? _addressUpdateModel.error.message
+                                          : null,
+                                      border: InputBorder.none,
+                                      prefixIcon: Icon(Icons.place),
+                                      labelText: "Address",
+                                      labelStyle: TextStyle(color: Colors.grey),
+                                    ),
+                                  );
+                                },
+                              ),
+                              StateBuilder(
+                                  observe: () => _addressUpdateModel,
+                                  builder: (_, model){
+                                    return SearchMapPlaceWidget(
+                                      placeholder: 'Enter your address',
+                                      placeType: PlaceType.address,
+                                      hasClearButton: true,
+                                      apiKey: 'AIzaSyBUILBxCa5yyQZawAAOpD6HII48R3haimM',
+                                      onSelected: (Place place) async {
+                                        Geolocation geolocation = await place.geolocation;
+                                        _controller.animateCamera(
+                                          CameraUpdate.newLatLng(geolocation.coordinates),
+                                        );
+                                        _controller.animateCamera(
+                                          CameraUpdate.newLatLngBounds(geolocation.bounds, 0),
+                                        );
+                                       _addressUpdateModel.setState(
+                                                 (state) => state.setLatLang(geolocation),
+                                           catchError: true);
+                                      },
+                                    );
+                                  }
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              SizedBox(height: 350.0, child: _mapWidget()),
                             ],
                           ),
                         ),
@@ -108,8 +179,8 @@ class _UserAddressPageState extends State<UserAddressPage> {
                         height: 30,
                       ),
                       StateBuilder(
-                        observe: ()=>_addressUpdateModel,
-                        builder: (_,model){
+                        observe: () => _addressUpdateModel,
+                        builder: (_, model) {
                           return Container(
                             height: 50,
                             margin: EdgeInsets.symmetric(horizontal: 80),
@@ -126,14 +197,13 @@ class _UserAddressPageState extends State<UserAddressPage> {
                                         key: _key,
                                         color: Colors.red,
                                         message:
-                                        "Data is invalid,please fill before submitting the form");
+                                            "Data is invalid,please fill before submitting the form");
                                   } else {
                                     _addressUpdateModel.setState(
-                                            (addressState) async {
-                                          await addressState.updateAddress();
-                                          Navigator.pushNamed(
-                                              context, homeRoute);
-                                        },
+                                        (addressState) async {
+                                      await addressState.updateAddress();
+                                      Navigator.pushNamed(context, homeRoute);
+                                    },
                                         onError: (context, error) =>
                                             showSnackBar(
                                                 key: _key,

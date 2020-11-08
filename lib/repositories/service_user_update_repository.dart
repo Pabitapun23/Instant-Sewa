@@ -29,14 +29,16 @@ class ServiceUserUpdateRepositoryImpl implements ServiceUserUpdateRepository
       Dio dio = new Dio();
       Response response = await InstantSewaAPI.dio
           .post("/addressUpdate", data: {
-        "id": id,
+        "service_user_id": id,
         "address_address": address,
-        "latitude": latitude,
+        "address_latitude": latitude,
         "address_longitude":longitude
       }, options: Options(headers: {
         'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
       }));
-      await LocalStorage.setItem(ADDRESS,address);
+      await LocalStorage.setItem(ADDRESS_ADDRESS,address);
+      await LocalStorage.setItem(ADDRESS_LATITUDE, latitude.toString());
+      await LocalStorage.setItem(ADDRESS_LONGITUDE,longitude.toString());
       return true;
     } on DioError catch (e) {
       showNetworkError(e);

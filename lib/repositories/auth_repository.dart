@@ -41,10 +41,12 @@ class AuthRepositoryImpl implements AuthRepository {
       await localStorage.setString('user', json.encode(response.data['user']));
       var user = jsonDecode(localStorage.getString('user'));
       await LocalStorage.setItem(TOKEN, accessToken);
-      if(user['address'] != null){
+      if(user['address_address'] != null){
         await LocalStorage.setItem(FUllNAME,user['fullname']);
           await LocalStorage.setItem(PHONE,user['phoneno']);
-        await LocalStorage.setItem(ADDRESS,user['address']);
+        await LocalStorage.setItem(ADDRESS_ADDRESS,user['address_address']);
+        await LocalStorage.setItem(ADDRESS_LATITUDE,user['address_latitude'].toString());
+        await LocalStorage.setItem(ADDRESS_LONGITUDE,user['address_longitude'].toString());
         Navigator.pushNamed(RM.context, homeRoute);
       }
       else if(user['phoneno'] != null)

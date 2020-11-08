@@ -39,7 +39,7 @@ class _ProfilePageState extends State<ProfilePage> {
       setState(() {
         userName = user['username'];
         fullName = LocalStorage.getItem(FUllNAME);
-        address = LocalStorage.getItem(ADDRESS);
+        address = LocalStorage.getItem(ADDRESS_ADDRESS);
         email = user['email'];
         phoneNumber = LocalStorage.getItem(PHONE);
         _isLoading = true;
@@ -232,7 +232,7 @@ class _ProfilePageState extends State<ProfilePage> {
         await localStorage.remove('user');
         LocalStorage.deleteItem(PHONE);
         LocalStorage.deleteItem(FUllNAME);
-        LocalStorage.deleteItem(ADDRESS);
+        LocalStorage.deleteItem(ADDRESS_ADDRESS);
         Navigator.push(
             context,
             MaterialPageRoute(

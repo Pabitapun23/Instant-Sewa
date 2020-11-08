@@ -84,9 +84,9 @@ class InstantSewa extends StatelessWidget {
             initialRoute: LocalStorage.getItem(TOKEN) != null
                 ? LocalStorage.getItem(FUllNAME) == null
                     ? fullNameUpdateRoute
-                    : LocalStorage.getItem(ADDRESS) == null
+                    : LocalStorage.getItem(PHONE) == null
                         ? phoneUpdateRoute
-                        : LocalStorage.getItem(FUllNAME) == null
+                        : LocalStorage.getItem(ADDRESS_ADDRESS) == null
                             ? addressUpdateRoute
                             : homeRoute
                 : onBoardingRoute,

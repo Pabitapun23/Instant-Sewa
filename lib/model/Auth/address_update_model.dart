@@ -1,5 +1,6 @@
-import 'package:geolocator/geolocator.dart';
+
 import 'package:instantsewa/state/service_user_update_state.dart';
+import 'package:search_map_place/search_map_place.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
 class AddressUpdateModel {
@@ -9,10 +10,10 @@ class AddressUpdateModel {
   void setAddress(String address) {
     this.address = address;
   }
-  void setLatLang(Position latLang )
+  void setLatLang(Geolocation geolocation )
   {
-   this.longitude = latLang.longitude;
-   this.latitude = latLang.latitude;
+   this.longitude = geolocation.coordinates.longitude;
+   this.latitude = geolocation.coordinates.latitude;
   }
   bool validateData() {
     return this.address!= null && this.latitude != null &&this.longitude!= null;
