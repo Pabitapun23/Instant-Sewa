@@ -230,7 +230,7 @@ class _SignupPageState extends State<SignupPage> {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 14.0, vertical: 12.0),
                                       child: Text(
-                                        'Sign In',
+                                        'Register',
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w500,

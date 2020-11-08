@@ -135,8 +135,10 @@ class _UserInfoPageState extends State<UserInfoPage> {
                                         color: Colors.deepPurpleAccent,
                                       ),
                                       onChanged: (String newValue) {
+                                        _fullNameUpdateModel.setState((state) => state.setGender(newValue));
                                         setState(() {
                                           dropdownValue = newValue;
+
                                         });
                                       },
                                       items: <String>['Male','Female']
