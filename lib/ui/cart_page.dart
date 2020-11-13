@@ -5,6 +5,7 @@ import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/ui/address_page.dart';
 import 'package:instantsewa/ui/categories_list_page.dart';
 import 'package:instantsewa/ui/home_page.dart';
+import 'package:instantsewa/ui/schedule_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:provider/provider.dart';
 import '../widgets/cart_item.dart';
@@ -103,11 +104,47 @@ class CartPage extends StatelessWidget {
                           },
                         );
                       } else {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    AddressPage()));
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                                title: Text(
+                                  'Confirm your Address',
+                                  style: TextStyle(color: _purple),
+                                ),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    FlatButton(
+                                      onPressed: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              SchedulePage(),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        "Home address",
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                    ),
+                                    FlatButton(
+                                      onPressed: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              AddressPage(),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        "Others",
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                    ),
+                                  ],
+                                ));
+                          },
+                        );
                       }
                     },
                   )
