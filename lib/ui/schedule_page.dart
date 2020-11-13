@@ -101,7 +101,7 @@ class _SchedulePageState extends State<SchedulePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _dateController.text = DateFormat.yMd().format(DateTime.now());
+    _dateController.text = DateFormat('dd/MM/yyyy').format(DateTime.now());
 
     _timeController.text = formatDate(
         DateTime(2020, 11, 11, DateTime.now().hour, DateTime.now().minute),
@@ -117,7 +117,7 @@ class _SchedulePageState extends State<SchedulePage> {
     final GlobalKey<ScaffoldState> _key = GlobalKey();
     _height = MediaQuery.of(context).size.height;
     _width = MediaQuery.of(context).size.width;
-    dateTime = DateFormat.yMd().format(DateTime.now());
+    dateTime = DateFormat('dd/MM/yyyy').format(DateTime.now());
     return Scaffold(
       key: _key,
       appBar: AppBar(
@@ -173,7 +173,7 @@ class _SchedulePageState extends State<SchedulePage> {
                           setState(() {
                             selectedDate = picked;
                             _dateController.text =
-                                DateFormat.yMd().format(selectedDate);
+                                DateFormat('dd/MM/yyyy').format(selectedDate);
                             _updateDateTimeModel
                               ..setState((state) =>
                                   state.setDate(_dateController.text));
