@@ -19,5 +19,5 @@ class User {
         email = jsonMap['email'],
         phoneNumber = jsonMap['phoneno'],
         rating = jsonMap['rate'],
-        job = jsonMap['occupation'][0];
+        job = jsonMap['occupation'];
 }
