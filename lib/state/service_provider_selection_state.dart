@@ -10,15 +10,15 @@ class ServiceProviderSelectionState
   List<UserByDistance> get providers => _users;
   // ignore: non_constant_identifier_names
   Future getServiceProviderInformationByDistance({
-    String subCategoryId,
-    double latitude,
-    double longitude,
+    String subCategoryName,
+    String latitude,
+    String longitude,
     DateTime startTime,
     DateTime endTime
   }) async
   {
     await _serviceProviderSelectionRepository.getServiceProviderInformationByDistance(
-      subCategoryId: subCategoryId,
+      subCategoryName: subCategoryName,
       latitude: latitude,
       longitude: longitude,
       startTime: startTime,

@@ -10,9 +10,9 @@ import 'package:instantsewa/application/storage/localstorage.dart';
 import 'package:instantsewa/application/storage/storage_keys.dart';
 abstract class ServiceProviderSelectionRepository {
   Future<List<UserByDistance>> getServiceProviderInformationByDistance({
-    @required String subCategoryId,
-    @required double latitude,
-    @required double longitude,
+    @required String subCategoryName,
+    @required String latitude,
+    @required String longitude,
     @required DateTime startTime,
     @required DateTime endTime,
   });
@@ -20,17 +20,17 @@ abstract class ServiceProviderSelectionRepository {
 class ServiceProviderSelectionRepositoryImpl implements ServiceProviderSelectionRepository {
   @override
   Future<List<UserByDistance>> getServiceProviderInformationByDistance({
-    String subCategoryId,
-    double latitude,
-    double longitude,
+    String subCategoryName,
+    String latitude,
+    String longitude,
     DateTime startTime,
-    DateTime endTime
+    DateTime endTime,
   }) async{
 
       try {
         Response response = await InstantSewaAPI.dio
             .post("/favourite", data: {
-          "subcategories_id": subCategoryId,
+          "subcategories_name": subCategoryName,
           "serviceusers_latitude": latitude,
           "serviceusers_longitude":longitude,
           "startDate":startTime,
