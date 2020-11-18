@@ -7,6 +7,10 @@ import 'package:instantsewa/ui/service_provider_details_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
 
 class ServiceProviderSelection extends StatefulWidget {
+  final String subCategoryName,latitude, longitude;
+  final DateTime startDate, endDate;
+
+  const ServiceProviderSelection({Key key, this.subCategoryName, this.latitude, this.longitude, this.startDate, this.endDate}) : super(key: key);
   @override
   _ServiceProviderSelectionState createState() =>
       _ServiceProviderSelectionState();

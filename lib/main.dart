@@ -8,6 +8,7 @@ import 'package:instantsewa/repositories/auth_repository.dart';
 import 'package:instantsewa/repositories/category_repository.dart';
 import 'package:instantsewa/repositories/favourite_repository.dart';
 import 'package:instantsewa/repositories/service_provider_repository.dart';
+import 'package:instantsewa/repositories/service_provider_selection_repository.dart';
 import 'package:instantsewa/repositories/service_repository.dart';
 import 'package:instantsewa/repositories/service_user_update_repository.dart';
 import 'package:instantsewa/repositories/sub_category_repository.dart';
@@ -18,6 +19,7 @@ import 'package:instantsewa/services/service_providers_service.dart';
 import 'package:instantsewa/state/auth_state.dart';
 import 'package:instantsewa/state/category_state.dart';
 import 'package:instantsewa/state/favourite_state.dart';
+import 'package:instantsewa/state/service_provider_selection_state.dart';
 import 'package:instantsewa/state/service_provider_state.dart';
 import 'package:instantsewa/state/service_state.dart';
 import 'package:instantsewa/state/service_user_update_state.dart';
@@ -66,6 +68,8 @@ class InstantSewa extends StatelessWidget {
         Inject<FavouriteState>(() => FavouriteState(FavouriteRepositoryImpl())),
         Inject<ServiceUserUpdateState>(
             () => ServiceUserUpdateState(ServiceUserUpdateRepositoryImpl())),
+        Inject<ServiceProviderSelectionState>(
+                () => ServiceProviderSelectionState(ServiceProviderSelectionRepositoryImpl())),
       ],
       builder: (context) {
         return MultiProvider(

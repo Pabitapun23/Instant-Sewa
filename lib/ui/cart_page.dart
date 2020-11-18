@@ -8,6 +8,11 @@ import 'package:instantsewa/ui/home_page.dart';
 import 'package:instantsewa/ui/schedule_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:provider/provider.dart';
+import '../application/storage/localstorage.dart';
+import '../application/storage/localstorage.dart';
+import '../application/storage/storage_keys.dart';
+import '../application/storage/storage_keys.dart';
+import '../application/storage/storage_keys.dart';
 import '../widgets/cart_item.dart';
 
 class CartPage extends StatelessWidget {
@@ -120,7 +125,10 @@ class CartPage extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                           builder: (BuildContext context) =>
-                                              SchedulePage(),
+                                              SchedulePage(subCategoryName:cart.services.values.toList()[0].subCategoryName ,
+                                                latitude: LocalStorage.getItem(ADDRESS_LATITUDE),
+                                                longitude: LocalStorage.getItem(ADDRESS_LONGITUDE),
+                                              ),
                                         ),
                                       ),
                                       child: Text(
