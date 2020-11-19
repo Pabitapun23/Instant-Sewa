@@ -50,7 +50,7 @@ class ServiceUserDateAndTimeModel {
     print(this.subCategory);
   }
 
-void setEndTime(String time) {
+  void setEndTime(String time) {
     DateTime timer = new DateFormat.jms().parse(time);
     if (this.date == null) {
       this.date = new DateFormat('yyyy/MM/dd')
@@ -66,25 +66,24 @@ void setEndTime(String time) {
   }
 
   bool validateData() {
-    return this.longitude!= null &&
+    return this.longitude != null &&
         this.latitude != null &&
         this.startDate != null &&
         this.endDate != null &&
-        this.subCategory!=null
-    ;
+        this.subCategory != null;
   }
+
   Future<void> sendData() async {
-    if(!validateData())
-      {
-        Navigator.push(RM.context,
-            MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    ServiceProviderSelection(
-                      subCategoryName:this.subCategory,
-                      latitude: this.latitude,
-                      longitude: this.longitude,
-                    )));
-      }
+    if (!validateData()) {
+      Navigator.push(
+          RM.context,
+          MaterialPageRoute(
+              builder: (BuildContext context) => ServiceProviderSelection(
+                    subCategoryName: this.subCategory,
+                    latitude: this.latitude,
+                    longitude: this.longitude,
+                  )));
+    }
   }
 }
 
