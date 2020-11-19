@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:instantsewa/application/storage/localstorage.dart';
 import 'package:instantsewa/providers/cart.dart';

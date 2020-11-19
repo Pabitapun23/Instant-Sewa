@@ -13,8 +13,8 @@ class ServiceProviderSelectionState
     String subCategoryName,
     String latitude,
     String longitude,
-    DateTime startTime,
-    DateTime endTime
+    String startTime,
+    String endTime
   }) async
   {
     await _serviceProviderSelectionRepository.getServiceProviderInformationByDistance(

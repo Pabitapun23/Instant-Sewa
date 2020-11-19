@@ -216,7 +216,8 @@ class _SchedulePageState extends State<SchedulePage> {
                                         .toString();
                                   });
                                 _serviceUserDateAndTimeModel.setState((state) =>
-                                    state.setStartTime(_timeController.text));
+                                    state.setStartTime(time:_timeController.text,subCategory: widget.subCategoryName
+                                    ,latitude: widget.latitude,longitude: widget.longitude));
                               },
                               child: Container(
                                 width: _width / 2,
@@ -333,16 +334,7 @@ class _SchedulePageState extends State<SchedulePage> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(25.0)),
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        ServiceProviderSelection(
-                                          subCategoryName:
-                                              widget.subCategoryName,
-                                          longitude: widget.longitude,
-                                          latitude: widget.latitude,
-                                        )));
+
                           },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(

@@ -3,30 +3,47 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:instantsewa/model/provider_model.dart';
 import 'package:instantsewa/services/service_providers_service.dart';
+import 'package:instantsewa/state/service_provider_selection_state.dart';
 import 'package:instantsewa/ui/service_provider_details_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
+import 'package:states_rebuilder/states_rebuilder.dart';
 
 class ServiceProviderSelection extends StatefulWidget {
   final String subCategoryName,latitude, longitude;
   final DateTime startDate, endDate;
 
-  const ServiceProviderSelection({Key key, this.subCategoryName, this.latitude, this.longitude, this.startDate, this.endDate}) : super(key: key);
+  const ServiceProviderSelection({Key key,
+    this.subCategoryName,
+    this.latitude, this.longitude,
+    this.startDate,
+    this.endDate}) : super(key: key);
   @override
   _ServiceProviderSelectionState createState() =>
       _ServiceProviderSelectionState();
 }
 
-class _ServiceProviderSelectionState extends State<ServiceProviderSelection> {
+class _ServiceProviderSelectionState extends State<ServiceProviderSelection>  with AutomaticKeepAliveClientMixin {
   Color _purple = HexColor('#603f8b');
   var provider = GetIt.instance<ServiceProvidersService>();
+  final _serviceProviderSelectionState = RM.get<ServiceProviderSelectionState>();
+  bool _isLoading = false;
   List<Provider> items = [];
   @override
   void initState() {
+    _serviceProviderSelectionState.setState((serviceProviderState) => serviceProviderState.getServiceProviderInformationByDistance(
+      subCategoryName: 'Switch and Socket',
+      latitude: '28.18663400',
+      longitude: '83.97517200',
+      startTime: '2020-11-09 22:45:00',
+      endTime: '2020-11-09 23:45:00',
+    ));
+    _isLoading = false;
     items = provider.addProvider();
     super.initState();
   }
 
   Widget build(BuildContext context) {
+    super.build(context);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -187,4 +204,8 @@ class _ServiceProviderSelectionState extends State<ServiceProviderSelection> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

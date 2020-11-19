@@ -13,8 +13,8 @@ abstract class ServiceProviderSelectionRepository {
     @required String subCategoryName,
     @required String latitude,
     @required String longitude,
-    @required DateTime startTime,
-    @required DateTime endTime,
+    @required String startTime,
+      @required String endTime,
   });
 }
 class ServiceProviderSelectionRepositoryImpl implements ServiceProviderSelectionRepository {
@@ -23,8 +23,8 @@ class ServiceProviderSelectionRepositoryImpl implements ServiceProviderSelection
     String subCategoryName,
     String latitude,
     String longitude,
-    DateTime startTime,
-    DateTime endTime,
+    String startTime,
+    String endTime,
   }) async{
 
       try {
