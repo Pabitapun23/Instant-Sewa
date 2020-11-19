@@ -10,7 +10,7 @@ import 'package:instantsewa/router/route_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
-abstract class AuthRepository {
+abstract class BookingRepository {
 
 
   Future bookServiceProvider({
@@ -26,7 +26,7 @@ abstract class AuthRepository {
   });
 }
 
-class AuthRepositoryImpl implements AuthRepository {
+class BookingRepositoryImpl implements BookingRepository {
   @override
   Future bookServiceProvider({
     String serviceId,
