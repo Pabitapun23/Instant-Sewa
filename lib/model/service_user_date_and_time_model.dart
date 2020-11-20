@@ -12,6 +12,8 @@ class ServiceUserDateAndTimeModel {
   String subCategory;
   String latitude;
   String longitude;
+  String address;
+  List<String> cartList;
   DateTime now = DateTime.now();
 
   void setDate(String date) {
@@ -31,22 +33,26 @@ class ServiceUserDateAndTimeModel {
     String subCategory,
     String latitude,
     String longitude,
+    String address,
+    List<String> cartList,
   }) {
     DateTime timer = new DateFormat.jms().parse(time);
-     if (this.date == null) {
-       this.date = new DateFormat('yyyy/MM/dd')
+    if (this.date == null) {
+      this.date = new DateFormat('yyyy/MM/dd')
           .parse(new DateFormat('yyyy/MM/dd').format(DateTime.now()));
-     }
-     DateTime starter;
-     starter =
-         this.date.add(new Duration(hours: timer.hour, minutes: timer.minute));
-     if (this.now.difference(starter).inMinutes > 0) {
-       throw CommonError(message: "Invalide Email");
-     }
-     this.startDate = starter;
-     this.subCategory = subCategory;
-     this.latitude = latitude;
-     this.longitude = longitude;
+    }
+    DateTime starter;
+    starter =
+        this.date.add(new Duration(hours: timer.hour, minutes: timer.minute));
+    if (this.now.difference(starter).inMinutes > 0) {
+      throw CommonError(message: "Invalide Email");
+    }
+    this.startDate = starter;
+    this.subCategory = subCategory;
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.cartList = cartList;
+    this.address = address;
   }
 
   void setEndTime(String time) {
@@ -65,30 +71,33 @@ class ServiceUserDateAndTimeModel {
   }
 
   bool validateData() {
-    return this.longitude!= null &&
+    return this.longitude != null &&
         this.latitude != null &&
         this.startDate != null &&
         this.endDate != null &&
-        this.subCategory!=null
-    ;
+        this.subCategory != null &&
+        this.cartList != null &&
+        this.address != null;
   }
-  Future<void> sendData() async {
-    if(validateData())
-    {
 
-      Navigator.push(RM.context,
-          MaterialPageRoute(
-              builder: (BuildContext context) =>
-                  ServiceProviderSelection(
-                    subCategoryName:this.subCategory,
-                    latitude: this.latitude,
-                    longitude: this.longitude,
-                    startDate: this.startDate.toString(),
-                    endDate: this.endDate.toString(),
-                  )));
-    }
-    else{
-      print(this.subCategory);
+  Future<void> sendData() async {
+    if (validateData()) {
+      Navigator.push(
+        RM.context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => ServiceProviderSelection(
+            subCategoryName: this.subCategory,
+            latitude: this.latitude,
+            longitude: this.longitude,
+            startDate: this.startDate.toString(),
+            endDate: this.endDate.toString(),
+            cartList: this.cartList,
+            address: this.address,
+          ),
+        ),
+      );
+    } else {
+      print(this.cartList);
     }
   }
 }
@@ -96,13 +105,13 @@ class ServiceUserDateAndTimeModel {
 extension MyDateUtils on DateTime {
   DateTime copyWith(
       {int year,
-        int month,
-        int day,
-        int hour,
-        int minute,
-        int second,
-        int millisecond,
-        int microsecond}) {
+      int month,
+      int day,
+      int hour,
+      int minute,
+      int second,
+      int millisecond,
+      int microsecond}) {
     return DateTime(
       year ?? this.year,
       month ?? this.month,

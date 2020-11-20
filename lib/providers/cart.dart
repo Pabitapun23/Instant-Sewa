@@ -103,4 +103,15 @@ class Cart with ChangeNotifier {
     _services.remove(serviceId);
     notifyListeners();
   }
+
+  List<String> getId(String subCategoryName) {
+    List<String> cartList = [];
+    _services.forEach((key, cardItem) {
+      if (cardItem.subCategoryName == subCategoryName) {
+        cartList.add(cardItem.id);
+      }
+    });
+
+    return cartList;
+  }
 }

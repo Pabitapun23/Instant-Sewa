@@ -4,12 +4,19 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:instantsewa/model/provider_model.dart';
 import 'package:instantsewa/services/service_providers_service.dart';
 import 'package:instantsewa/state/service_provider_selection_state.dart';
+import 'package:instantsewa/ui/booking_page.dart';
 import 'package:instantsewa/ui/service_provider_details_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
 class ServiceProviderSelection extends StatefulWidget {
-  final String subCategoryName, latitude, longitude, startDate, endDate;
+  final String subCategoryName,
+      latitude,
+      longitude,
+      startDate,
+      endDate,
+      address;
+  final List<String> cartList;
 
   const ServiceProviderSelection(
       {Key key,
@@ -17,7 +24,9 @@ class ServiceProviderSelection extends StatefulWidget {
       this.latitude,
       this.longitude,
       this.startDate,
-      this.endDate})
+      this.endDate,
+      this.cartList,
+      this.address})
       : super(key: key);
 
   @override
@@ -84,8 +93,7 @@ class _ServiceProviderSelectionState extends State<ServiceProviderSelection>
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                ServiceProviderDetailsPage(
+                            builder: (BuildContext context) => BookingPage(
                                   index: index.toString(),
                                 )));
                   },
@@ -161,12 +169,20 @@ class _ServiceProviderSelectionState extends State<ServiceProviderSelection>
                             GestureDetector(
                               onTap: () {
                                 Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            ServiceProviderDetailsPage(
-                                              index: serviceProvider.id,
-                                            )));
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        BookingPage(
+                                      index: serviceProvider.id,
+                                      address: widget.address,
+                                      latitude: widget.latitude,
+                                      longitude: widget.longitude,
+                                      cartList: widget.cartList,
+                                      endDate: widget.endDate,
+                                      startDate: widget.startDate,
+                                    ),
+                                  ),
+                                );
                               },
                               child: Container(
                                 height:

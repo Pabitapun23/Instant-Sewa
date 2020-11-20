@@ -11,10 +11,16 @@ import '../model/service_user_date_and_time_model.dart';
 
 // ignore: must_be_immutable
 class SchedulePage extends StatefulWidget {
-  final String subCategoryName, latitude, longitude;
+  final String subCategoryName, latitude, longitude, address;
+  final List<String> cartList;
 
   const SchedulePage(
-      {Key key, this.subCategoryName, this.latitude, this.longitude})
+      {Key key,
+      this.subCategoryName,
+      this.latitude,
+      this.longitude,
+      this.cartList,
+      this.address})
       : super(key: key);
 
   @override
@@ -216,11 +222,15 @@ class _SchedulePageState extends State<SchedulePage> {
                                             [hh, ':', nn, ':', ss, " ", am])
                                         .toString();
                                   });
-                                _serviceUserDateAndTimeModel.setState((state) =>
-                                    state.setStartTime(time:_timeController.text,
-                                        subCategory: widget.subCategoryName,
-                                    latitude: widget.latitude,
-                                    longitude: widget.longitude));
+                                _serviceUserDateAndTimeModel.setState(
+                                  (state) => state.setStartTime(
+                                      time: _timeController.text,
+                                      subCategory: widget.subCategoryName,
+                                      latitude: widget.latitude,
+                                      longitude: widget.longitude,
+                                      cartList: widget.cartList,
+                                      address: widget.address),
+                                );
                               },
                               child: Container(
                                 width: _width / 2,
@@ -330,7 +340,7 @@ class _SchedulePageState extends State<SchedulePage> {
                     ),
                     StateBuilder(
                         observe: () => _serviceUserDateAndTimeModel,
-                        builder: (_, model){
+                        builder: (_, model) {
                           return Center(
                             child: SizedBox(
                               width: MediaQuery.of(context).size.width * 0.4,
@@ -341,14 +351,13 @@ class _SchedulePageState extends State<SchedulePage> {
                                     borderRadius: BorderRadius.circular(25.0)),
                                 onPressed: () {
                                   _serviceUserDateAndTimeModel.setState(
-                                          (addressState) async {
-                                        await addressState.sendData();
-                                      },
-                                      onError: (context, error) =>
-                                          showSnackBar(
-                                              key: _key,
-                                              color: Colors.red,
-                                              message: "{$error.message}"));
+                                      (addressState) async {
+                                    await addressState.sendData();
+                                  },
+                                      onError: (context, error) => showSnackBar(
+                                          key: _key,
+                                          color: Colors.red,
+                                          message: "{$error.message}"));
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -364,8 +373,7 @@ class _SchedulePageState extends State<SchedulePage> {
                               ),
                             ),
                           );
-                        }
-                    ),
+                        }),
                   ],
                 ),
               ),
