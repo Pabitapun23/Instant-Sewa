@@ -114,4 +114,15 @@ class Cart with ChangeNotifier {
 
     return cartList;
   }
+
+  String getServiceName(String id) {
+    String service;
+    _services.forEach((key, cardItem) {
+      if (cardItem.id == id) {
+        service = cardItem.subSubCategoryName;
+      }
+    });
+
+    return service;
+  }
 }

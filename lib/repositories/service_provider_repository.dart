@@ -7,7 +7,10 @@ import 'package:instantsewa/application/classes/errors/common_error.dart';
 import 'package:instantsewa/application/classes/user/user.dart';
 import 'package:instantsewa/application/storage/localstorage.dart';
 import 'package:instantsewa/application/storage/storage_keys.dart';
+import 'package:instantsewa/providers/cart.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:states_rebuilder/states_rebuilder.dart';
 
 abstract class ServiceProviderRepository {
   Future<List<User>> getServiceProviderInformation();
@@ -16,17 +19,18 @@ abstract class ServiceProviderRepository {
   Future<bool> getFavouriteServiceProvider(
       {@required String service_provider_id});
   Future bookServiceProvider({
-    @required String serviceId,
+    @required List<String> cartId,
     @required String latitude,
     @required String longitude,
     @required String address,
     @required String serviceProviderId,
-    @required DateTime startTime,
-    @required DateTime endTime,
+    @required String startTime,
+    @required String endTime,
   });
 }
 
 class ServiceProviderRepositoryImpl implements ServiceProviderRepository {
+  final cart = Provider.of<Cart>(RM.context, listen: true);
   @override
   Future<List<User>> getServiceProviderInformation() async {
     try {
@@ -133,28 +137,32 @@ class ServiceProviderRepositoryImpl implements ServiceProviderRepository {
 
   @override
   Future bookServiceProvider({
-    String serviceId,
+    List<String> cartId,
     String latitude,
     String longitude,
     String address,
     String serviceProviderId,
-    DateTime startTime,
-    DateTime endTime,
+    String startTime,
+    String endTime,
   }) async {
     try {
       Dio dio = new Dio();
-      Response response = await InstantSewaAPI.dio.post(
-        "/book",
-        data: {
-          "service_id": serviceId,
-          "serviceusers_latitude": latitude,
-          "serviceusers_longitude": longitude,
-          "serviceusers_address": address,
-          "serviceprovider_id": serviceProviderId,
-          "startDate": startTime,
-          "endDate": endTime
-        },
-      );
+      if (cartId.isNotEmpty) {
+        String serviceName = cart.getServiceName(cartId[0]);
+        String quantity = cart.quantityCount(serviceName);
+        Response response = await InstantSewaAPI.dio.post(
+          "/book",
+          data: {
+            //     "service_id": serviceId,
+            "serviceusers_latitude": latitude,
+            "serviceusers_longitude": longitude,
+            "serviceusers_address": address,
+            "serviceprovider_id": serviceProviderId,
+            "startDate": startTime,
+            "endDate": endTime
+          },
+        );
+      }
     } on DioError catch (e) {
       showNetworkError(e);
     }

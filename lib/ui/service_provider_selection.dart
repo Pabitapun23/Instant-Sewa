@@ -13,8 +13,8 @@ class ServiceProviderSelection extends StatefulWidget {
   final String subCategoryName,
       latitude,
       longitude,
-      startDate,
-      endDate,
+      startTime,
+      endTime,
       address;
   final List<String> cartList;
 
@@ -23,8 +23,8 @@ class ServiceProviderSelection extends StatefulWidget {
       this.subCategoryName,
       this.latitude,
       this.longitude,
-      this.startDate,
-      this.endDate,
+      this.startTime,
+      this.endTime,
       this.cartList,
       this.address})
       : super(key: key);
@@ -50,8 +50,8 @@ class _ServiceProviderSelectionState extends State<ServiceProviderSelection>
           subCategoryName: widget.subCategoryName,
           latitude: widget.latitude,
           longitude: widget.longitude,
-          startTime: widget.startDate,
-          endTime: widget.endDate,
+          startTime: widget.startTime,
+          endTime: widget.endTime,
         ));
     _isLoading = false;
     items = provider.addProvider();
@@ -178,8 +178,8 @@ class _ServiceProviderSelectionState extends State<ServiceProviderSelection>
                                       latitude: widget.latitude,
                                       longitude: widget.longitude,
                                       cartList: widget.cartList,
-                                      endDate: widget.endDate,
-                                      startDate: widget.startDate,
+                                      endTime: widget.endTime,
+                                      startTime: widget.startTime,
                                     ),
                                   ),
                                 );

@@ -6,15 +6,15 @@ import 'package:instantsewa/util/hexcode.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
 class BookingPage extends StatefulWidget {
-  final String index, longitude, latitude, address, startDate, endDate;
+  final String index, longitude, latitude, address, startTime, endTime;
   final List<String> cartList;
   const BookingPage(
       {this.index,
       this.longitude,
       this.latitude,
       this.address,
-      this.startDate,
-      this.endDate,
+      this.startTime,
+      this.endTime,
       this.cartList});
   @override
   _BookingPageState createState() => _BookingPageState();
@@ -168,12 +168,23 @@ class _BookingPageState extends State<BookingPage>
                                         Center(
                                           child: RaisedButton(
                                             onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (BuildContext
-                                                              context) =>
-                                                          PaymentPage()));
+                                              _serviceProviderStateRM.setState(
+                                                  (book) =>
+                                                      book.bookServiceProvider(
+                                                          cartId:
+                                                              widget.cartList,
+                                                          latitude:
+                                                              widget.latitude,
+                                                          longitude:
+                                                              widget.longitude,
+                                                          address:
+                                                              widget.address,
+                                                          serviceProviderId:
+                                                              widget.index,
+                                                          startTime:
+                                                              widget.startTime,
+                                                          endTime:
+                                                              widget.endTime));
                                             },
                                             shape: RoundedRectangleBorder(
                                               borderRadius:

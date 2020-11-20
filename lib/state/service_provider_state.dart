@@ -31,16 +31,16 @@ class ServiceProviderState {
   }
 
   Future bookServiceProvider({
-    @required String serviceId,
+    @required List<String> cartId,
     @required String latitude,
     @required String longitude,
     @required String address,
     @required String serviceProviderId,
-    @required DateTime startTime,
-    @required DateTime endTime,
+    @required String startTime,
+    @required String endTime,
   }) async {
     await _serviceProviderRepository.bookServiceProvider(
-        serviceId: serviceId,
+        cartId: cartId,
         latitude: latitude,
         longitude: longitude,
         address: address,

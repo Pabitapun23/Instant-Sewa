@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:instantsewa/ui/track_order_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,45 +21,47 @@ class _MainDrawerState extends State<MainDrawer> {
     _isLoading = true;
     super.initState();
   }
-  _loadUserData() async{
+
+  _loadUserData() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var user = jsonDecode(localStorage.getString('user'));
 
-    if(user != null) {
+    if (user != null) {
       setState(() {
         userName = user['username'];
         email = user['email'];
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     Color _purple = HexColor('#603f8b');
     return Drawer(
       child: ListView(children: <Widget>[
-        (!_isLoading) ? new Center(
-          child: new SizedBox(
-            height: 50.0,
-            width: 50.0,
-            child: new CircularProgressIndicator(
-              value: null,
-              strokeWidth: 7.0,
-            ),
-          ),
-        )
-            :
-        UserAccountsDrawerHeader(
-          decoration: BoxDecoration(color: _purple),
-          accountName: Text(userName),
-          accountEmail: Text(email),
-          currentAccountPicture: CircleAvatar(
-            backgroundColor: Colors.white,
-            child: Text(
-              'U',
-              style: TextStyle(color: _purple),
-            ),
-          ),
-        ),
+        (!_isLoading)
+            ? new Center(
+                child: new SizedBox(
+                  height: 50.0,
+                  width: 50.0,
+                  child: new CircularProgressIndicator(
+                    value: null,
+                    strokeWidth: 7.0,
+                  ),
+                ),
+              )
+            : UserAccountsDrawerHeader(
+                decoration: BoxDecoration(color: _purple),
+                accountName: Text(userName),
+                accountEmail: Text(email),
+                currentAccountPicture: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  child: Text(
+                    'U',
+                    style: TextStyle(color: _purple),
+                  ),
+                ),
+              ),
         ListTile(
           title: Text('Home'),
           leading: Icon(Icons.home),
@@ -74,6 +77,12 @@ class _MainDrawerState extends State<MainDrawer> {
           title: Text('Track Order'),
           leading: Icon(Icons.check_circle),
           trailing: Icon(Icons.arrow_right),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => TrackOrder(),
+            ),
+          ),
         ),
         ListTile(
           title: Text('Payment'),
