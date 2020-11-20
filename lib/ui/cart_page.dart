@@ -125,7 +125,9 @@ class CartPage extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                           builder: (BuildContext context) =>
-                                              SchedulePage(subCategoryName:cart.services.values.toList()[0].subCategoryName ,
+                                              SchedulePage(
+
+                                                subCategoryName:cart.services.values.toList()[0].subCategoryName,
                                                 latitude: LocalStorage.getItem(ADDRESS_LATITUDE),
                                                 longitude: LocalStorage.getItem(ADDRESS_LONGITUDE),
                                               ),

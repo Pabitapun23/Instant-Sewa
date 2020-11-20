@@ -12,5 +12,6 @@ class UserByDistance {
         latitude = jsonMap['latitude'].toString(),
         longitude = jsonMap['longitude'].toString(),
         address = jsonMap['address'],
-        distance = jsonMap['distance'].toString();
+        distance = double.parse((jsonMap['distance']).toStringAsFixed(2)).toString();
+
 }

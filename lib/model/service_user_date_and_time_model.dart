@@ -33,24 +33,23 @@ class ServiceUserDateAndTimeModel {
     String longitude,
   }) {
     DateTime timer = new DateFormat.jms().parse(time);
-    if (this.date == null) {
-      this.date = new DateFormat('yyyy/MM/dd')
+     if (this.date == null) {
+       this.date = new DateFormat('yyyy/MM/dd')
           .parse(new DateFormat('yyyy/MM/dd').format(DateTime.now()));
-    }
-    DateTime starter;
-    starter =
-        this.date.add(new Duration(hours: timer.hour, minutes: timer.minute));
-    if (this.now.difference(this.startDate).inMinutes > 0) {
-      throw CommonError(message: "Invalide Email");
-    }
-    this.startDate = starter;
-    this.subCategory = subCategory;
-    this.latitude = latitude;
-    this.longitude = longitude;
-    print(this.subCategory);
+     }
+     DateTime starter;
+     starter =
+         this.date.add(new Duration(hours: timer.hour, minutes: timer.minute));
+     if (this.now.difference(starter).inMinutes > 0) {
+       throw CommonError(message: "Invalide Email");
+     }
+     this.startDate = starter;
+     this.subCategory = subCategory;
+     this.latitude = latitude;
+     this.longitude = longitude;
   }
 
-void setEndTime(String time) {
+  void setEndTime(String time) {
     DateTime timer = new DateFormat.jms().parse(time);
     if (this.date == null) {
       this.date = new DateFormat('yyyy/MM/dd')
@@ -59,7 +58,7 @@ void setEndTime(String time) {
     DateTime ender;
     ender =
         this.date.add(new Duration(hours: timer.hour, minutes: timer.minute));
-    if (this.endDate.difference(this.startDate).inMinutes < 30) {
+    if (ender.difference(this.startDate).inMinutes < 30) {
       throw CommonError(message: "Invalide Email");
     }
     this.endDate = ender;
@@ -74,30 +73,36 @@ void setEndTime(String time) {
     ;
   }
   Future<void> sendData() async {
-    if(!validateData())
-      {
-        Navigator.push(RM.context,
-            MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    ServiceProviderSelection(
-                      subCategoryName:this.subCategory,
-                      latitude: this.latitude,
-                      longitude: this.longitude,
-                    )));
-      }
+    if(validateData())
+    {
+
+      Navigator.push(RM.context,
+          MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  ServiceProviderSelection(
+                    subCategoryName:this.subCategory,
+                    latitude: this.latitude,
+                    longitude: this.longitude,
+                    startDate: this.startDate.toString(),
+                    endDate: this.endDate.toString(),
+                  )));
+    }
+    else{
+      print(this.subCategory);
+    }
   }
 }
 
 extension MyDateUtils on DateTime {
   DateTime copyWith(
       {int year,
-      int month,
-      int day,
-      int hour,
-      int minute,
-      int second,
-      int millisecond,
-      int microsecond}) {
+        int month,
+        int day,
+        int hour,
+        int minute,
+        int second,
+        int millisecond,
+        int microsecond}) {
     return DateTime(
       year ?? this.year,
       month ?? this.month,

@@ -13,7 +13,7 @@ class BuildGridCategory extends StatefulWidget {
 class _BuildGridCategoryState extends State<BuildGridCategory>
     with AutomaticKeepAliveClientMixin {
   final _categoriesStateRM = RM.get<CategoryState>();
-  bool _isLoading = false;
+  bool _isLoading;
   @override
   void initState() {
     _categoriesStateRM

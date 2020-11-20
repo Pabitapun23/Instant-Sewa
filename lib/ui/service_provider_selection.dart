@@ -9,34 +9,41 @@ import 'package:instantsewa/util/hexcode.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
 class ServiceProviderSelection extends StatefulWidget {
-  final String subCategoryName,latitude, longitude;
-  final DateTime startDate, endDate;
+  final String subCategoryName, latitude, longitude, startDate, endDate;
 
-  const ServiceProviderSelection({Key key,
-    this.subCategoryName,
-    this.latitude, this.longitude,
-    this.startDate,
-    this.endDate}) : super(key: key);
+  const ServiceProviderSelection(
+      {Key key,
+      this.subCategoryName,
+      this.latitude,
+      this.longitude,
+      this.startDate,
+      this.endDate})
+      : super(key: key);
+
   @override
   _ServiceProviderSelectionState createState() =>
       _ServiceProviderSelectionState();
 }
 
-class _ServiceProviderSelectionState extends State<ServiceProviderSelection>  with AutomaticKeepAliveClientMixin {
+class _ServiceProviderSelectionState extends State<ServiceProviderSelection>
+    with AutomaticKeepAliveClientMixin {
   Color _purple = HexColor('#603f8b');
   var provider = GetIt.instance<ServiceProvidersService>();
-  final _serviceProviderSelectionState = RM.get<ServiceProviderSelectionState>();
+  final _serviceProviderSelectionState =
+      RM.get<ServiceProviderSelectionState>();
   bool _isLoading = false;
   List<Provider> items = [];
+
   @override
   void initState() {
-    _serviceProviderSelectionState.setState((serviceProviderState) => serviceProviderState.getServiceProviderInformationByDistance(
-      subCategoryName: 'Switch and Socket',
-      latitude: '28.18663400',
-      longitude: '83.97517200',
-      startTime: '2020-11-09 22:45:00',
-      endTime: '2020-11-09 23:45:00',
-    ));
+    _serviceProviderSelectionState.setState((serviceProviderState) =>
+        serviceProviderState.getServiceProviderInformationByDistance(
+          subCategoryName: widget.subCategoryName,
+          latitude: widget.latitude,
+          longitude: widget.longitude,
+          startTime: widget.startDate,
+          endTime: widget.endDate,
+        ));
     _isLoading = false;
     items = provider.addProvider();
     super.initState();
@@ -141,64 +148,77 @@ class _ServiceProviderSelectionState extends State<ServiceProviderSelection>  wi
                 );
               },
             ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: items.length,
-              itemBuilder: (BuildContext context, int index) {
-                var data = items[index];
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                ServiceProviderDetailsPage(
-                                  index: index.toString(),
-                                )));
-                  },
-                  child: Container(
-                    height: (MediaQuery.of(context).size.height) * 0.15,
-                    decoration: BoxDecoration(
-                      color: Colors.white10,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Card(
-                      elevation: 5.0,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Image.asset(
-                            data.image,
-                            width: 75,
-                            fit: BoxFit.contain,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                data.name,
-                                style: GoogleFonts.openSans(
-                                  textStyle: TextStyle(
-                                    color: Colors.black54,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
+            StateBuilder<ServiceProviderSelectionState>(
+                observe: () => _serviceProviderSelectionState,
+                builder: (context, model) {
+                  return ListView(
+                    shrinkWrap: true,
+                    physics: ClampingScrollPhysics(),
+                    children: [
+                      ...model.state.providers.map(
+                        (serviceProvider) => Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            ServiceProviderDetailsPage(
+                                              index: serviceProvider.id,
+                                            )));
+                              },
+                              child: Container(
+                                height:
+                                    (MediaQuery.of(context).size.height) * 0.15,
+                                decoration: BoxDecoration(
+                                  color: Colors.white10,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Card(
+                                  elevation: 5.0,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Image.asset(
+                                        'images/photos/provider.png',
+                                        width: 75,
+                                        fit: BoxFit.contain,
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            serviceProvider.userName,
+                                            style: GoogleFonts.openSans(
+                                              textStyle: TextStyle(
+                                                color: Colors.black54,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                              '${serviceProvider.distance} miles away'),
+                                        ],
+                                      ),
+                                      Icon(
+                                        Icons.keyboard_arrow_right,
+                                        size: 30,
+                                      )
+                                    ],
                                   ),
                                 ),
                               ),
-                              Text('${data.distance.toString()} miles away'),
-                            ],
-                          ),
-                          Icon(
-                            Icons.keyboard_arrow_right,
-                            size: 30,
-                          )
-                        ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
-                );
-              },
-            ),
+                    ],
+                  );
+                }),
           ],
         ),
       ),

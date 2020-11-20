@@ -2,6 +2,7 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:instantsewa/ui/service_provider_selection.dart';
 import 'package:instantsewa/util/hexcode.dart';
+import 'package:instantsewa/widgets/show_snackbar.dart';
 import 'package:intl/intl.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -216,8 +217,10 @@ class _SchedulePageState extends State<SchedulePage> {
                                         .toString();
                                   });
                                 _serviceUserDateAndTimeModel.setState((state) =>
-                                    state.setStartTime(time:_timeController.text,subCategory: widget.subCategoryName
-                                    ,latitude: widget.latitude,longitude: widget.longitude));
+                                    state.setStartTime(time:_timeController.text,
+                                        subCategory: widget.subCategoryName,
+                                    latitude: widget.latitude,
+                                    longitude: widget.longitude));
                               },
                               child: Container(
                                 width: _width / 2,
@@ -325,30 +328,43 @@ class _SchedulePageState extends State<SchedulePage> {
                     SizedBox(
                       height: _height / 9,
                     ),
-                    Center(
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        height: 45.0,
-                        child: RaisedButton(
-                          color: _purple,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25.0)),
-                          onPressed: () {
-
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 14.0, vertical: 12.0),
-                            child: Text(
-                              'Next',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 17.0),
+                    StateBuilder(
+                        observe: () => _serviceUserDateAndTimeModel,
+                        builder: (_, model){
+                          return Center(
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              height: 45.0,
+                              child: RaisedButton(
+                                color: _purple,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25.0)),
+                                onPressed: () {
+                                  _serviceUserDateAndTimeModel.setState(
+                                          (addressState) async {
+                                        await addressState.sendData();
+                                      },
+                                      onError: (context, error) =>
+                                          showSnackBar(
+                                              key: _key,
+                                              color: Colors.red,
+                                              message: "{$error.message}"));
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 14.0, vertical: 12.0),
+                                  child: Text(
+                                    'Next',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 17.0),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
+                          );
+                        }
                     ),
                   ],
                 ),

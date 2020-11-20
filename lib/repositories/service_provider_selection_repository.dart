@@ -14,7 +14,7 @@ abstract class ServiceProviderSelectionRepository {
     @required String latitude,
     @required String longitude,
     @required String startTime,
-      @required String endTime,
+    @required String endTime,
   });
 }
 class ServiceProviderSelectionRepositoryImpl implements ServiceProviderSelectionRepository {
@@ -26,10 +26,9 @@ class ServiceProviderSelectionRepositoryImpl implements ServiceProviderSelection
     String startTime,
     String endTime,
   }) async{
-
       try {
         Response response = await InstantSewaAPI.dio
-            .post("/favourite", data: {
+            .post("/serviceproviderselection", data: {
           "subcategories_name": subCategoryName,
           "serviceusers_latitude": latitude,
           "serviceusers_longitude":longitude,

@@ -18,7 +18,7 @@ class _ServiceProviderDetailsPageState extends State<ServiceProviderDetailsPage>
   Color _purple = HexColor('#603f8b');
   final _serviceProviderStateRM = RM.get<ServiceProviderState>();
   bool _like;
-  bool _isLoading;
+  bool _isLoading = false;
   @override
   void initState() {
     _isLoading = false;
@@ -48,8 +48,8 @@ class _ServiceProviderDetailsPageState extends State<ServiceProviderDetailsPage>
             return SingleChildScrollView(
                 child: Column(
               children: <Widget>[
-                ...model.state.provider.map(
-                  (provider) {
+                ...model.state.provider.map((provider)
+                {
                    return Column(
                       children: <Widget>[
                         (!_isLoading) ? new Center(
