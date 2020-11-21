@@ -146,23 +146,49 @@ class ServiceProviderRepositoryImpl implements ServiceProviderRepository {
     String endTime,
   }) async {
     try {
+      String id;
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      var user = jsonDecode(localStorage.getString('user'));
+      id = user['id'].toString();
       Dio dio = new Dio();
-      if (cartId.isNotEmpty) {
-        String serviceName = cart.getServiceName(cartId[0]);
-        String quantity = cart.quantityCount(serviceName);
-        Response response = await InstantSewaAPI.dio.post(
-          "/book",
+      Response response = await InstantSewaAPI.dio.post("/cartgroup" ,
           data: {
-            //     "service_id": serviceId,
-            "serviceusers_latitude": latitude,
-            "serviceusers_longitude": longitude,
-            "serviceusers_address": address,
-            "serviceprovider_id": serviceProviderId,
-            "startDate": startTime,
-            "endDate": endTime
+            "service_user": "${LocalStorage.getItem(USERNAME)}",
           },
-        );
+          options: Options(headers: {
+            'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
+          }));
+      String cartCollectionId = response.data;
+       while (cartId.isNotEmpty) {
+         String serviceName = cart.getServiceName(cartId[0]);
+         String quantity = cart.quantityCount(serviceName);
+         int i = cart.numberById(serviceName);
+      Response response2 = await InstantSewaAPI.dio.post("/cart" ,
+          data: {
+            "service_name": serviceName,
+            "quantity" : quantity,
+            "cart_collection_id":cartCollectionId,
+          },
+          options: Options(headers: {
+            'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
+          }));
+       cart.removeItem(cart.services.keys.toList()[i]);
+       cartId.remove(cartId[0]);
       }
+      Response response2 = await InstantSewaAPI.dio.post("/book" ,
+          data: {
+            "cart_collection_id": cartCollectionId,
+            "address_latitude" : latitude,
+            "address_longitude":longitude,
+            "address_address":address,
+            "service_provider_id":serviceProviderId,
+            "service_user_id":id,
+            "start_time":startTime,
+            "end_time":endTime,
+          },
+          options: Options(headers: {
+            'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
+          }));
     } on DioError catch (e) {
       showNetworkError(e);
     }

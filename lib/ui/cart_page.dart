@@ -4,14 +4,10 @@ import 'package:instantsewa/providers/cart.dart' show Cart;
 import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/ui/address_page.dart';
 import 'package:instantsewa/ui/categories_list_page.dart';
-import 'package:instantsewa/ui/home_page.dart';
 import 'package:instantsewa/ui/schedule_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:provider/provider.dart';
 import '../application/storage/localstorage.dart';
-import '../application/storage/localstorage.dart';
-import '../application/storage/storage_keys.dart';
-import '../application/storage/storage_keys.dart';
 import '../application/storage/storage_keys.dart';
 import '../widgets/cart_item.dart';
 

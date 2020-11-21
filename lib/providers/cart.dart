@@ -103,6 +103,18 @@ class Cart with ChangeNotifier {
     _services.remove(serviceId);
     notifyListeners();
   }
+  int numberById(String serviceName)
+  {
+    int i=0;
+    int count;
+    _services.forEach((key, cardItem) {
+      if (cardItem.subSubCategoryName == serviceName) {
+        count = i;
+      }
+      i++;
+    });
+    return count;
+  }
 
   List<String> getId(String subCategoryName) {
     List<String> cartList = [];
@@ -114,6 +126,7 @@ class Cart with ChangeNotifier {
 
     return cartList;
   }
+
 
   String getServiceName(String id) {
     String service;
