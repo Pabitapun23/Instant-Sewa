@@ -74,35 +74,49 @@ class _TrackOrderState extends State<TrackOrder> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                'Cart Name',
-                                style: GoogleFonts.openSans(
-                                  textStyle: TextStyle(
-                                    color: Colors.black54,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Cart Name',
+                                    style: GoogleFonts.openSans(
+                                      textStyle: TextStyle(
+                                        color: Colors.black87,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  Text(
+                                    'Date and time',
+                                    style: GoogleFonts.openSans(
+                                      textStyle: TextStyle(
+                                        color: Colors.black54,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(
-                                    Icons.check_circle,
-                                    color: Colors.green[700],
-                                    size: 25,
+                                    Icons.circle,
+                                    color: Colors.green,
+                                    size: 13,
                                   ),
                                   Text(
-                                    'Date and Time',
+                                    'Ongoing',
                                     style: GoogleFonts.openSans(
                                       textStyle: TextStyle(
-                                        color: Colors.black54,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black87,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
                                       ),
                                     ),
                                   ),
@@ -144,35 +158,49 @@ class _TrackOrderState extends State<TrackOrder> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                'Cart Name',
-                                style: GoogleFonts.openSans(
-                                  textStyle: TextStyle(
-                                    color: Colors.black54,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Cart Name',
+                                    style: GoogleFonts.openSans(
+                                      textStyle: TextStyle(
+                                        color: Colors.black87,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  Text(
+                                    'Date and time',
+                                    style: GoogleFonts.openSans(
+                                      textStyle: TextStyle(
+                                        color: Colors.black54,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(
-                                    Icons.check_circle,
-                                    color: Colors.red[700],
-                                    size: 25,
+                                    Icons.circle,
+                                    color: Colors.red,
+                                    size: 13,
                                   ),
                                   Text(
-                                    'Date and Time',
+                                    'Completed',
                                     style: GoogleFonts.openSans(
                                       textStyle: TextStyle(
-                                        color: Colors.black54,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black87,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
                                       ),
                                     ),
                                   ),
