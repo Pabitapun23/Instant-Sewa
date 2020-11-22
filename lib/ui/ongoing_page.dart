@@ -80,29 +80,6 @@ class _OngoingPageState extends State<OngoingPage> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Status',
-                            style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          Icon(
-                            Icons.check_circle,
-                            color: Colors.green[700],
-                            size: 20,
-                          ),
-                        ],
-                      ),
-                    ),
                   ],
                 ),
               ),
