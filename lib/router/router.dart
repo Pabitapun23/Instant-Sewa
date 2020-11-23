@@ -7,6 +7,7 @@ import 'package:instantsewa/ui/home_page.dart';
 import 'package:instantsewa/ui/not_found_page_views.dart';
 import 'package:instantsewa/ui/on_boarding_page.dart';
 import 'package:instantsewa/ui/sub_categories_page.dart';
+import 'package:instantsewa/ui/track_order_page.dart';
 import 'package:instantsewa/ui/user_address_page.dart';
 import 'package:instantsewa/ui/user_info_page.dart';
 import 'package:instantsewa/ui/user_phone_page.dart';
@@ -29,8 +30,8 @@ class Routers {
         return MaterialPageRoute(builder: (_) => UserInfoPage());
       case phoneUpdateRoute:
         return MaterialPageRoute(builder: (_) => UserPhonePage());
-      case addressUpdateRoute:
-        return MaterialPageRoute(builder: (_) => UserAddressPage());
+      case trackerRoute:
+        return MaterialPageRoute(builder: (_) => TrackOrder());
       default:
         return MaterialPageRoute(builder: (_) => NotFoundPage());
     }
