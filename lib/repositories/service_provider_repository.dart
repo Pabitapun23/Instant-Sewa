@@ -8,6 +8,7 @@ import 'package:instantsewa/application/classes/user/user.dart';
 import 'package:instantsewa/application/storage/localstorage.dart';
 import 'package:instantsewa/application/storage/storage_keys.dart';
 import 'package:instantsewa/providers/cart.dart';
+import 'package:instantsewa/router/route_constants.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
@@ -189,6 +190,7 @@ class ServiceProviderRepositoryImpl implements ServiceProviderRepository {
           options: Options(headers: {
             'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
           }));
+      Navigator.pushNamed(RM.context, trackerRoute);
     } on DioError catch (e) {
       showNetworkError(e);
     }

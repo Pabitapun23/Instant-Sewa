@@ -42,7 +42,6 @@ class _ServiceProviderSelectionState extends State<ServiceProviderSelection>
       RM.get<ServiceProviderSelectionState>();
   bool _isLoading = false;
   List<Provider> items = [];
-
   @override
   void initState() {
     _serviceProviderSelectionState.setState((serviceProviderState) =>

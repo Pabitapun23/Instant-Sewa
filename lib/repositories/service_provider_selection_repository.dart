@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:instantsewa/application/InstantSewa_api.dart';
 import 'package:instantsewa/application/classes/errors/common_error.dart';
+import 'package:instantsewa/application/classes/services/service_selection.dart';
 import 'package:instantsewa/application/classes/user/user.dart';
 import 'package:instantsewa/application/classes/user/user_by_distance.dart';
 import 'package:instantsewa/application/storage/localstorage.dart';
@@ -16,6 +17,7 @@ abstract class ServiceProviderSelectionRepository {
     @required String startTime,
     @required String endTime,
   });
+  Future<List<ServiceSelection>> getService({ @required String serviceProviderId});
 }
 class ServiceProviderSelectionRepositoryImpl implements ServiceProviderSelectionRepository {
   @override
@@ -28,7 +30,7 @@ class ServiceProviderSelectionRepositoryImpl implements ServiceProviderSelection
   }) async{
       try {
         Response response = await InstantSewaAPI.dio
-            .post("/serviceproviderselection", data: {
+            .post("/serviceproviderselectionbydistance", data: {
           "subcategories_name": subCategoryName,
           "serviceusers_latitude": latitude,
           "serviceusers_longitude":longitude,
@@ -46,5 +48,24 @@ class ServiceProviderSelectionRepositoryImpl implements ServiceProviderSelection
       throw showNetworkError(e);
     }
   }
-
+  @override
+  Future<List<ServiceSelection>> getService({
+    String serviceProviderId
+  }) async{
+    try {
+      Response response = await InstantSewaAPI.dio
+          .post("/serviceselection", data: {
+        "service_provider_id": serviceProviderId,
+      }, options: Options(headers: {
+        'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
+      }));
+      List _temp = response.data['data'];
+      List<ServiceSelection> _service = _temp
+          .map((service) => ServiceSelection.fromJson(service))
+          .toList();
+      return _service;
+    } on DioError catch (e) {
+      throw showNetworkError(e);
+    }
+  }
 }
