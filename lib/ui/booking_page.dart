@@ -132,15 +132,18 @@ class _BookingPageState extends State<BookingPage>
                                         Container(
                                           height: 50,
                                           width: width,
-                                          child: ListView(
+                                          child: ListView.builder(
                                               scrollDirection: Axis.horizontal,
-                                              children: <Widget>[
-                                                Icon(
+                                              itemCount: provider.rating,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return Icon(
                                                   Icons.star,
                                                   color: Colors.yellow[500],
                                                   size: 30,
-                                                )
-                                              ]),
+                                                );
+                                              }),
                                         ),
                                         SizedBox(
                                           height: 5,

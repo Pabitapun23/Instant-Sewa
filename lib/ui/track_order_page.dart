@@ -17,18 +17,19 @@ class TrackOrder extends StatefulWidget {
   _TrackOrderState createState() => _TrackOrderState();
 }
 
-class _TrackOrderState extends State<TrackOrder> with AutomaticKeepAliveClientMixin{
+class _TrackOrderState extends State<TrackOrder>
+    with AutomaticKeepAliveClientMixin {
   Color _purple = HexColor('#603f8b');
-  final _trackingState =
-  RM.get<TrackingState>();
+  final _trackingState = RM.get<TrackingState>();
   bool _isLoading = false;
   @override
   void initState() {
-    _trackingState.setState((orderState) =>orderState.getOngoingProject());
-    _trackingState.setState((orderState) =>orderState.getCompletedProject());
+    _trackingState.setState((orderState) => orderState.getOngoingProject());
+    _trackingState.setState((orderState) => orderState.getCompletedProject());
     _isLoading = false;
     super.initState();
   }
+
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
@@ -54,193 +55,214 @@ class _TrackOrderState extends State<TrackOrder> with AutomaticKeepAliveClientMi
         body: TabBarView(
           children: [
             StateBuilder<TrackingState>(
-              observe: ()=>_trackingState,
-              builder: (context,model){
+              observe: () => _trackingState,
+              builder: (context, model) {
                 return ListView(
                   shrinkWrap: true,
                   children: [
-                    ...model.state.ongoingProject.map((orders) => Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (BuildContext context) => OngoingPage(),
-                              ),
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Container(
-                              height: (MediaQuery.of(context).size.height) * 0.15,
-                              decoration: BoxDecoration(
-                                color: Colors.white10,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Card(
-                                elevation: 0.5,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            orders.cartName,
-                                            style: GoogleFonts.openSans(
-                                              textStyle: TextStyle(
-                                                color: Colors.black87,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w600,
+                    ...model.state.ongoingProject.map(
+                      (orders) => Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      OngoingPage(),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Container(
+                                height:
+                                    (MediaQuery.of(context).size.height) * 0.15,
+                                decoration: BoxDecoration(
+                                  color: Colors.white10,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Card(
+                                  elevation: 0.5,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              orders.cartName,
+                                              style: GoogleFonts.openSans(
+                                                textStyle: TextStyle(
+                                                  color: Colors.black87,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          Text(
-                                            DateFormat.yMMMMd().add_jm().format(orders.startTime),
-                                            style: GoogleFonts.openSans(
-                                              textStyle: TextStyle(
-                                                color: Colors.black54,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w600,
+                                            Text(
+                                              DateFormat.yMMMMd()
+                                                  .add_jm()
+                                                  .format(orders.startTime),
+                                              style: GoogleFonts.openSans(
+                                                textStyle: TextStyle(
+                                                  color: Colors.black54,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.circle,
-                                            color: orders.status == 'Pending'
-                                            ?Colors.orangeAccent
-                                            :orders.status == 'Ongoing'?Colors.green
-                                            :Colors.grey,
-                                            size: 13,
-                                          ),
-                                          Text(
-                                            orders.status,
-                                            style: GoogleFonts.openSans(
-                                              textStyle: TextStyle(
-                                                color: Colors.black87,
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500,
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.circle,
+                                              color: orders.status == 'Pending'
+                                                  ? Colors.orangeAccent
+                                                  : orders.status == 'Ongoing'
+                                                      ? Colors.green
+                                                      : Colors.grey,
+                                              size: 13,
+                                            ),
+                                            Text(
+                                              orders.status,
+                                              style: GoogleFonts.openSans(
+                                                textStyle: TextStyle(
+                                                  color: Colors.black87,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),),
+                        ],
+                      ),
+                    ),
                   ],
                 );
               },
             ),
             StateBuilder<TrackingState>(
-              observe: ()=>_trackingState,
-              builder: (context,model){
+              observe: () => _trackingState,
+              builder: (context, model) {
                 return ListView(
                   shrinkWrap: true,
                   children: [
-                    ...model.state.compleltedProject.map((orders) => Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (BuildContext context) => OngoingPage(),
-                              ),
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Container(
-                              height: (MediaQuery.of(context).size.height) * 0.15,
-                              decoration: BoxDecoration(
-                                color: Colors.white10,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Card(
-                                elevation: 0.5,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            orders.cartName,
-                                            style: GoogleFonts.openSans(
-                                              textStyle: TextStyle(
-                                                color: Colors.black87,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w600,
+                    ...model.state.compleltedProject.map(
+                      (orders) => Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      CompletedPage(),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Container(
+                                height:
+                                    (MediaQuery.of(context).size.height) * 0.15,
+                                decoration: BoxDecoration(
+                                  color: Colors.white10,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Card(
+                                  elevation: 0.5,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              orders.cartName,
+                                              style: GoogleFonts.openSans(
+                                                textStyle: TextStyle(
+                                                  color: Colors.black87,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          Text(
-                                            DateFormat.yMMMMd().add_jm().format(orders.startTime),
-                                            style: GoogleFonts.openSans(
-                                              textStyle: TextStyle(
-                                                color: Colors.black54,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w600,
+                                            Text(
+                                              DateFormat.yMMMMd()
+                                                  .add_jm()
+                                                  .format(orders.startTime),
+                                              style: GoogleFonts.openSans(
+                                                textStyle: TextStyle(
+                                                  color: Colors.black54,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.circle,
-                                            color: orders.status == 'Cancelled'
-                                                ?Colors.redAccent
-                                                :orders.status == 'Completed'? Colors.blueAccent
-                                                :Colors.yellowAccent,
-                                            size: 13,
-                                          ),
-                                          Text(
-                                            orders.status,
-                                            style: GoogleFonts.openSans(
-                                              textStyle: TextStyle(
-                                                color: Colors.black87,
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500,
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.circle,
+                                              color: orders.status ==
+                                                      'Cancelled'
+                                                  ? Colors.redAccent
+                                                  : orders.status == 'Completed'
+                                                      ? Colors.blueAccent
+                                                      : Colors.yellowAccent,
+                                              size: 13,
+                                            ),
+                                            Text(
+                                              orders.status,
+                                              style: GoogleFonts.openSans(
+                                                textStyle: TextStyle(
+                                                  color: Colors.black87,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),),
+                        ],
+                      ),
+                    ),
                   ],
                 );
               },
