@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:instantsewa/model/rate_model.dart';
+import 'package:instantsewa/state/rating_state.dart';
 import 'package:instantsewa/state/service_provider_state.dart';
 import 'package:instantsewa/ui/payment_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
@@ -17,6 +19,7 @@ class _ProviderDetailsPageState extends State<ProviderDetailsPage>
     with AutomaticKeepAliveClientMixin {
   Color _purple = HexColor('#603f8b');
   final _serviceProviderStateRM = RM.get<ServiceProviderState>();
+  final _rateModel = RM.get<RatingState>();
   bool _like;
   bool _isLoading = false;
   @override
@@ -164,7 +167,24 @@ class _ProviderDetailsPageState extends State<ProviderDetailsPage>
                                         widget.status == 'Completed'
                                             ? Center(
                                                 child: RaisedButton(
-                                                  onPressed: showRatingDialog,
+                                                  onPressed:(){
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return RatingDialog(
+                                                              icon: Image.asset(
+                                                                'images/photos/provider.png',
+                                                                width: 50,
+                                                              ),
+                                                              title: provider.userName,
+                                                              description: 'Rate the Provider',
+                                                              onSubmitPressed: (int rating) {
+                                                                _rateModel.setState((state) =>state.ratingPost(rate: rating,serviceProviderId:provider.id));
+                                                              },
+                                                              accentColor: _purple,
+                                                              submitButton: 'Submit');
+                                                        });
+                                                  },
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -244,23 +264,4 @@ class _ProviderDetailsPageState extends State<ProviderDetailsPage>
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
-
-  void showRatingDialog() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return RatingDialog(
-              icon: Image.asset(
-                'images/photos/provider.png',
-                width: 50,
-              ),
-              title: 'Ram Poudel',
-              description: 'Rate the Provider',
-              onSubmitPressed: (int rating) {
-                print('rating:$rating');
-              },
-              accentColor: _purple,
-              submitButton: 'Submit');
-        });
-  }
 }
