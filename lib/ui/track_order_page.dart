@@ -76,7 +76,8 @@ class _TrackOrderState extends State<TrackOrder>
                                 context,
                                 MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      OngoingPage(),
+                                      OngoingPage(orderId: orders.id,
+                                      cartName: orders.cartName),
                                 ),
                               );
                             },
@@ -173,7 +174,7 @@ class _TrackOrderState extends State<TrackOrder>
                 return ListView(
                   shrinkWrap: true,
                   children: [
-                    ...model.state.compleltedProject.map(
+                    ...model.state.completedProject.map(
                       (orders) => Column(
                         children: [
                           GestureDetector(
@@ -182,7 +183,8 @@ class _TrackOrderState extends State<TrackOrder>
                                 context,
                                 MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      CompletedPage(),
+                                      CompletedPage(orderId: orders.id,
+                                      cartName: orders.cartName),
                                 ),
                               );
                             },

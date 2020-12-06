@@ -1,3 +1,4 @@
+import 'package:instantsewa/application/classes/tracker/operation.dart';
 import 'package:instantsewa/application/classes/user/ongoing_tracker.dart';
 import 'package:instantsewa/repositories/tracking_repository.dart';
 
@@ -9,7 +10,9 @@ class TrackingState
   List<OperationTracker> _ongoing = [];
   List<OperationTracker> get ongoingProject => _ongoing;
   List<OperationTracker> _completed = [];
-  List<OperationTracker> get compleltedProject => _completed;
+  List<OperationTracker> get completedProject => _completed;
+  List<Operation> _operation = [];
+  List<Operation> get operation => _operation;
   Future getOngoingProject() async
   {
     _ongoing= await _trackingRepository.getOngoingProject();
@@ -17,5 +20,9 @@ class TrackingState
   Future getCompletedProject() async
   {
     _completed= await _trackingRepository.getCompletedProject();
+  }
+  Future getOperation({String operationId}) async
+  {
+    _operation = await _trackingRepository.getOperation(operationId: operationId);
   }
 }
