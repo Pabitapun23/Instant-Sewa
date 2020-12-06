@@ -3,6 +3,9 @@ import 'package:instantsewa/util/hexcode.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class GenerateQrCode extends StatefulWidget {
+  final String operationId;
+
+  const GenerateQrCode({Key key, this.operationId}) : super(key: key);
   @override
   _GenerateQrCodeState createState() => _GenerateQrCodeState();
 }
@@ -21,7 +24,7 @@ class _GenerateQrCodeState extends State<GenerateQrCode> {
         child: Column(
           children: [
             QrImage(
-              data: 'This is a simple QR code',
+              data: widget.operationId,
               version: QrVersions.auto,
               size: 320,
               gapless: false,
