@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:instantsewa/model/provider_model.dart';
+import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/services/service_providers_service.dart';
 import 'package:instantsewa/state/service_provider_selection_state.dart';
 import 'package:instantsewa/state/tracking_state.dart';
@@ -37,6 +38,12 @@ class _TrackOrderState extends State<TrackOrder>
         appBar: AppBar(
           title: Text('Track Order'),
           backgroundColor: _purple,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pushNamed(context, homeRoute);
+            },
+          ),
           bottom: TabBar(
             indicatorColor: Colors.white,
             indicatorWeight: 3.0,

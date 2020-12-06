@@ -41,9 +41,19 @@ class _OngoingPageState extends State<OngoingPage>
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Icon(
-              Icons.qr_code_scanner_sharp,
-              color: Colors.white,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => GenerateQrCode(),
+                  ),
+                );
+              },
+              child: Icon(
+                Icons.qr_code_scanner_sharp,
+                color: Colors.white,
+              ),
             ),
           ),
         ],
