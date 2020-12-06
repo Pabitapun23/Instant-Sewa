@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterkhaltipayment/flutterkhaltipayment.dart';
 import 'package:instantsewa/util/hexcode.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -107,18 +108,12 @@ class _PaymentPageState extends State<PaymentPage> {
                       RadioListTile(
                         value: 2,
                         groupValue: selectedRadio,
-                        title: Text("Pay with card"),
+                        title: Text("Pay with Khalti"),
                         onChanged: (val) {
                           print("Radio tile is pressed $val");
                           setSelectedRadio(val);
                         },
                         activeColor: Colors.purple,
-                        secondary: OutlineButton(
-                          child: Text("more"),
-                          onPressed: () {
-                            print("details,");
-                          },
-                        ),
                       ),
                       Divider(
                         height: 5,
@@ -137,7 +132,11 @@ class _PaymentPageState extends State<PaymentPage> {
                         color: _purple,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25.0)),
-                        onPressed: () {},
+                        onPressed: () {
+                          if (selectedRadio == 2) {
+                            _payViaKhalti();
+                          } else {}
+                        },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 15.0, vertical: 12.0),
@@ -158,6 +157,30 @@ class _PaymentPageState extends State<PaymentPage> {
           ],
         ),
       ),
+    );
+  }
+
+  _payViaKhalti() {
+    FlutterKhaltiPayment(
+            urlSchemeIOS: "KhaltiPayFlutterExampleScheme",
+            merchantKey: "test_public_key_4d3be6dd3a3f4b6cb6ff756bed94555e",
+            productId: "0123",
+            productName: "Product Name",
+            amount: 1000,
+            enableEBanking: false,
+            enableIPS: false,
+            enableMobileBanking: false,
+            enableSCT: false,
+            productUrl: "http://www.example.com/")
+        .initPayment(
+      onSuccess: (data) {
+        print("Token Got: ${data["token"].toString()}");
+        print("Success got: ${data.toString()}");
+      },
+      onError: (error) {
+        print("error");
+        print(error);
+      },
     );
   }
 }

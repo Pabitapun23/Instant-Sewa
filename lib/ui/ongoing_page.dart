@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:instantsewa/ui/qr_code_generator.dart';
 import 'package:instantsewa/util/hexcode.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class OngoingPage extends StatefulWidget {
   @override
@@ -19,9 +21,19 @@ class _OngoingPageState extends State<OngoingPage> {
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Icon(
-              Icons.qr_code_scanner_sharp,
-              color: Colors.white,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => GenerateQrCode(),
+                  ),
+                );
+              },
+              child: Icon(
+                Icons.qr_code_scanner_sharp,
+                color: Colors.white,
+              ),
             ),
           ),
         ],
