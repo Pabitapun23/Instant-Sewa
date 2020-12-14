@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:instantsewa/application/classes/errors/common_error.dart';
 import 'package:instantsewa/application/storage/localstorage.dart';
 import 'package:instantsewa/application/storage/storage_keys.dart';
+import 'package:instantsewa/base_url.dart';
 import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/ui/Auth/login_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
@@ -222,7 +223,7 @@ class _ProfilePageState extends State<ProfilePage> {
   {
     try{
       var token = LocalStorage.getItem(TOKEN);
-      final response = await http.get("http://10.0.2.2:8000/auth/logout",headers:
+      final response = await http.get(BASE_URL+"/auth/logout",headers:
       {'Content-type' : 'application/json',
       'Accept' : 'application/json',
           'Authorization' : 'Bearer $token'});

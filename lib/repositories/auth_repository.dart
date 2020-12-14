@@ -109,6 +109,12 @@ class AuthRepositoryImpl implements AuthRepository {
           LocalStorage.deleteItem (TOKEN);
           SharedPreferences localStorage = await SharedPreferences.getInstance();
           await localStorage.remove('user');
+          LocalStorage.deleteItem(FUllNAME);
+          LocalStorage.deleteItem(PHONE);
+          LocalStorage.deleteItem(USERNAME);
+          LocalStorage.deleteItem(ADDRESS_ADDRESS);
+          LocalStorage.deleteItem(ADDRESS_LATITUDE);
+          LocalStorage.deleteItem(ADDRESS_LONGITUDE);
         }
     }on DioError catch (e) {
       showNetworkError(e);

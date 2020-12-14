@@ -30,6 +30,8 @@ class Routers {
         return MaterialPageRoute(builder: (_) => UserInfoPage());
       case phoneUpdateRoute:
         return MaterialPageRoute(builder: (_) => UserPhonePage());
+      case addressUpdateRoute:
+        return MaterialPageRoute(builder: (_) => UserAddressPage());
       case trackerRoute:
         return MaterialPageRoute(builder: (_) => TrackOrder());
       default:
