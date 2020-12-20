@@ -19,14 +19,8 @@ class TrackingRepositoryImpl implements TrackingRepository {
   @override
   Future<List<OperationTracker>> getOngoingProject() async{
     try {
-      String id;
-      SharedPreferences localStorage = await SharedPreferences.getInstance();
-      var user = jsonDecode(localStorage.getString('user'));
-      id = user['id'].toString();
       Response response = await InstantSewaAPI.dio
-          .post("/ongoingtracker", data: {
-        "service_user_id": id,
-      }, options: Options(headers: {
+          .post("/ongoingtracker", options: Options(headers: {
         'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
       }));
       List _temp = response.data['data'];
@@ -41,14 +35,9 @@ class TrackingRepositoryImpl implements TrackingRepository {
   @override
   Future<List<OperationTracker>> getCompletedProject() async{
     try {
-      String id;
-      SharedPreferences localStorage = await SharedPreferences.getInstance();
-      var user = jsonDecode(localStorage.getString('user'));
-      id = user['id'].toString();
       Response response = await InstantSewaAPI.dio
-          .post("/completedtracker", data: {
-        "service_user_id": id,
-      }, options: Options(headers: {
+          .post("/completedtracker",
+          options: Options(headers: {
         'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
       }));
       List _temp = response.data['data'];

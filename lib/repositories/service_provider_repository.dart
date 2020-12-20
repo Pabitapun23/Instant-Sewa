@@ -70,10 +70,6 @@ class ServiceProviderRepositoryImpl implements ServiceProviderRepository {
   @override
   // ignore: non_constant_identifier_names
   Future setFavouriteServiceProvider({String service_provider_id}) async {
-    String id;
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var user = jsonDecode(localStorage.getString('user'));
-    id = user['id'].toString();
     bool result = await getFavouriteServiceProvider(
         service_provider_id: service_provider_id);
     if (!result) {
@@ -81,7 +77,6 @@ class ServiceProviderRepositoryImpl implements ServiceProviderRepository {
         Dio dio = new Dio();
         Response response = await InstantSewaAPI.dio.post("/favourite",
             data: {
-              "service_user_id": id,
               "service_provider_id": service_provider_id
             },
             options: Options(headers: {
@@ -96,7 +91,6 @@ class ServiceProviderRepositoryImpl implements ServiceProviderRepository {
         Dio dio = new Dio();
         Response response = await InstantSewaAPI.dio.post("/deleteFavourite",
             data: {
-              "service_user_id": id,
               "service_provider_id": service_provider_id
             },
             options: Options(headers: {
@@ -147,15 +141,8 @@ class ServiceProviderRepositoryImpl implements ServiceProviderRepository {
     String endTime,
   }) async {
     try {
-      String id;
-      SharedPreferences localStorage = await SharedPreferences.getInstance();
-      var user = jsonDecode(localStorage.getString('user'));
-      id = user['id'].toString();
       Dio dio = new Dio();
       Response response = await InstantSewaAPI.dio.post("/cartgroup" ,
-          data: {
-            "service_user": "${LocalStorage.getItem(USERNAME)}",
-          },
           options: Options(headers: {
             'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
           }));
@@ -183,7 +170,6 @@ class ServiceProviderRepositoryImpl implements ServiceProviderRepository {
             "address_longitude":longitude,
             "address_address":address,
             "service_provider_id":serviceProviderId,
-            "service_user_id":id,
             "start_time":startTime,
             "end_time":endTime,
           },

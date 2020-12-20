@@ -19,16 +19,11 @@ class RatingRepositoryImpl implements RatingRepository
   @override
   Future ratingPost({int rate, String serviceProviderId})
   async {
-    String id;
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var user = jsonDecode(localStorage.getString('user'));
-    id = user['id'].toString();
     try {
       Response response = await InstantSewaAPI.dio
           .post("/rateandreview", data: {
         "rating": rate,
         "service_provider_id": serviceProviderId,
-        "service_user_id":id,
       }, options: Options(headers: {
         'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
       }));
