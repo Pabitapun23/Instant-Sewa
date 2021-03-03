@@ -1,0 +1,169 @@
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:instantsewa/ui/schedule_page.dart';
+import 'package:instantsewa/util/hexcode.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:search_map_place/search_map_place.dart';
+
+class AddressPage extends StatefulWidget {
+  @override
+  _AddressPageState createState() => _AddressPageState();
+}
+
+class _AddressPageState extends State<AddressPage> {
+  GoogleMapController _controller;
+  Position position;
+  Widget _child;
+  @override
+  void initState() {
+    _getCurrentLocation();
+    super.initState();
+  }
+
+  void _getCurrentLocation() async {
+    Position res = await Geolocator.getCurrentPosition();
+    setState(() {
+      position = res;
+      _child = _mapWidget();
+    });
+  }
+
+  Set<Marker> _createMarker(double latitude, double longitude) {
+    return <Marker>[
+      Marker(
+        markerId: MarkerId('home'),
+        position: LatLng(latitude, longitude),
+        icon: BitmapDescriptor.defaultMarker,
+        infoWindow: InfoWindow(title: 'My Current Location'),
+      )
+    ].toSet();
+  }
+
+  Color _purple = HexColor('#603f8b');
+
+  Widget _mapWidget() {
+    return GoogleMap(
+      markers: _createMarker(position.latitude, position.longitude),
+      onMapCreated: (GoogleMapController googleMapController) {
+        setState(() {
+          _controller = googleMapController;
+        });
+      },
+      initialCameraPosition: CameraPosition(
+        zoom: 15.0,
+        target: LatLng(position.latitude, position.longitude),
+      ),
+      mapType: MapType.normal,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Address Details'),
+        backgroundColor: _purple,
+      ),
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: ListView(
+          children: <Widget>[
+            Container(
+              height: 100,
+              child: Stack(
+                children: <Widget>[
+                  Positioned(
+                    bottom: 20,
+                    left: 0,
+                    child: Image.asset(
+                      "images/main_top.png",
+                      width: size.width * 0.50,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Text(
+                    "Give us your address below.",
+                    style: TextStyle(
+                        color: Color.fromRGBO(49, 39, 79, .6), fontSize: 17.0),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SearchMapPlaceWidget(
+                    placeholder: 'Enter your address',
+                    placeType: PlaceType.address,
+                    hasClearButton: true,
+                    apiKey: 'AIzaSyBUILBxCa5yyQZawAAOpD6HII48R3haimM',
+                    onSelected: (Place place) async {
+                      Geolocation geolocation = await place.geolocation;
+                      _controller.animateCamera(
+                        CameraUpdate.newLatLng(geolocation.coordinates),
+                      );
+                      _controller.animateCamera(
+                        CameraUpdate.newLatLngBounds(geolocation.bounds, 0),
+                      );
+                    },
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(height: 350.0, child: _mapWidget()),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Center(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      height: 45.0,
+                      child: RaisedButton(
+                        color: _purple,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0)),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      SchedulePage()));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 14.0, vertical: 12.0),
+                          child: Text(
+                            'Next',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 17.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
