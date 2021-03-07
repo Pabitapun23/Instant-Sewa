@@ -31,6 +31,22 @@ class ServiceProviderSelectionState {
             startTime: startTime,
             endTime: endTime);
   }
+  Future getFavServiceProviderInformationByDistance({
+    String subCategoryName,
+    String latitude,
+    String longitude,
+    String startTime,
+    String endTime,
+  }) async {
+    _provider = await _serviceProviderSelectionRepository
+        .getFavServiceProviderInformationByDistance(
+        subCategoryName: subCategoryName,
+        latitude: latitude,
+        longitude: longitude,
+        startTime: startTime,
+        endTime: endTime);
+  }
+
   Future getService({
     String serviceProviderId
   }) async {

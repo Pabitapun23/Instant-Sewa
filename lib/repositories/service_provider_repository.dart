@@ -106,15 +106,10 @@ class ServiceProviderRepositoryImpl implements ServiceProviderRepository {
   @override
   // ignore: non_constant_identifier_names
   Future<bool> getFavouriteServiceProvider({String service_provider_id}) async {
-    String id;
     try {
-      SharedPreferences localStorage = await SharedPreferences.getInstance();
-      var user = jsonDecode(localStorage.getString('user'));
-      id = user['id'].toString();
       Dio dio = new Dio();
       Response response = await InstantSewaAPI.dio.post("/checker",
           data: {
-            "service_user_id": id,
             "service_provider_id": service_provider_id
           },
           options: Options(headers: {
