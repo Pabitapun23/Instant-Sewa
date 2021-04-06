@@ -8,6 +8,7 @@ import 'package:instantsewa/ui/bulid_slider.dart';
 import 'package:instantsewa/ui/build_grid_categories.dart';
 import 'package:instantsewa/ui/categories_list.dart';
 import 'package:instantsewa/ui/provider_list.dart';
+import 'package:instantsewa/ui/service_search.dart';
 import 'package:instantsewa/util/hexcode.dart';
 
 import 'home_page.dart';
