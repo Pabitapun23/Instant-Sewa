@@ -51,8 +51,6 @@ dependencies:
   intl: ^0.16.1
   date_format: ^1.0.9
   rating_dialog: ^1.0.0
-  flutter_khalti: ^1.0.0
-  flutterkhaltipayment: ^0.4.0
   flutter_rating_bar: any
   firebase_messaging: any
   firebase_core: any

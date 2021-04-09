@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutterkhaltipayment/flutterkhaltipayment.dart';
 import 'package:instantsewa/util/hexcode.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -11,6 +10,7 @@ class PaymentPage extends StatefulWidget {
 
 class _PaymentPageState extends State<PaymentPage> {
   int selectedRadio;
+
   @override
   void initState() {
     super.initState();
@@ -134,7 +134,6 @@ class _PaymentPageState extends State<PaymentPage> {
                             borderRadius: BorderRadius.circular(25.0)),
                         onPressed: () {
                           if (selectedRadio == 2) {
-                            _payViaKhalti();
                           } else {}
                         },
                         child: Padding(
@@ -157,30 +156,6 @@ class _PaymentPageState extends State<PaymentPage> {
           ],
         ),
       ),
-    );
-  }
-
-  _payViaKhalti() {
-    FlutterKhaltiPayment(
-            urlSchemeIOS: "KhaltiPayFlutterExampleScheme",
-            merchantKey: "test_public_key_4d3be6dd3a3f4b6cb6ff756bed94555e",
-            productId: "0123",
-            productName: "Product Name",
-            amount: 1000,
-            enableEBanking: false,
-            enableIPS: false,
-            enableMobileBanking: false,
-            enableSCT: false,
-            productUrl: "http://www.example.com/")
-        .initPayment(
-      onSuccess: (data) {
-        print("Token Got: ${data["token"].toString()}");
-        print("Success got: ${data.toString()}");
-      },
-      onError: (error) {
-        print("error");
-        print(error);
-      },
     );
   }
 }
