@@ -19,7 +19,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   List<Widget> _widgetList = [
     HomeList(),
     Favourites(),
