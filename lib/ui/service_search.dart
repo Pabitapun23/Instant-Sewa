@@ -14,6 +14,7 @@ class ServiceSearch extends SearchDelegate<String> {
   Future getServicesData() async{
     final response = await InstantSewaAPI.dio.get("/search");
     List _temp = response.data['category'];
+
     for (int i = 0; i < _temp.length; i++) services.add(_temp[i]['name']);
   }
   @override
@@ -43,7 +44,6 @@ class ServiceSearch extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    print(services.toString());
     return Text(query);
 
     // show some result based on the selection
@@ -54,7 +54,7 @@ class ServiceSearch extends SearchDelegate<String> {
     // show when someone searches for something
     List<dynamic> suggestionList = query.isEmpty
         ? recentServices
-        : services.where((p) => p.startsWith(query)).toList();
+        : services.where((p) => p.toLowerCase().contains(query)).toList();
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
         onTap: () => Navigator.push(context,
