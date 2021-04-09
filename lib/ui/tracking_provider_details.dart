@@ -130,7 +130,7 @@ class _ProviderDetailsPageState extends State<ProviderDetailsPage>
                                           width: width,
                                           child: ListView.builder(
                                               scrollDirection: Axis.horizontal,
-                                              itemCount: provider.rating,
+                                              itemCount: 3,
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {
@@ -167,22 +167,34 @@ class _ProviderDetailsPageState extends State<ProviderDetailsPage>
                                         widget.status == 'Completed'
                                             ? Center(
                                                 child: RaisedButton(
-                                                  onPressed:(){
+                                                  onPressed: () {
                                                     showDialog(
                                                         context: context,
                                                         builder: (context) {
                                                           return RatingDialog(
-                                                              icon: Image.asset(
-                                                                'images/photos/provider.png',
-                                                                width: 50,
-                                                              ),
-                                                              title: provider.userName,
-                                                              description: 'Rate the Provider',
-                                                              onSubmitPressed: (int rating) {
-                                                                _rateModel.setState((state) =>state.ratingPost(rate: rating,serviceProviderId:provider.id));
-                                                              },
-                                                              accentColor: _purple,
-                                                              submitButton: 'Submit');
+                                                            icon: Image.asset(
+                                                              'images/photos/provider.png',
+                                                              width: 50,
+                                                            ),
+                                                            title: provider
+                                                                .userName,
+                                                            description:
+                                                                'Rate the Provider',
+                                                            onSubmitPressed:
+                                                                (int rating) {
+                                                              _rateModel.setState((state) =>
+                                                                  state.ratingPost(
+                                                                      rate:
+                                                                          rating,
+                                                                      serviceProviderId:
+                                                                          provider
+                                                                              .id));
+                                                            },
+                                                            accentColor:
+                                                                _purple,
+                                                            submitButton:
+                                                                'Submit',
+                                                          );
                                                         });
                                                   },
                                                   shape: RoundedRectangleBorder(

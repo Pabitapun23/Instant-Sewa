@@ -71,8 +71,9 @@ class InstantSewa extends StatelessWidget {
         Inject<FavouriteState>(() => FavouriteState(FavouriteRepositoryImpl())),
         Inject<ServiceUserUpdateState>(
             () => ServiceUserUpdateState(ServiceUserUpdateRepositoryImpl())),
-        Inject<ServiceProviderSelectionState>(
-                () => ServiceProviderSelectionState(ServiceProviderSelectionRepositoryImpl())),
+        Inject<ServiceProviderSelectionState>(() =>
+            ServiceProviderSelectionState(
+                ServiceProviderSelectionRepositoryImpl())),
         Inject<TrackingState>(() => TrackingState(TrackingRepositoryImpl())),
         Inject<RatingState>(() => RatingState(RatingRepositoryImpl())),
       ],

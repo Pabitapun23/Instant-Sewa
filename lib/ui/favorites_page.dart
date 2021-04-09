@@ -110,7 +110,7 @@ class _FavouritesState extends State<Favourites>
                                       height: 30,
                                       width: width * 0.2,
                                       child: ListView.builder(
-                                        itemCount: user.rating,
+                                        itemCount: 3,
                                         scrollDirection: Axis.horizontal,
                                         itemBuilder: (context, index) {
                                           return Icon(

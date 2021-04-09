@@ -134,7 +134,7 @@ class _BookingPageState extends State<BookingPage>
                                           width: width,
                                           child: ListView.builder(
                                               scrollDirection: Axis.horizontal,
-                                              itemCount: provider.rating,
+                                              itemCount: 3,
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {

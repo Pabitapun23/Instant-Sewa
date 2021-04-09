@@ -127,7 +127,7 @@ class _ServiceProviderDetailsPageState extends State<ServiceProviderDetailsPage>
                                           width: width,
                                           child: ListView.builder(
                                               scrollDirection: Axis.horizontal,
-                                              itemCount: provider.rating,
+                                              itemCount: 3,
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {

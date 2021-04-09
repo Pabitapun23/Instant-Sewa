@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:instantsewa/application/InstantSewa_api.dart';
 import 'package:instantsewa/providers/cart.dart';
 import 'package:instantsewa/ui/cart_page.dart';
 import 'package:instantsewa/ui/favorites_page.dart';
@@ -7,6 +10,7 @@ import 'package:instantsewa/ui/profile_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:instantsewa/widgets/badge.dart';
 import 'package:provider/provider.dart';
+import 'package:states_rebuilder/states_rebuilder.dart';
 import 'home_list.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,6 +19,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   List<Widget> _widgetList = [
     HomeList(),
     Favourites(),

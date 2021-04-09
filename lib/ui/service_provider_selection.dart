@@ -8,6 +8,7 @@ import 'package:instantsewa/ui/booking_page.dart';
 import 'package:instantsewa/ui/service_provider_details_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ServiceProviderSelection extends StatefulWidget {
   final String subCategoryName,
@@ -52,6 +53,23 @@ class _ServiceProviderSelectionState extends State<ServiceProviderSelection>
           startTime: widget.startTime,
           endTime: widget.endTime,
         ));
+    _serviceProviderSelectionState.setState((serviceProviderState) =>
+        serviceProviderState.getFavServiceProviderInformationByDistance(
+          subCategoryName: widget.subCategoryName,
+          latitude: widget.latitude,
+          longitude: widget.longitude,
+          startTime: widget.startTime,
+          endTime: widget.endTime,
+        ));
+    _serviceProviderSelectionState.setState((serviceProviderState) =>
+        serviceProviderState.getTopServiceProviderInformation(
+          subCategoryName: widget.subCategoryName,
+          latitude: widget.latitude,
+          longitude: widget.longitude,
+          startTime: widget.startTime,
+          endTime: widget.endTime,
+        ));
+
     _isLoading = false;
     items = provider.addProvider();
     super.initState();
@@ -60,7 +78,7 @@ class _ServiceProviderSelectionState extends State<ServiceProviderSelection>
   Widget build(BuildContext context) {
     super.build(context);
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
           title: Text('Choose Service Provider'),
@@ -77,84 +95,104 @@ class _ServiceProviderSelectionState extends State<ServiceProviderSelection>
               Tab(
                 text: 'Nearby Providers',
               ),
+              Tab(
+                text: 'Favourites',
+              ),
             ],
           ),
         ),
         body: TabBarView(
           children: [
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: items.length,
-              itemBuilder: (BuildContext context, int index) {
-                var data = items[index];
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) => BookingPage(
-                                  index: index.toString(),
-                                )));
-                  },
-                  child: Container(
-                    height: (MediaQuery.of(context).size.height) * 0.15,
-                    decoration: BoxDecoration(
-                      color: Colors.white10,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Card(
-                      elevation: 5.0,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Image.asset(
-                            data.image,
-                            width: 75,
-                            fit: BoxFit.contain,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                data.name,
-                                style: GoogleFonts.openSans(
-                                  textStyle: TextStyle(
-                                    color: Colors.black54,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
+            StateBuilder<ServiceProviderSelectionState>(
+                observe: () => _serviceProviderSelectionState,
+                builder: (context, model) {
+                  return ListView(
+                    shrinkWrap: true,
+                    physics: ClampingScrollPhysics(),
+                    children: [
+                      ...model.state.providerByRates.map(
+                        (serviceProvider) => Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        BookingPage(
+                                      index: serviceProvider.id,
+                                      address: widget.address,
+                                      latitude: widget.latitude,
+                                      longitude: widget.longitude,
+                                      cartList: widget.cartList,
+                                      endTime: widget.endTime,
+                                      startTime: widget.startTime,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                height:
+                                    (MediaQuery.of(context).size.height) * 0.15,
+                                decoration: BoxDecoration(
+                                  color: Colors.white10,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Card(
+                                  elevation: 5.0,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Image.asset(
+                                        'images/photos/provider.png',
+                                        width: 75,
+                                        fit: BoxFit.contain,
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            serviceProvider.userName,
+                                            style: GoogleFonts.openSans(
+                                              textStyle: TextStyle(
+                                                color: Colors.black54,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          RatingBarIndicator(
+                                            rating: 2.5,
+                                            itemBuilder: (context, index) =>
+                                                Icon(
+                                              Icons.star,
+                                              color: Colors.amber,
+                                            ),
+                                            itemCount: 5,
+                                            itemSize: 20.0,
+                                            direction: Axis.horizontal,
+                                          ),
+                                          Text(
+                                              '${serviceProvider.distance} miles away'),
+                                        ],
+                                      ),
+                                      Icon(
+                                        Icons.keyboard_arrow_right,
+                                        size: 30,
+                                      )
+                                    ],
                                   ),
                                 ),
                               ),
-                              Container(
-                                alignment: Alignment.center,
-                                height: 30,
-                                width:
-                                    (MediaQuery.of(context).size.width) * 0.2,
-                                child: ListView.builder(
-                                  itemCount: data.rate,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) {
-                                    return Icon(
-                                      Icons.star,
-                                      color: Colors.yellow[500],
-                                      size: 17,
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                          Icon(
-                            Icons.keyboard_arrow_right,
-                            size: 30,
-                          )
-                        ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
-                );
-              },
-            ),
+                    ],
+                  );
+                }),
             StateBuilder<ServiceProviderSelectionState>(
                 observe: () => _serviceProviderSelectionState,
                 builder: (context, model) {
@@ -214,6 +252,96 @@ class _ServiceProviderSelectionState extends State<ServiceProviderSelection>
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
+                                          ),
+                                          Text(
+                                              '${serviceProvider.distance} miles away'),
+                                        ],
+                                      ),
+                                      Icon(
+                                        Icons.keyboard_arrow_right,
+                                        size: 30,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+            StateBuilder<ServiceProviderSelectionState>(
+                observe: () => _serviceProviderSelectionState,
+                builder: (context, model) {
+                  return ListView(
+                    shrinkWrap: true,
+                    physics: ClampingScrollPhysics(),
+                    children: [
+                      ...model.state.favProviders.map(
+                        (serviceProvider) => Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        BookingPage(
+                                      index: serviceProvider.id,
+                                      address: widget.address,
+                                      latitude: widget.latitude,
+                                      longitude: widget.longitude,
+                                      cartList: widget.cartList,
+                                      endTime: widget.endTime,
+                                      startTime: widget.startTime,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                height:
+                                    (MediaQuery.of(context).size.height) * 0.15,
+                                decoration: BoxDecoration(
+                                  color: Colors.white10,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Card(
+                                  elevation: 5.0,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Image.asset(
+                                        'images/photos/provider.png',
+                                        width: 75,
+                                        fit: BoxFit.contain,
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            serviceProvider.userName,
+                                            style: GoogleFonts.openSans(
+                                              textStyle: TextStyle(
+                                                color: Colors.black54,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          RatingBarIndicator(
+                                            rating: serviceProvider.rating,
+                                            itemBuilder: (context, index) =>
+                                                Icon(
+                                              Icons.star,
+                                              color: Colors.amber,
+                                            ),
+                                            itemCount: 5,
+                                            itemSize: 20.0,
+                                            direction: Axis.horizontal,
                                           ),
                                           Text(
                                               '${serviceProvider.distance} miles away'),

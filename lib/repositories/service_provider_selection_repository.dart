@@ -9,8 +9,16 @@ import 'package:instantsewa/application/classes/user/user.dart';
 import 'package:instantsewa/application/classes/user/user_by_distance.dart';
 import 'package:instantsewa/application/storage/localstorage.dart';
 import 'package:instantsewa/application/storage/storage_keys.dart';
+
 abstract class ServiceProviderSelectionRepository {
   Future<List<UserByDistance>> getServiceProviderInformationByDistance({
+    @required String subCategoryName,
+    @required String latitude,
+    @required String longitude,
+    @required String startTime,
+    @required String endTime,
+  });
+  Future<List<UserByDistance>> getTopServiceProviderInformation({
     @required String subCategoryName,
     @required String latitude,
     @required String longitude,
@@ -24,9 +32,12 @@ abstract class ServiceProviderSelectionRepository {
     @required String startTime,
     @required String endTime,
   });
-  Future<List<ServiceSelection>> getService({ @required String serviceProviderId});
+  Future<List<ServiceSelection>> getService(
+      {@required String serviceProviderId});
 }
-class ServiceProviderSelectionRepositoryImpl implements ServiceProviderSelectionRepository {
+
+class ServiceProviderSelectionRepositoryImpl
+    implements ServiceProviderSelectionRepository {
   @override
   Future<List<UserByDistance>> getServiceProviderInformationByDistance({
     String subCategoryName,
@@ -34,18 +45,20 @@ class ServiceProviderSelectionRepositoryImpl implements ServiceProviderSelection
     String longitude,
     String startTime,
     String endTime,
-  }) async{
-      try {
-        Response response = await InstantSewaAPI.dio
-            .post("/serviceproviderselectionbydistance", data: {
-          "subcategories_name": subCategoryName,
-          "serviceusers_latitude": latitude,
-          "serviceusers_longitude":longitude,
-          "startDate":startTime,
-          "endDate":endTime,
-        }, options: Options(headers: {
-          'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
-        }));
+  }) async {
+    try {
+      Response response = await InstantSewaAPI.dio.post(
+          "/serviceproviderselectionbydistance",
+          data: {
+            "subcategories_name": subCategoryName,
+            "serviceusers_latitude": latitude,
+            "serviceusers_longitude": longitude,
+            "startDate": startTime,
+            "endDate": endTime,
+          },
+          options: Options(headers: {
+            'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
+          }));
       List _temp = response.data['data'];
       List<UserByDistance> _serviceProviders = _temp
           .map((serviceprovider) => UserByDistance.fromJson(serviceprovider))
@@ -55,21 +68,20 @@ class ServiceProviderSelectionRepositoryImpl implements ServiceProviderSelection
       throw showNetworkError(e);
     }
   }
+
   @override
-  Future<List<ServiceSelection>> getService({
-    String serviceProviderId
-  }) async{
+  Future<List<ServiceSelection>> getService({String serviceProviderId}) async {
     try {
-      Response response = await InstantSewaAPI.dio
-          .post("/serviceselection", data: {
-        "service_provider_id": serviceProviderId,
-      }, options: Options(headers: {
-        'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
-      }));
+      Response response = await InstantSewaAPI.dio.post("/serviceselection",
+          data: {
+            "service_provider_id": serviceProviderId,
+          },
+          options: Options(headers: {
+            'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
+          }));
       List _temp = response.data['data'];
-      List<ServiceSelection> _service = _temp
-          .map((service) => ServiceSelection.fromJson(service))
-          .toList();
+      List<ServiceSelection> _service =
+          _temp.map((service) => ServiceSelection.fromJson(service)).toList();
       return _service;
     } on DioError catch (e) {
       throw showNetworkError(e);
@@ -77,27 +89,62 @@ class ServiceProviderSelectionRepositoryImpl implements ServiceProviderSelection
   }
 
   @override
-  Future<List<UserByDistance>> getFavServiceProviderInformationByDistance({ String subCategoryName,
+  Future<List<UserByDistance>> getFavServiceProviderInformationByDistance({
+    String subCategoryName,
     String latitude,
     String longitude,
     String startTime,
     String endTime,
-  }) async{
+  }) async {
     try {
-      Response response = await InstantSewaAPI.dio
-          .post("/favserviceproviderselection", data: {
-        "subcategories_name": subCategoryName,
-        "serviceusers_latitude": latitude,
-        "serviceusers_longitude":longitude,
-        "startDate":startTime,
-        "endDate":endTime,
-      }, options: Options(headers: {
-        'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
-      }));
+      Response response = await InstantSewaAPI.dio.post(
+          "/favserviceproviderselection",
+          data: {
+            "subcategories_name": subCategoryName,
+            "serviceusers_latitude": latitude,
+            "serviceusers_longitude": longitude,
+            "startDate": startTime,
+            "endDate": endTime,
+          },
+          options: Options(headers: {
+            'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
+          }));
       List _temp = response.data['data'];
       List<UserByDistance> _serviceProviders = _temp
           .map((serviceprovider) => UserByDistance.fromJson(serviceprovider))
           .toList();
+
+      return _serviceProviders;
+    } on DioError catch (e) {
+      throw showNetworkError(e);
+    }
+  }
+
+  @override
+  Future<List<UserByDistance>> getTopServiceProviderInformation(
+      {String subCategoryName,
+      String latitude,
+      String longitude,
+      String startTime,
+      String endTime}) async {
+    try {
+      Response response = await InstantSewaAPI.dio.post(
+          "/serviceproviderselectionbyrating",
+          data: {
+            "subcategories_name": subCategoryName,
+            "serviceusers_latitude": latitude,
+            "serviceusers_longitude": longitude,
+            "startDate": startTime,
+            "endDate": endTime,
+          },
+          options: Options(headers: {
+            'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
+          }));
+      List _temp = response.data['data'];
+      List<UserByDistance> _serviceProviders = _temp
+          .map((serviceprovider) => UserByDistance.fromJson(serviceprovider))
+          .toList();
+
       return _serviceProviders;
     } on DioError catch (e) {
       throw showNetworkError(e);
