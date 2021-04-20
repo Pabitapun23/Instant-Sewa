@@ -18,6 +18,7 @@ class _UserAddressPageState extends State<UserAddressPage> {
   GoogleMapController _controller;
   Position position;
   Widget _child;
+
   @override
   void initState() {
     _getCurrentLocation();
@@ -32,23 +33,26 @@ class _UserAddressPageState extends State<UserAddressPage> {
     });
   }
 
-  Set<Marker> _createMarker() {
-    return <Marker>[
-      Marker(
-        markerId: MarkerId('home'),
-        position: LatLng(position.latitude, position.longitude),
-        icon: BitmapDescriptor.defaultMarker,
-        infoWindow: InfoWindow(title: 'My Current Location'),
-      )
-    ].toSet();
-  }
   Widget _mapWidget() {
     return GoogleMap(
       myLocationEnabled: true,
-      markers: _createMarker(),
-      onMapCreated: (GoogleMapController googleMapController) {
+      markers: Set<Marker>.of(
+        <Marker>[
+          Marker(
+            draggable: true,
+            markerId: MarkerId("1"),
+            position: LatLng(position.latitude, position.longitude),
+            icon: BitmapDescriptor.defaultMarker,
+            infoWindow: const InfoWindow(
+              title: 'My Current Location',
+            ),
+          )
+        ],
+      ),
+      onCameraMove: ((_position) => _updatePosition(_position)),
+      onMapCreated: (GoogleMapController controller) {
         setState(() {
-          _controller = googleMapController;
+          _controller = controller;
         });
       },
       initialCameraPosition: CameraPosition(
@@ -57,6 +61,20 @@ class _UserAddressPageState extends State<UserAddressPage> {
       ),
       mapType: MapType.normal,
     );
+  }
+
+  void _updatePosition(CameraPosition _position) {
+    Position newMarkerPosition = Position(
+        latitude: _position.target.latitude,
+        longitude: _position.target.longitude);
+    var markers;
+    Marker marker = markers["1"];
+
+    setState(() {
+      markers["1"] = marker.copyWith(
+          positionParam:
+              LatLng(newMarkerPosition.latitude, newMarkerPosition.longitude));
+    });
   }
 
   @override
@@ -146,27 +164,31 @@ class _UserAddressPageState extends State<UserAddressPage> {
                               ),
                               StateBuilder(
                                   observe: () => _addressUpdateModel,
-                                  builder: (_, model){
+                                  builder: (_, model) {
                                     return SearchMapPlaceWidget(
                                       placeholder: 'Enter your address',
                                       placeType: PlaceType.address,
                                       hasClearButton: true,
-                                      apiKey: 'AIzaSyBUILBxCa5yyQZawAAOpD6HII48R3haimM',
+                                      apiKey:
+                                          'AIzaSyBUILBxCa5yyQZawAAOpD6HII48R3haimM',
                                       onSelected: (Place place) async {
-                                        Geolocation geolocation = await place.geolocation;
+                                        Geolocation geolocation =
+                                            await place.geolocation;
                                         _controller.animateCamera(
-                                          CameraUpdate.newLatLng(geolocation.coordinates),
+                                          CameraUpdate.newLatLng(
+                                              geolocation.coordinates),
                                         );
                                         _controller.animateCamera(
-                                          CameraUpdate.newLatLngBounds(geolocation.bounds, 0),
+                                          CameraUpdate.newLatLngBounds(
+                                              geolocation.bounds, 0),
                                         );
-                                       _addressUpdateModel.setState(
-                                                 (state) => state.setLatLang(geolocation),
-                                           catchError: true);
+                                        _addressUpdateModel.setState(
+                                            (state) =>
+                                                state.setLatLang(geolocation),
+                                            catchError: true);
                                       },
                                     );
-                                  }
-                              ),
+                                  }),
                               SizedBox(
                                 height: 10,
                               ),

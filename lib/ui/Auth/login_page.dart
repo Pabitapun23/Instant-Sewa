@@ -14,6 +14,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
+  bool isHiddenPassword = true;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -139,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 state.setPassword(password),
                                             catchError: true);
                                       },
-                                      obscureText: true,
+                                      obscureText: isHiddenPassword,
                                       decoration: InputDecoration(
                                         errorText:
                                             _singletonLogInFormModel.hasError
@@ -149,6 +150,15 @@ class _LoginPageState extends State<LoginPage> {
                                         border: InputBorder.none,
                                         prefixIcon: Icon(Icons.lock),
                                         hintText: "Password",
+                                        suffixIcon: InkWell(
+                                          onTap: _togglePasswordView,
+                                          child: Icon(
+                                            isHiddenPassword
+                                                ? Icons.visibility_off
+                                                : Icons.visibility,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
                                         hintStyle:
                                             TextStyle(color: Colors.grey),
                                       ),
@@ -241,5 +251,11 @@ class _LoginPageState extends State<LoginPage> {
             );
           }),
     );
+  }
+
+  void _togglePasswordView() {
+    setState(() {
+      isHiddenPassword = !isHiddenPassword;
+    });
   }
 }

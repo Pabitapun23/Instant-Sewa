@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:instantsewa/application/storage/localstorage.dart';
@@ -53,6 +54,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalStorage.initializeSharedPreference();
   runApp(InstantSewa());
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  _firebaseMessaging.subscribeToTopic('all');
+  _firebaseMessaging.getToken().then((token) => print(token));
+  _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {},
+      onResume: (Map<String, dynamic> message) async {},
+      onLaunch: (Map<String, dynamic> message) async {});
 }
 
 class InstantSewa extends StatelessWidget {
