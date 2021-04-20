@@ -164,7 +164,7 @@ class _ServiceProviderSelectionState extends State<ServiceProviderSelection>
                                             ),
                                           ),
                                           RatingBarIndicator(
-                                            rating: 2.5,
+                                            rating: serviceProvider.rating,
                                             itemBuilder: (context, index) =>
                                                 Icon(
                                               Icons.star,

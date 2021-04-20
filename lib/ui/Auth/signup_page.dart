@@ -14,6 +14,8 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPageState extends State<SignupPage> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
+  bool isHiddenPassword = true;
+  bool isHiddenPassword2 = true;
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +103,9 @@ class _SignupPageState extends State<SignupPage> {
                                                         .error.message
                                                     : null,
                                             border: InputBorder.none,
-                                            prefixIcon: Icon(Icons.person),
+                                            prefixIcon: Icon(
+                                              Icons.person,
+                                            ),
                                             hintText: "Username",
                                             hintStyle:
                                                 TextStyle(color: Colors.grey),
@@ -134,7 +138,9 @@ class _SignupPageState extends State<SignupPage> {
                                                         .error.message
                                                     : null,
                                             border: InputBorder.none,
-                                            prefixIcon: Icon(Icons.email),
+                                            prefixIcon: Icon(
+                                              Icons.email,
+                                            ),
                                             hintText: "Email",
                                             hintStyle:
                                                 TextStyle(color: Colors.grey),
@@ -158,7 +164,7 @@ class _SignupPageState extends State<SignupPage> {
                                                   state.setPassword(password),
                                               catchError: true);
                                         },
-                                        obscureText: true,
+                                        obscureText: isHiddenPassword,
                                         decoration: InputDecoration(
                                           errorText: _singletonRegisterFormModel
                                                   .hasError
@@ -166,10 +172,21 @@ class _SignupPageState extends State<SignupPage> {
                                                   .error.message
                                               : null,
                                           border: InputBorder.none,
-                                          prefixIcon: Icon(Icons.lock),
+                                          prefixIcon: Icon(
+                                            Icons.lock,
+                                          ),
                                           hintText: "Password",
                                           hintStyle:
                                               TextStyle(color: Colors.grey),
+                                          suffixIcon: InkWell(
+                                            onTap: _togglePasswordView,
+                                            child: Icon(
+                                              isHiddenPassword
+                                                  ? Icons.visibility_off
+                                                  : Icons.visibility,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     );
@@ -191,7 +208,7 @@ class _SignupPageState extends State<SignupPage> {
                                                       passwordConfirmation),
                                               catchError: true);
                                         },
-                                        obscureText: true,
+                                        obscureText: isHiddenPassword2,
                                         decoration: InputDecoration(
                                           errorText: _singletonRegisterFormModel
                                                   .hasError
@@ -199,8 +216,19 @@ class _SignupPageState extends State<SignupPage> {
                                                   .error.message
                                               : null,
                                           border: InputBorder.none,
-                                          prefixIcon: Icon(Icons.lock),
+                                          prefixIcon: Icon(
+                                            Icons.lock,
+                                          ),
                                           hintText: "Confirm Password",
+                                          suffixIcon: InkWell(
+                                            onTap: _togglePasswordView2,
+                                            child: Icon(
+                                              isHiddenPassword2
+                                                  ? Icons.visibility_off
+                                                  : Icons.visibility,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
                                           hintStyle:
                                               TextStyle(color: Colors.grey),
                                         ),
@@ -287,5 +315,17 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               );
             }));
+  }
+
+  void _togglePasswordView() {
+    setState(() {
+      isHiddenPassword = !isHiddenPassword;
+    });
+  }
+
+  void _togglePasswordView2() {
+    setState(() {
+      isHiddenPassword2 = !isHiddenPassword2;
+    });
   }
 }

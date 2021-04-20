@@ -115,6 +115,16 @@ class _PaymentPageState extends State<PaymentPage> {
                         },
                         activeColor: Colors.purple,
                       ),
+                      RadioListTile(
+                        value: 3,
+                        groupValue: selectedRadio,
+                        title: Text("Pay with PayPal"),
+                        onChanged: (val) {
+                          print("Radio tile is pressed $val");
+                          setSelectedRadio(val);
+                        },
+                        activeColor: Colors.purple,
+                      ),
                       Divider(
                         height: 5,
                         color: Colors.purple,

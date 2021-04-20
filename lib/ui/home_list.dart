@@ -48,8 +48,12 @@ class _HomeListState extends State<HomeList> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: () {
-              showSearch(context: context, delegate: ServiceSearch());
+            onPressed: () async {
+              final result = await showSearch<String>(
+                context: context,
+                delegate: ServiceSearch(),
+              );
+              print(result);
             },
           ),
           Icon(

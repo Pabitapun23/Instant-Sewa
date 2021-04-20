@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:instantsewa/state/service_provider_state.dart';
 import 'package:instantsewa/ui/payment_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
@@ -101,11 +102,13 @@ class _ServiceProviderDetailsPageState extends State<ServiceProviderDetailsPage>
                                               size: 30,
                                               color: Colors.black26,
                                             ),
-                                            Text(
-                                              provider.address,
-                                              style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  color: Colors.black26),
+                                            Expanded(
+                                              child: Text(
+                                                provider.address,
+                                                style: TextStyle(
+                                                    fontSize: 20.0,
+                                                    color: Colors.black26),
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -122,21 +125,15 @@ class _ServiceProviderDetailsPageState extends State<ServiceProviderDetailsPage>
                                         SizedBox(
                                           height: 5,
                                         ),
-                                        Container(
-                                          height: 50,
-                                          width: width,
-                                          child: ListView.builder(
-                                              scrollDirection: Axis.horizontal,
-                                              itemCount: 3,
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                return Icon(
-                                                  Icons.star,
-                                                  color: Colors.yellow[500],
-                                                  size: 30,
-                                                );
-                                              }),
+                                        RatingBarIndicator(
+                                          rating: provider.rating,
+                                          itemBuilder: (context, index) => Icon(
+                                            Icons.star,
+                                            color: Colors.amber,
+                                          ),
+                                          itemCount: 5,
+                                          itemSize: 50.0,
+                                          direction: Axis.horizontal,
                                         ),
                                         SizedBox(
                                           height: 5,
