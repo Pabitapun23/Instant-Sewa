@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class TrackingRepository {
   Future<List<OperationTracker>> getOngoingProject();
   Future<List<OperationTracker>> getCompletedProject();
+  Future<List<OperationTracker>> getCancelledProject();
   Future<List<Operation>> getOperation({
   @required String operationId
 });
@@ -68,5 +69,23 @@ class TrackingRepositoryImpl implements TrackingRepository {
       throw showNetworkError(e);
     }
 
+  }
+
+  @override
+  Future<List<OperationTracker>> getCancelledProject() async{
+    try {
+      Response response = await InstantSewaAPI.dio
+          .post("/canceledtracker",
+          options: Options(headers: {
+            'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
+          }));
+      List _temp = response.data['data'];
+      List<OperationTracker> _serviceProviders = _temp
+          .map((serviceprovider) => OperationTracker.fromJson(serviceprovider))
+          .toList();
+      return _serviceProviders;
+    } on DioError catch (e) {
+      throw showNetworkError(e);
+    }
   }
 }

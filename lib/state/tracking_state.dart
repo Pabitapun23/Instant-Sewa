@@ -11,6 +11,8 @@ class TrackingState
   List<OperationTracker> get ongoingProject => _ongoing;
   List<OperationTracker> _completed = [];
   List<OperationTracker> get completedProject => _completed;
+  List<OperationTracker> _cancelled = [];
+  List<OperationTracker> get cancelledProject => _cancelled;
   List<Operation> _operation = [];
   List<Operation> get operation => _operation;
   Future getOngoingProject() async
@@ -24,5 +26,9 @@ class TrackingState
   Future getOperation({String operationId}) async
   {
     _operation = await _trackingRepository.getOperation(operationId: operationId);
+  }
+  Future getCancelledProject() async
+  {
+    _cancelled= await _trackingRepository.getCancelledProject();
   }
 }
