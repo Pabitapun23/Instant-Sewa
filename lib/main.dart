@@ -32,12 +32,42 @@ import 'package:instantsewa/state/user_state.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
+import 'application/InstantSewa_api.dart';
+import 'application/classes/errors/common_error.dart';
 import 'application/storage/storage_keys.dart';
 import 'ui/home_page.dart';
-
+import 'package:dio/dio.dart';
 void setup() {
   GetIt.instance
       .registerSingleton<ServiceProvidersService>(ServiceProvidersService());
+}
+void SendDeviceToken(String token) async
+{
+  try {
+    Dio dio = new Dio();
+    Response response = await InstantSewaAPI.dio
+        .post("/deviceTokenUpdate", data: {
+      "deviceToken": token
+    }, options: Options(headers: {
+      'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
+    }));
+  } on DioError catch (e) {
+    showNetworkError(e);
+  }
+}
+void FireBase(){
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  _firebaseMessaging.subscribeToTopic('all');
+  _firebaseMessaging.getToken().then((token) {
+    if(LocalStorage.getItem(TOKEN)!=null) {
+      SendDeviceToken(token);
+    }
+    print(token);
+  });
+  _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {},
+      onResume: (Map<String, dynamic> message) async {},
+      onLaunch: (Map<String, dynamic> message) async {});
 }
 
 Future<void> getPermission() async {
@@ -54,13 +84,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalStorage.initializeSharedPreference();
   runApp(InstantSewa());
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  _firebaseMessaging.subscribeToTopic('all');
-  _firebaseMessaging.getToken().then((token) => print(token));
-  _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {},
-      onResume: (Map<String, dynamic> message) async {},
-      onLaunch: (Map<String, dynamic> message) async {});
+  FireBase();
 }
 
 class InstantSewa extends StatelessWidget {

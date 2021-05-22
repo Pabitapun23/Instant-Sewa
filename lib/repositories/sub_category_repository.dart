@@ -7,7 +7,7 @@ import 'package:instantsewa/application/storage/storage_keys.dart';
 
 abstract class SubCategoryRepository {
   Future<List<SubCategory>> getAllSubCategories(id);
-  Future<List<SubCategory>> getSubCategoryData(name);
+  Future<List<SubCategory>> getSubCategoryData(String name);
 }
 
 class SubCategoryRepositoryImpl implements SubCategoryRepository {
@@ -32,8 +32,7 @@ class SubCategoryRepositoryImpl implements SubCategoryRepository {
   }
 
   @override
-  Future<List<SubCategory>> getSubCategoryData(name) async {
-    print(name);
+  Future<List<SubCategory>> getSubCategoryData(String name) async {
     try {
       Response response = await InstantSewaAPI.dio.post("/subcategoryFinder",
           data: {"name": name},
@@ -41,11 +40,10 @@ class SubCategoryRepositoryImpl implements SubCategoryRepository {
             'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
           }));
       List _temp = response.data['data'];
-      print(_temp);
-      List<SubCategory> _subCategories = _temp
-          .map((subCategory) => SubCategory.fromJson(subCategory))
-          .toList();
-
+       List<SubCategory> _subCategories = _temp
+           .map((subCategory) => SubCategory.fromJson(subCategory))
+           .toList();
+print(_subCategories);
       return _subCategories;
     } on DioError catch (e) {
       throw showNetworkError(e);
