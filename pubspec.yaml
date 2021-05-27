@@ -58,7 +58,6 @@ dependencies:
   cloud_firestore: any
   google_sign_in: any
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

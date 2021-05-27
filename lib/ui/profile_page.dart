@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:dio/dio.dart';
@@ -13,6 +14,7 @@ import 'package:instantsewa/ui/Auth/login_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -20,12 +22,15 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  PickedFile _imageFile;
+  final ImagePicker _picker = ImagePicker();
   String email;
   String userName;
   String fullName;
   String phoneNumber;
   String address;
   bool _isLoading = false;
+
   @override
   void initState() {
     _loadUserData();
@@ -75,7 +80,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
       body:
-      (!_isLoading) ?  new Center(
+      (!_isLoading) ? new Center(
         child: new SizedBox(
           height: 50.0,
           width: 50.0,
@@ -95,19 +100,19 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: <Widget>[
                   Container(
                     height: 130,
-                    color: Colors.grey[200],
+                    width: 2000,
+                    color: Colors.grey[300],
+                    child:
+                    Image(
+                      image: AssetImage("images/instant_sewa.png"),
+                    ),
                   ),
                   Align(
                     alignment: Alignment(0, 1),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        CircularProfileAvatar(
-                          "https://robohash.org/1?set=set2",
-                          //backgroundImage: NetworkImage('https://avatars0.githubusercontent.com/u/8264639?s=460&v=4),
-                          borderWidth: 4.0,
-                          radius: 60.0,
-                        ),
+                        imageProfile(),
                         SizedBox(
                           height: 5.0,
                         ),
@@ -190,7 +195,10 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Center(
                 child: SizedBox(
                   height: 45.0,
-                  width: MediaQuery.of(context).size.width * 0.4,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.4,
                   child: RaisedButton(
                     color: _purple,
                     shape: RoundedRectangleBorder(
@@ -218,16 +226,102 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
-  void logout()
-  async
+
+  Widget imageProfile() {
+    return Center(
+      child: Stack(
+        children: <Widget>[
+          CircleAvatar(
+            //"https://robohash.org/1?set=set2"
+            backgroundImage: _imageFile == null
+            ? AssetImage("images/instant_sewa.png")
+            : FileImage(File(_imageFile.path)),
+            radius: 70.0,
+          ),
+          Positioned(
+            bottom: 20.0,
+            right: 20.0,
+            child: InkWell(
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: ((builder) => bottomSheet()),
+                );
+              },
+              child: Icon(
+                Icons.camera_alt,
+                color: Colors.deepPurple,
+                size: 28.0,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget bottomSheet() {
+    return Container(
+      height: 100.0,
+      width: 100.0,
+      //width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
+      ),
+      child: Column(
+        children: <Widget>[
+          Text(
+            "Choose Profile Picture",
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              FlatButton.icon(
+                icon: Icon(Icons.camera),
+                onPressed: () {
+                  takePhoto(ImageSource.camera);
+                },
+                label: Text("Camera"),
+              ),
+              FlatButton.icon(
+                icon: Icon(Icons.image),
+                onPressed: () {
+                  takePhoto(ImageSource.gallery);
+                },
+                label: Text("Gallery"),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  void takePhoto(ImageSource source) async {
+    final pickedFile = await _picker.getImage(
+      source: source,
+    );
+    setState(() {
+      _imageFile = pickedFile;
+    });
+  }
+
+  void logout() async
   {
-    try{
+    try {
       var token = LocalStorage.getItem(TOKEN);
-      final response = await http.get(BASE_URL+"/auth/logout",headers:
-      {'Content-type' : 'application/json',
-      'Accept' : 'application/json',
-          'Authorization' : 'Bearer $token'});
-      if(response.statusCode==200) {
+      final response = await http.get(BASE_URL + "/auth/logout", headers:
+      {'Content-type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'});
+      if (response.statusCode == 200) {
         LocalStorage.deleteItem(TOKEN);
         SharedPreferences localStorage = await SharedPreferences.getInstance();
         await localStorage.remove('user');
@@ -237,11 +331,10 @@ class _ProfilePageState extends State<ProfilePage> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (BuildContext context) =>LoginPage()));
+                builder: (BuildContext context) => LoginPage()));
       }
     }
-    on DioError catch(e)
-    {
+    on DioError catch (e) {
       showNetworkError(e);
     }
   }
