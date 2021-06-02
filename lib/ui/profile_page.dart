@@ -449,27 +449,21 @@ class _ProfilePageState extends State<ProfilePage> {
     );
     setState(() {
       _imageFile = pickedFile;
+      try{
+        String filename = _imageFile.path.split('/').last;
+        FormData formData = new FormData.fromMap({
+          "image" :
+          await MultipartFile.fromFile(_imageFile.path, filename: filename,
+              contentType: MediaType('image', 'png')),
+          "type" : "image/png"
+        });
+        final bytes = await Io.File(image).readAsBytes();
+        print(bytes);
+      }
+      catch(e) {
+        print(e);
+      }
     });
-    try{
-      String filename = _imageFile.path.split('/').last;
-      FormData formData = new FormData.fromMap({
-        "image" :
-        await MultipartFile.fromFile(_imageFile.path, filename: filename,
-        contentType: MediaType('image', 'png')),
-        "type" : "image/png"
-      });
-      Response response =
-      await dio.post("path", data: formData, options: Options(
-          headers: {
-            "accept" : "*/*",
-            "Authorization" : "Bearer access token",
-            "Content-Type" : "multipart/form-data",
-          }
-      ));
-    }
-    catch(e) {
-      print(e);
-    }
   }
 
   void logout() async
