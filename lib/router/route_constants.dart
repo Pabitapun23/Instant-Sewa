@@ -11,4 +11,5 @@ const String subCategoryRoute = "subCategory";
 const String fullNameUpdateRoute = 'fullNameUpdate';
 const String addressUpdateRoute = 'addressUpdate';
 const String phoneUpdateRoute = 'phoneUpdate';
+const String profileimageupdateRoute = 'profileimageupdate';
 const String trackerRoute = 'trackingPage';

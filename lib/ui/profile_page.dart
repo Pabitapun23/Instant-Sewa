@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:instantsewa/application/classes/errors/common_error.dart';
 import 'package:instantsewa/application/storage/localstorage.dart';
@@ -13,8 +13,8 @@ import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/ui/Auth/login_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:states_rebuilder/states_rebuilder.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http_parser/http_parser.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -24,6 +24,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   PickedFile _imageFile;
   final ImagePicker _picker = ImagePicker();
+  Dio dio = new Dio();
   String email;
   String userName;
   String fullName;
@@ -78,6 +79,17 @@ class _ProfilePageState extends State<ProfilePage> {
             Navigator.pushNamed(context, homeRoute);
           },
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.edit),
+            tooltip: 'Go to the next page',
+            onPressed: () async {
+              Navigator.push(context, MaterialPageRoute<void>(
+                builder: ((builder) => editProfile()),
+              ));
+            },
+          ),
+        ],
       ),
       body:
       (!_isLoading) ? new Center(
@@ -227,6 +239,133 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  Widget editProfile() {
+    Color _purple = HexColor('#603f8b');
+    return Scaffold(
+      appBar: AppBar(
+      title: const Text('Edit Profile'),
+      backgroundColor: _purple,
+      ),
+      resizeToAvoidBottomPadding: false,
+      body: Column(
+        children: <Widget> [
+          Container(
+            padding: EdgeInsets.all(25.0),
+            child: Column(
+              children: <Widget>[
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Fullname',
+                    labelStyle: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.purple),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10.0,),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Username',
+                    labelStyle: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.purple),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10.0,),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    labelStyle: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.purple),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10.0,),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Address',
+                    labelStyle: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.purple),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10.0,),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Phone Number',
+                    labelStyle: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.purple),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 40.0,),
+                Container(
+                  height: 60,
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: SizedBox(
+                      height: 45.0,
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.4,
+                      child: RaisedButton(
+                        color: _purple,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0)),
+                        onPressed: () {
+                          logout();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 14.0, vertical: 12.0),
+                          child: Text(
+                            'Done',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 17.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget imageProfile() {
     return Center(
       child: Stack(
@@ -311,6 +450,26 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       _imageFile = pickedFile;
     });
+    try{
+      String filename = _imageFile.path.split('/').last;
+      FormData formData = new FormData.fromMap({
+        "image" :
+        await MultipartFile.fromFile(_imageFile.path, filename: filename,
+        contentType: MediaType('image', 'png')),
+        "type" : "image/png"
+      });
+      Response response =
+      await dio.post("path", data: formData, options: Options(
+          headers: {
+            "accept" : "*/*",
+            "Authorization" : "Bearer access token",
+            "Content-Type" : "multipart/form-data",
+          }
+      ));
+    }
+    catch(e) {
+      print(e);
+    }
   }
 
   void logout() async
