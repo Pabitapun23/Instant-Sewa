@@ -449,7 +449,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
     setState(() {
       _imageFile = pickedFile;
-
+    });
     try{
       String filename = _imageFile.path.split('/').last;
       FormData formData = new FormData.fromMap({
@@ -458,13 +458,18 @@ class _ProfilePageState extends State<ProfilePage> {
         contentType: MediaType('image', 'png')),
         "type" : "image/png"
       });
-      final bytes = await Io.File(filename).readAsBytes();
-      print(bytes);
+      Response response =
+      await dio.post("path", data: formData, options: Options(
+          headers: {
+            "accept" : "*/*",
+            "Authorization" : "Bearer access token",
+            "Content-Type" : "multipart/form-data",
+          }
+      ));
     }
     catch(e) {
       print(e);
     }
-    });
   }
 
   void logout() async
