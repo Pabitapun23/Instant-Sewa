@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
+import 'dart:io' as Io;
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -447,7 +447,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final pickedFile = await _picker.getImage(
       source: source,
     );
-    setState(() {
+    setState(() async {
       _imageFile = pickedFile;
       try{
         String filename = _imageFile.path.split('/').last;
@@ -457,7 +457,7 @@ class _ProfilePageState extends State<ProfilePage> {
               contentType: MediaType('image', 'png')),
           "type" : "image/png"
         });
-        final bytes = await Io.File(image).readAsBytes();
+        final bytes = await Io.File(filename).readAsBytes();
         print(bytes);
       }
       catch(e) {
