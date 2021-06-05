@@ -69,7 +69,6 @@ class AuthRepositoryImpl implements AuthRepository {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       await localStorage.setString('user', json.encode(response.data['user']));
       var user = jsonDecode(localStorage.getString('user'));
-      await LocalStorage.setItem(TOKEN, accessToken);
       FireBase();
       if(user['address_address'] != null){
         await LocalStorage.setItem(FUllNAME,user['fullname']);
