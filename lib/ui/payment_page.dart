@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:instantsewa/base_url.dart';
 import 'package:instantsewa/util/hexcode.dart';
+import 'package:instantsewa/webview/chrome_safari_browser_example.dart';
+import 'package:instantsewa/webview/in_app_browser_example.dart';
 
 class PaymentPage extends StatefulWidget {
-  //PaymentPage({Key key}) : super(key: key);
+  final String cartName;
+  final double payment;
+  const PaymentPage({Key key, this.payment, this.cartName}) : super(key: key);
 
   @override
   _PaymentPageState createState() => _PaymentPageState();
 }
 
 class _PaymentPageState extends State<PaymentPage> {
-  int selectedRadio;
-
+  final ChromeSafariBrowserExample chromeSafariBrowserExample =
+  ChromeSafariBrowserExample(InAppBrowserExample());
   @override
   void initState() {
+    print(widget.payment);
     super.initState();
-    selectedRadio = 0;
-  }
-
-  setSelectedRadio(int val) {
-    setState(() {
-      selectedRadio = val;
-    });
   }
 
   @override
@@ -131,7 +131,23 @@ class _PaymentPageState extends State<PaymentPage> {
                             ),
                             padding: EdgeInsets.only(
                                 top: 4.0, bottom: 4.0, right: 40.0, left: 7.0),
-                            onPressed: () {},
+                            onPressed: () {
+                              chromeSafariBrowserExample.open(
+                                url: BASE_URL+'/payment/'+widget.cartName+'/'+widget.payment.toString(),
+                                options: ChromeSafariBrowserClassOptions(
+                                  android: AndroidChromeCustomTabsOptions(
+                                    addDefaultShareMenuItem: true,
+                                    enableUrlBarHiding: true,
+                                    instantAppsEnabled: true,
+                                    keepAliveEnabled: true,
+                                    showTitle: true,
+                                  ),
+                                  ios: IOSSafariOptions(
+
+                                  ),
+                                ),
+                              );
+                            },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
@@ -175,7 +191,23 @@ class _PaymentPageState extends State<PaymentPage> {
                             ),
                             padding: EdgeInsets.only(
                                 top: 4.0, bottom: 4.0, right: 40.0, left: 7.0),
-                            onPressed: () {},
+                            onPressed: () {
+                              chromeSafariBrowserExample.open(
+                                url: BASE_URL+'/khalti/'+widget.cartName+'/'+widget.payment.toString(),
+                                options: ChromeSafariBrowserClassOptions(
+                                  android: AndroidChromeCustomTabsOptions(
+                                    addDefaultShareMenuItem: true,
+                                    enableUrlBarHiding: true,
+                                    instantAppsEnabled: true,
+                                    keepAliveEnabled: true,
+                                    showTitle: true,
+                                  ),
+                                  ios: IOSSafariOptions(
+
+                                  ),
+                                ),
+                              );
+                            },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
