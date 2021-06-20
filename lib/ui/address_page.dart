@@ -3,7 +3,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:instantsewa/ui/schedule_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:search_map_place/search_map_place.dart';
 
 class AddressPage extends StatefulWidget {
@@ -15,6 +14,9 @@ class _AddressPageState extends State<AddressPage> {
   GoogleMapController _controller;
   Position position;
   Widget _child;
+
+  Set<Marker> _markers = {};
+
   @override
   void initState() {
     _getCurrentLocation();
@@ -29,32 +31,32 @@ class _AddressPageState extends State<AddressPage> {
     });
   }
 
-  Set<Marker> _createMarker(double latitude, double longitude) {
-    return <Marker>[
-      Marker(
-        markerId: MarkerId('home'),
-        position: LatLng(latitude, longitude),
-        icon: BitmapDescriptor.defaultMarker,
-        infoWindow: InfoWindow(title: 'My Current Location'),
-      )
-    ].toSet();
-  }
-
   Color _purple = HexColor('#603f8b');
 
   Widget _mapWidget() {
     return GoogleMap(
-      markers: _createMarker(position.latitude, position.longitude),
-      onMapCreated: (GoogleMapController googleMapController) {
-        setState(() {
-          _controller = googleMapController;
-        });
-      },
+      mapType: MapType.normal,
       initialCameraPosition: CameraPosition(
         zoom: 15.0,
         target: LatLng(position.latitude, position.longitude),
       ),
-      mapType: MapType.normal,
+      markers: _markers,
+      myLocationButtonEnabled: true,
+      onMapCreated: (GoogleMapController googleMapController) {
+        setState(() {
+          _controller = googleMapController;
+          _markers.add(
+              Marker(
+                draggable: true,
+                markerId: MarkerId("1"),
+                position: LatLng(position.latitude, position.longitude),
+                icon: BitmapDescriptor.defaultMarker,
+                infoWindow: const InfoWindow(title: 'My Current Location'),
+              ),
+          );
+        },
+        );
+      },
     );
   }
 
@@ -117,6 +119,15 @@ class _AddressPageState extends State<AddressPage> {
                       _controller.animateCamera(
                         CameraUpdate.newLatLngBounds(geolocation.bounds, 0),
                       );
+                      _markers.add(
+                        Marker(
+                          draggable: true,
+                          markerId: MarkerId("2"),
+                          position: geolocation.coordinates,
+                          icon: BitmapDescriptor.defaultMarker,
+                          infoWindow: const InfoWindow(title: 'My Current Location'),
+                        ),
+                      );
                     },
                   ),
                   SizedBox(
@@ -166,4 +177,4 @@ class _AddressPageState extends State<AddressPage> {
       ),
     );
   }
-}
+ }
