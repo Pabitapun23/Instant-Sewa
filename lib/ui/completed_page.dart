@@ -232,7 +232,13 @@ class _CompletedPageState extends State<CompletedPage> {
                       onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (BuildContext context) => PaymentPage())),
+                              builder: (BuildContext context) =>
+                                  PaymentPage(
+                                    cartName: widget.cartName,
+                                payment: totalAmount(operation.cart),
+                                  ),
+                            ),
+                      ),
                       child: Container(
                         height: (MediaQuery.of(context).size.height) * 0.12,
                         decoration: BoxDecoration(
