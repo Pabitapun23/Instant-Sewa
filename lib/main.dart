@@ -55,21 +55,6 @@ void SendDeviceToken(String token) async
     showNetworkError(e);
   }
 }
-void FireBase(){
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  _firebaseMessaging.subscribeToTopic('all');
-  _firebaseMessaging.getToken().then((token) {
-    if(LocalStorage.getItem(TOKEN)!=null) {
-      SendDeviceToken(token);
-    }
-    print(token);
-  });
-  _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {},
-      onResume: (Map<String, dynamic> message) async {},
-      onLaunch: (Map<String, dynamic> message) async {});
-}
-
 Future<void> getPermission() async {
   PermissionStatus permission =
       await PermissionHandler().checkPermissionStatus(PermissionGroup.location);
@@ -84,7 +69,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalStorage.initializeSharedPreference();
   runApp(InstantSewa());
-  FireBase();
 }
 
 class InstantSewa extends StatelessWidget {

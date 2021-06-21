@@ -25,34 +25,6 @@ abstract class AuthRepository {
 }
 
 class AuthRepositoryImpl implements AuthRepository {
-  void SendDeviceToken(String token) async
-  {
-    try {
-      Dio dio = new Dio();
-      Response response = await InstantSewaAPI.dio
-          .post("/deviceTokenUpdate", data: {
-        "deviceToken": token
-      }, options: Options(headers: {
-        'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
-      }));
-    } on DioError catch (e) {
-      showNetworkError(e);
-    }
-  }
-  void FireBase(){
-    FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-    _firebaseMessaging.subscribeToTopic('all');
-    _firebaseMessaging.getToken().then((token) {
-      if(LocalStorage.getItem(TOKEN)!=null) {
-        SendDeviceToken(token);
-      }
-      print(token);
-    });
-    _firebaseMessaging.configure(
-        onMessage: (Map<String, dynamic> message) async {},
-        onResume: (Map<String, dynamic> message) async {},
-        onLaunch: (Map<String, dynamic> message) async {});
-  }
   @override
   Future signIn({
     String email,
@@ -62,15 +34,22 @@ class AuthRepositoryImpl implements AuthRepository {
       Dio dio = new Dio();
       Response response = await InstantSewaAPI.dio
           .post("/auth/login", data: {"email": email, "password": password});
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      await localStorage.setString('user', json.encode(response.data['user']));
+      var user = jsonDecode(localStorage.getString('user'));
+      // if(user['user_type'] != 'serviceuser')
+      // {
+      //   AlertDialog(title: Text('User is not registered as Service User.'),);
+      //   return false;
+      // }
+      // else if(user['verified'] != '1'){
+      //   AlertDialog(title: Text('User is not verified.'),);
+      //   return false;
+      // }
       String accessToken = response.data['accessToken'];
       String expiresAt = response.data['expiresAt'];
       await LocalStorage.setItem(TOKEN, accessToken);
       await LocalStorage.setItem(TOKEN_EXPIRATION, expiresAt);
-      SharedPreferences localStorage = await SharedPreferences.getInstance();
-      await localStorage.setString('user', json.encode(response.data['user']));
-      var user = jsonDecode(localStorage.getString('user'));
-      await LocalStorage.setItem(TOKEN, accessToken);
-      FireBase();
       if(user['address_address'] != null){
         await LocalStorage.setItem(FUllNAME,user['fullname']);
           await LocalStorage.setItem(PHONE,user['phoneno']);
