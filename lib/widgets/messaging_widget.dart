@@ -1,8 +1,13 @@
 import 'dart:io';
 import 'dart:async';
+import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:instantsewa/application/InstantSewa_api.dart';
+import 'package:instantsewa/application/classes/errors/common_error.dart';
+import 'package:instantsewa/application/storage/localstorage.dart';
+import 'package:instantsewa/application/storage/storage_keys.dart';
 import 'package:instantsewa/model/message.dart';
 
 class MessagingWidget extends StatefulWidget {
@@ -53,6 +58,17 @@ class _MessagingWidgetState extends State<MessagingWidget> {
   {
     String fcmToken = await _firebaseMessaging.getToken();
     print(fcmToken);
+    try {
+      Dio dio = new Dio();
+      Response response = await InstantSewaAPI.dio
+          .post("/deviceTokenUpdate", data: {
+        "deviceToken": fcmToken
+      }, options: Options(headers: {
+        'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
+      }));
+    } on DioError catch (e) {
+      showNetworkError(e);
+    }
   }
   @override
   Widget build(BuildContext context)=>ListView(
