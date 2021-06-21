@@ -57,6 +57,7 @@ dependencies:
   firebase_auth: any
   cloud_firestore: any
   google_sign_in: any
+  flutter_inappwebview:
 
 dev_dependencies:
   flutter_test:
