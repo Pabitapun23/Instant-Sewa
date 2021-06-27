@@ -9,6 +9,8 @@ import 'package:instantsewa/application/classes/errors/common_error.dart';
 import 'package:instantsewa/application/storage/localstorage.dart';
 import 'package:instantsewa/application/storage/storage_keys.dart';
 import 'package:instantsewa/model/message.dart';
+import 'package:instantsewa/state/notification_state.dart';
+import 'package:states_rebuilder/states_rebuilder.dart';
 
 class MessagingWidget extends StatefulWidget {
   const MessagingWidget({Key key}) : super(key: key);
@@ -18,22 +20,19 @@ class MessagingWidget extends StatefulWidget {
 }
 
 
-class _MessagingWidgetState extends State<MessagingWidget> {
+class _MessagingWidgetState extends State<MessagingWidget> with AutomaticKeepAliveClientMixin {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final _notificationState = RM.get<NotificationState>();
   final List<Message> messages = [];
   StreamSubscription iosSubscription;
   @override
   void initState() {
+    _notificationState.setState((notificationState) => notificationState.getNotification());
     super.initState();
     _firebaseMessaging.subscribeToTopic('tracking_notification');
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
-        final notification = message['notification'];
-         setState(() {
-           messages.add(Message(title: notification['title'],
-              body: notification['body']));
-         });
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
@@ -72,10 +71,116 @@ class _MessagingWidgetState extends State<MessagingWidget> {
   }
   @override
   Widget build(BuildContext context)=>ListView(
-    children: messages.map(buildMessage).toList(),
+  //   StateBuilder<TrackingState>(
+  //   observe: () => _trackingState,
+  //   builder: (context, model) {
+  //     return ListView(
+  //       shrinkWrap: true,
+  //       children: [
+  //         ...model.state.ongoingProject.map(
+  //               (orders) => Column(
+  //             children: [
+  //               GestureDetector(
+  //                 onTap: () {
+  //                   Navigator.push(
+  //                     context,
+  //                     MaterialPageRoute(
+  //                       builder: (BuildContext context) =>
+  //                           OngoingPage(orderId: orders.id,
+  //                               cartName: orders.cartName),
+  //                     ),
+  //                   );
+  //                 },
+  //                 child: Padding(
+  //                   padding: const EdgeInsets.all(4.0),
+  //                   child: Container(
+  //                     height:
+  //                     (MediaQuery.of(context).size.height) * 0.15,
+  //                     decoration: BoxDecoration(
+  //                       color: Colors.white10,
+  //                       borderRadius: BorderRadius.circular(10),
+  //                     ),
+  //                     child: Card(
+  //                       elevation: 0.5,
+  //                       child: Row(
+  //                         mainAxisAlignment:
+  //                         MainAxisAlignment.spaceBetween,
+  //                         children: [
+  //                           Padding(
+  //                             padding: const EdgeInsets.all(8.0),
+  //                             child: Column(
+  //                               mainAxisAlignment:
+  //                               MainAxisAlignment.center,
+  //                               children: [
+  //                                 Text(
+  //                                   orders.cartName,
+  //                                   style: GoogleFonts.openSans(
+  //                                     textStyle: TextStyle(
+  //                                       color: Colors.black87,
+  //                                       fontSize: 20,
+  //                                       fontWeight: FontWeight.w600,
+  //                                     ),
+  //                                   ),
+  //                                 ),
+  //                                 Text(
+  //                                   DateFormat.yMMMMd()
+  //                                       .add_jm()
+  //                                       .format(orders.startTime),
+  //                                   style: GoogleFonts.openSans(
+  //                                     textStyle: TextStyle(
+  //                                       color: Colors.black54,
+  //                                       fontSize: 15,
+  //                                       fontWeight: FontWeight.w600,
+  //                                     ),
+  //                                   ),
+  //                                 ),
+  //                               ],
+  //                             ),
+  //                           ),
+  //                           Padding(
+  //                             padding: const EdgeInsets.all(8.0),
+  //                             child: Column(
+  //                               mainAxisAlignment:
+  //                               MainAxisAlignment.center,
+  //                               children: [
+  //                                 Icon(
+  //                                   Icons.circle,
+  //                                   color: orders.status == 'Pending'
+  //                                       ? Colors.orangeAccent
+  //                                       : orders.status == 'Ongoing'
+  //                                       ? Colors.green
+  //                                       : Colors.grey,
+  //                                   size: 13,
+  //                                 ),
+  //                                 Text(
+  //                                   orders.status,
+  //                                   style: GoogleFonts.openSans(
+  //                                     textStyle: TextStyle(
+  //                                       color: Colors.black87,
+  //                                       fontSize: 13,
+  //                                       fontWeight: FontWeight.w500,
+  //                                     ),
+  //                                   ),
+  //                                 ),
+  //                               ],
+  //                             ),
+  //                           ),
+  //                         ],
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ],
+  //     );
+  //   },
+  // ),
   );
-  Widget buildMessage(Message message) => ListTile(
-    title: Text(message.title),
-    subtitle: Text(message.body),
-  );
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
