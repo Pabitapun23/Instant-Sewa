@@ -42,20 +42,6 @@ void setup() {
   GetIt.instance
       .registerSingleton<ServiceProvidersService>(ServiceProvidersService());
 }
-void SendDeviceToken(String token) async
-{
-  try {
-    Dio dio = new Dio();
-    Response response = await InstantSewaAPI.dio
-        .post("/deviceTokenUpdate", data: {
-      "deviceToken": token
-    }, options: Options(headers: {
-      'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
-    }));
-  } on DioError catch (e) {
-    showNetworkError(e);
-  }
-}
 Future<void> getPermission() async {
   PermissionStatus permission =
       await PermissionHandler().checkPermissionStatus(PermissionGroup.location);

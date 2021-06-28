@@ -1,4 +1,3 @@
-import 'package:instantsewa/model/message.dart';
 import 'package:intl/intl.dart';
 
 class Notification {
