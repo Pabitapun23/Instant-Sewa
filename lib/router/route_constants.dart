@@ -14,3 +14,4 @@ const String phoneUpdateRoute = 'phoneUpdate';
 const String profileimageupdateRoute = 'profileimageupdate';
 const String trackerRoute = 'trackingPage';
 const String notificationRoute = 'notificationPage';
+const String otpRoute = 'otpPage';

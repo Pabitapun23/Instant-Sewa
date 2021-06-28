@@ -7,6 +7,7 @@ import 'package:instantsewa/ui/home_page.dart';
 import 'package:instantsewa/ui/not_found_page_views.dart';
 import 'package:instantsewa/ui/notification_message.dart';
 import 'package:instantsewa/ui/on_boarding_page.dart';
+import 'package:instantsewa/ui/otp_page.dart';
 import 'package:instantsewa/ui/profile_page.dart';
 import 'package:instantsewa/ui/sub_categories_page.dart';
 import 'package:instantsewa/ui/track_order_page.dart';
@@ -40,6 +41,8 @@ class Routers {
         return MaterialPageRoute(builder: (_) => TrackOrder());
       case notificationRoute:
         return MaterialPageRoute(builder: (_) => NotificationMessage());
+      case otpRoute:
+        return MaterialPageRoute(builder: (_) => OtpPage());
       default:
         return MaterialPageRoute(builder: (_) => NotFoundPage());
     }

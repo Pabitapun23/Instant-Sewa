@@ -10,4 +10,16 @@ class NotificationState{
   {
     _notifications= await _notificationRepository.getNotification();
   }
+  Future deleteAllNotification() async
+  {
+    _notificationRepository.deleteAllNotification();
+  }
+  Future deleteNotification(String notificationId) async
+  {
+    _notificationRepository.deleteNotification(notificationId);
+  }
+  Future readNotification(String notificationId) async
+  {
+  _notificationRepository.readNotification(notificationId);
+  }
 }

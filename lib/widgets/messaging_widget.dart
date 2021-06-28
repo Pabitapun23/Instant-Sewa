@@ -9,7 +9,9 @@ import 'package:instantsewa/application/classes/errors/common_error.dart';
 import 'package:instantsewa/application/storage/localstorage.dart';
 import 'package:instantsewa/application/storage/storage_keys.dart';
 import 'package:instantsewa/model/message.dart';
+import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/state/notification_state.dart';
+import 'package:instantsewa/util/hexcode.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
 class MessagingWidget extends StatefulWidget {
@@ -25,6 +27,7 @@ class _MessagingWidgetState extends State<MessagingWidget> with AutomaticKeepAli
   final _notificationState = RM.get<NotificationState>();
   final List<Message> messages = [];
   StreamSubscription iosSubscription;
+  Color _purple = HexColor('#603f8b');
   @override
   void initState() {
     _notificationState.setState((notificationState) => notificationState.getNotification());
@@ -56,7 +59,6 @@ class _MessagingWidgetState extends State<MessagingWidget> with AutomaticKeepAli
   _saveDeviceToken() async
   {
     String fcmToken = await _firebaseMessaging.getToken();
-    print(fcmToken);
     try {
       Dio dio = new Dio();
       Response response = await InstantSewaAPI.dio
@@ -70,114 +72,92 @@ class _MessagingWidgetState extends State<MessagingWidget> with AutomaticKeepAli
     }
   }
   @override
-  Widget build(BuildContext context)=>ListView(
-  //   StateBuilder<TrackingState>(
-  //   observe: () => _trackingState,
-  //   builder: (context, model) {
-  //     return ListView(
-  //       shrinkWrap: true,
-  //       children: [
-  //         ...model.state.ongoingProject.map(
-  //               (orders) => Column(
-  //             children: [
-  //               GestureDetector(
-  //                 onTap: () {
-  //                   Navigator.push(
-  //                     context,
-  //                     MaterialPageRoute(
-  //                       builder: (BuildContext context) =>
-  //                           OngoingPage(orderId: orders.id,
-  //                               cartName: orders.cartName),
-  //                     ),
-  //                   );
-  //                 },
-  //                 child: Padding(
-  //                   padding: const EdgeInsets.all(4.0),
-  //                   child: Container(
-  //                     height:
-  //                     (MediaQuery.of(context).size.height) * 0.15,
-  //                     decoration: BoxDecoration(
-  //                       color: Colors.white10,
-  //                       borderRadius: BorderRadius.circular(10),
-  //                     ),
-  //                     child: Card(
-  //                       elevation: 0.5,
-  //                       child: Row(
-  //                         mainAxisAlignment:
-  //                         MainAxisAlignment.spaceBetween,
-  //                         children: [
-  //                           Padding(
-  //                             padding: const EdgeInsets.all(8.0),
-  //                             child: Column(
-  //                               mainAxisAlignment:
-  //                               MainAxisAlignment.center,
-  //                               children: [
-  //                                 Text(
-  //                                   orders.cartName,
-  //                                   style: GoogleFonts.openSans(
-  //                                     textStyle: TextStyle(
-  //                                       color: Colors.black87,
-  //                                       fontSize: 20,
-  //                                       fontWeight: FontWeight.w600,
-  //                                     ),
-  //                                   ),
-  //                                 ),
-  //                                 Text(
-  //                                   DateFormat.yMMMMd()
-  //                                       .add_jm()
-  //                                       .format(orders.startTime),
-  //                                   style: GoogleFonts.openSans(
-  //                                     textStyle: TextStyle(
-  //                                       color: Colors.black54,
-  //                                       fontSize: 15,
-  //                                       fontWeight: FontWeight.w600,
-  //                                     ),
-  //                                   ),
-  //                                 ),
-  //                               ],
-  //                             ),
-  //                           ),
-  //                           Padding(
-  //                             padding: const EdgeInsets.all(8.0),
-  //                             child: Column(
-  //                               mainAxisAlignment:
-  //                               MainAxisAlignment.center,
-  //                               children: [
-  //                                 Icon(
-  //                                   Icons.circle,
-  //                                   color: orders.status == 'Pending'
-  //                                       ? Colors.orangeAccent
-  //                                       : orders.status == 'Ongoing'
-  //                                       ? Colors.green
-  //                                       : Colors.grey,
-  //                                   size: 13,
-  //                                 ),
-  //                                 Text(
-  //                                   orders.status,
-  //                                   style: GoogleFonts.openSans(
-  //                                     textStyle: TextStyle(
-  //                                       color: Colors.black87,
-  //                                       fontSize: 13,
-  //                                       fontWeight: FontWeight.w500,
-  //                                     ),
-  //                                   ),
-  //                                 ),
-  //                               ],
-  //                             ),
-  //                           ),
-  //                         ],
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //       ],
-  //     );
-  //   },
-  // ),
+  Widget build(BuildContext context)=>StateBuilder<NotificationState>(
+    observe: ()=> _notificationState,
+    builder: (context, model){
+      return ListView(
+        shrinkWrap: true,
+        children: [
+          ...model.state.notifications.map((notification) =>
+              Dismissible(
+            confirmDismiss: (DismissDirection direction) async {
+              return await showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("Delete Confirmation"),
+                    content:
+                    const Text("Are you sure you want to delete this notification?"),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () => Navigator.of(context).pop(true),
+                        child: Text(
+                          "Delete",
+                          style: TextStyle(color: _purple),
+                        ),
+                      ),
+                      FlatButton(
+                        onPressed: () => Navigator.of(context).pop(false),
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(color: _purple),
+                        ),
+                      ),
+                    ],
+                  );
+
+                },
+              );
+            },
+            key: UniqueKey(),
+                background: Container(
+                  color: Colors.red[700],
+                  child: Icon(
+                    Icons.delete,
+                    color: Colors.white,
+                    size: 40,
+                  ),
+                  alignment: Alignment.centerRight,
+                  padding: EdgeInsets.only(right: 20),
+                  margin: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+                ),
+                direction: DismissDirection.endToStart,
+                onDismissed: (direction){
+                  _notificationState.setState((notificationState) => notificationState.deleteNotification(notification.id));
+                  _notificationState.setState((notificationState) => notificationState.getNotification());
+              },
+                child: GestureDetector(
+                  onTap: () async {
+                   await _notificationState.setState((notificationState) => notificationState.readNotification(notification.id));
+                    Navigator.pushNamed(RM.context, trackerRoute);
+                  },
+                  child: Card(
+                    color: notification.readTime != null ? Colors.white:Colors.lightBlueAccent,
+                    margin: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+                    child: Padding(
+                      padding: EdgeInsets.all(8),
+                      child: ListTile(
+                        title: Text(
+                          notification.messageTitle,
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        subtitle: Text(
+                          notification.messageBody,
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        trailing:Text(
+                          notification.updatedTime,
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+          ),
+          ),
+        ],
+      );
+    },
   );
 
   @override

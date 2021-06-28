@@ -8,6 +8,7 @@ import 'package:instantsewa/application/classes/errors/common_error.dart';
 import 'package:instantsewa/application/storage/localstorage.dart';
 import 'package:instantsewa/application/storage/storage_keys.dart';
 import 'package:instantsewa/router/route_constants.dart';
+import 'package:instantsewa/util/hexcode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
@@ -30,6 +31,7 @@ class AuthRepositoryImpl implements AuthRepository {
     String email,
     String password,
   }) async {
+    Color _purple = HexColor('#603f8b');
     try {
       Dio dio = new Dio();
       Response response = await InstantSewaAPI.dio
@@ -37,15 +39,58 @@ class AuthRepositoryImpl implements AuthRepository {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       await localStorage.setString('user', json.encode(response.data['user']));
       var user = jsonDecode(localStorage.getString('user'));
-      // if(user['user_type'] != 'serviceuser')
-      // {
-      //   AlertDialog(title: Text('User is not registered as Service User.'),);
-      //   return false;
-      // }
-      // else if(user['verified'] != '1'){
-      //   AlertDialog(title: Text('User is not verified.'),);
-      //   return false;
-      // }
+       if(user['user_type'] != 'serviceuser')
+      {
+         showDialog(
+             context: RM.context,
+             builder: (BuildContext context) {
+               return AlertDialog(
+                 title: const Text("Warning!!",
+                   style: TextStyle(color: Colors.red),),
+                 content:
+                 const Text("You are not ServiceUser "),
+                 actions: <Widget>[
+                   FlatButton(
+                     onPressed: () => Navigator.of(context).pop(false),
+                     child: Text(
+                       "Ok",
+                       style: TextStyle(color: _purple),
+                     ),
+                   ),
+                 ],
+               );
+             }
+         );
+         return false;
+       }
+       else if(user['verified'] != true)
+       {
+         showDialog(
+             context: RM.context,
+             builder: (BuildContext context) {
+               return AlertDialog(
+                 title: const
+                 Text("Warning!!",
+                   style: TextStyle(color: Colors.red),),
+                 content:
+                 const Text("You are not verified "),
+                 actions: <Widget>[
+                   FlatButton(
+                     onPressed: () {
+                       Navigator.of(context).pop(false);
+                       Navigator.pushNamed(RM.context, otpRoute);
+                     },
+                     child: Text(
+                       "Ok",
+                       style: TextStyle(color: _purple),
+                     ),
+                   ),
+                 ],
+               );
+             }
+         );
+         return false;
+       }
       String accessToken = response.data['accessToken'];
       String expiresAt = response.data['expiresAt'];
       await LocalStorage.setItem(TOKEN, accessToken);
