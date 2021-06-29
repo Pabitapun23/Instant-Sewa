@@ -1,4 +1,3 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:instantsewa/application/storage/localstorage.dart';
@@ -7,6 +6,7 @@ import 'package:instantsewa/providers/categories.dart';
 import 'package:instantsewa/repositories/auth_repository.dart';
 import 'package:instantsewa/repositories/category_repository.dart';
 import 'package:instantsewa/repositories/favourite_repository.dart';
+import 'package:instantsewa/repositories/notification_repository.dart';
 import 'package:instantsewa/repositories/rating_repository.dart';
 import 'package:instantsewa/repositories/service_provider_repository.dart';
 import 'package:instantsewa/repositories/service_provider_selection_repository.dart';
@@ -21,6 +21,7 @@ import 'package:instantsewa/services/service_providers_service.dart';
 import 'package:instantsewa/state/auth_state.dart';
 import 'package:instantsewa/state/category_state.dart';
 import 'package:instantsewa/state/favourite_state.dart';
+import 'package:instantsewa/state/notification_state.dart';
 import 'package:instantsewa/state/rating_state.dart';
 import 'package:instantsewa/state/service_provider_selection_state.dart';
 import 'package:instantsewa/state/service_provider_state.dart';
@@ -41,35 +42,6 @@ void setup() {
   GetIt.instance
       .registerSingleton<ServiceProvidersService>(ServiceProvidersService());
 }
-void SendDeviceToken(String token) async
-{
-  try {
-    Dio dio = new Dio();
-    Response response = await InstantSewaAPI.dio
-        .post("/deviceTokenUpdate", data: {
-      "deviceToken": token
-    }, options: Options(headers: {
-      'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
-    }));
-  } on DioError catch (e) {
-    showNetworkError(e);
-  }
-}
-void FireBase(){
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  _firebaseMessaging.subscribeToTopic('all');
-  _firebaseMessaging.getToken().then((token) {
-    if(LocalStorage.getItem(TOKEN)!=null) {
-      SendDeviceToken(token);
-    }
-    print(token);
-  });
-  _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {},
-      onResume: (Map<String, dynamic> message) async {},
-      onLaunch: (Map<String, dynamic> message) async {});
-}
-
 Future<void> getPermission() async {
   PermissionStatus permission =
       await PermissionHandler().checkPermissionStatus(PermissionGroup.location);
@@ -84,7 +56,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalStorage.initializeSharedPreference();
   runApp(InstantSewa());
-  FireBase();
 }
 
 class InstantSewa extends StatelessWidget {
@@ -108,6 +79,7 @@ class InstantSewa extends StatelessWidget {
                 ServiceProviderSelectionRepositoryImpl())),
         Inject<TrackingState>(() => TrackingState(TrackingRepositoryImpl())),
         Inject<RatingState>(() => RatingState(RatingRepositoryImpl())),
+        Inject<NotificationState>(() => NotificationState(NotificationRepositoryImpl())),
       ],
       builder: (context) {
         return MultiProvider(

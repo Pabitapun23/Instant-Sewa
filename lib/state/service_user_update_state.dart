@@ -35,4 +35,21 @@ class ServiceUserUpdateState
       return false;
     }
   }
+  Future<bool> updateProfile({ String phoneNo,
+    String email,
+    String userName,
+    String fullName})
+  async
+  {
+
+    if(await _serviceUserUpdateRepository.updateProfile(phoneNo: phoneNo,
+        email: email,
+        userName: userName,
+        fullName: fullName)){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
 }

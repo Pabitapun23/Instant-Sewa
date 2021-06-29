@@ -45,6 +45,23 @@ class _TrackOrderState extends State<TrackOrder>
               Navigator.pushNamed(context, homeRoute);
             },
           ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GestureDetector(
+                child: IconButton(
+                  icon: Icon(Icons.refresh),
+                  onPressed: (){
+                    setState(() {
+                      _trackingState.setState((orderState) => orderState.getOngoingProject());
+                      _trackingState.setState((orderState) => orderState.getCompletedProject());
+                      _trackingState.setState((orderState) =>orderState.getCancelledProject());
+                    });
+                  },
+                ),
+              ),
+            ),
+          ],
           bottom: TabBar(
             indicatorColor: Colors.white,
             indicatorWeight: 3.0,

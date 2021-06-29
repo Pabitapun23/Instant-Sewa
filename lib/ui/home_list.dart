@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instantsewa/model/provider_model.dart';
 import 'package:instantsewa/model/service_model.dart';
+import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/services/service_providers_service.dart';
 import 'package:instantsewa/ui/bulid_slider.dart';
 import 'package:instantsewa/ui/build_grid_categories.dart';
@@ -10,6 +11,7 @@ import 'package:instantsewa/ui/categories_list.dart';
 import 'package:instantsewa/ui/provider_list.dart';
 import 'package:instantsewa/ui/service_search.dart';
 import 'package:instantsewa/util/hexcode.dart';
+import 'package:states_rebuilder/states_rebuilder.dart';
 
 import 'home_page.dart';
 import 'main_drawer.dart';
@@ -56,9 +58,15 @@ class _HomeListState extends State<HomeList> {
               print(result);
             },
           ),
-          Icon(
-            Icons.notifications,
-            color: Colors.white,
+
+          IconButton(
+            icon: Icon(
+              Icons.notifications,
+              color: Colors.white,
+            ),
+            onPressed: () async{
+              Navigator.pushNamed(RM.context,notificationRoute);
+            },
           ),
           SizedBox(
             width: 10,

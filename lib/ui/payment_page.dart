@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:instantsewa/base_url.dart';
 import 'package:instantsewa/util/hexcode.dart';
+import 'package:instantsewa/webview/chrome_safari_browser_example.dart';
+import 'package:instantsewa/webview/in_app_browser_example.dart';
 
 class PaymentPage extends StatefulWidget {
-  //PaymentPage({Key key}) : super(key: key);
+  final String cartName;
+  final double payment;
+  const PaymentPage({Key key, this.payment, this.cartName}) : super(key: key);
 
   @override
   _PaymentPageState createState() => _PaymentPageState();
 }
 
 class _PaymentPageState extends State<PaymentPage> {
-  int selectedRadio;
-
+  final ChromeSafariBrowserExample chromeSafariBrowserExample =
+  ChromeSafariBrowserExample(InAppBrowserExample());
   @override
   void initState() {
+    print(widget.payment);
     super.initState();
-    selectedRadio = 0;
-  }
-
-  setSelectedRadio(int val) {
-    setState(() {
-      selectedRadio = val;
-    });
   }
 
   @override
@@ -64,8 +64,8 @@ class _PaymentPageState extends State<PaymentPage> {
                       child: Text(
                         "How do you want to pay?",
                         style: TextStyle(
-                          color: Color.fromRGBO(49, 39, 79, .6),
-                          fontSize: 20,
+                          color: Color.fromRGBO(49, 39, 79, .7),
+                          fontSize: 25,
                         ),
                       ),
                     ),
@@ -73,92 +73,172 @@ class _PaymentPageState extends State<PaymentPage> {
                   SizedBox(
                     height: 30,
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color.fromRGBO(196, 135, 198, .3),
-                            blurRadius: 20,
-                            offset: Offset(0, 10),
-                          )
-                        ]),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
+//
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Divider(
-                        height: 5,
-                        color: Colors.purple,
-                      ),
-                      RadioListTile(
-                        value: 1,
-                        groupValue: selectedRadio,
-                        title: Text("Pay with cash"),
-                        onChanged: (val) {
-                          print("Radio tile is pressed $val");
-                          setSelectedRadio(val);
-                        },
-                        activeColor: Colors.purple,
-                      ),
-                      RadioListTile(
-                        value: 2,
-                        groupValue: selectedRadio,
-                        title: Text("Pay with Khalti"),
-                        onChanged: (val) {
-                          print("Radio tile is pressed $val");
-                          setSelectedRadio(val);
-                        },
-                        activeColor: Colors.purple,
-                      ),
-                      RadioListTile(
-                        value: 3,
-                        groupValue: selectedRadio,
-                        title: Text("Pay with PayPal"),
-                        onChanged: (val) {
-                          print("Radio tile is pressed $val");
-                          setSelectedRadio(val);
-                        },
-                        activeColor: Colors.purple,
-                      ),
-                      Divider(
-                        height: 5,
-                        color: Colors.purple,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Center(
-                    child: SizedBox(
-                      height: 45.0,
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      child: RaisedButton(
-                        color: _purple,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0)),
-                        onPressed: () {
-                          if (selectedRadio == 2) {
-                          } else {}
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15.0, vertical: 12.0),
-                          child: Text(
-                            'Done',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 17.0),
+                      Center(
+                        child: SizedBox(
+                          width: 225,
+                          child: RaisedButton(
+                            elevation: 0.0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            padding: EdgeInsets.only(
+                                top: 4.0, bottom: 4.0, right: 40.0, left: 7.0),
+                            onPressed: () {},
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                CircleAvatar(
+                                  radius: 20.0,
+                                  backgroundColor: Colors.white,
+                                  child: ClipRect(
+                                    child: Image.asset(
+                                      "images/photos/cash.png",
+                                      height: 30.0,
+                                      width: 30.0,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 10.0),
+                                  child: Text(
+                                    "Cash",
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                )
+                              ],
+                            ),
+                            textColor: Colors.white,
+                            color: Colors.green,
                           ),
                         ),
                       ),
-                    ),
+                      SizedBox(
+                        height: 13.0,
+                      ),
+                      Center(
+                        child: SizedBox(
+                          width: 225,
+                          child: RaisedButton(
+                            elevation: 0.0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            padding: EdgeInsets.only(
+                                top: 4.0, bottom: 4.0, right: 40.0, left: 7.0),
+                            onPressed: () {
+                              chromeSafariBrowserExample.open(
+                                url: BASE_URL+'/payment/'+widget.cartName+'/'+widget.payment.toString(),
+                                options: ChromeSafariBrowserClassOptions(
+                                  android: AndroidChromeCustomTabsOptions(
+                                    addDefaultShareMenuItem: true,
+                                    enableUrlBarHiding: true,
+                                    instantAppsEnabled: true,
+                                    keepAliveEnabled: true,
+                                    showTitle: true,
+                                  ),
+                                  ios: IOSSafariOptions(
+
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                CircleAvatar(
+                                  radius: 20.0,
+                                  backgroundColor: Colors.white,
+                                  child: ClipRect(
+                                    child: Image.asset(
+                                      "images/photos/paypal.png",
+                                      height: 30.0,
+                                      width: 30.0,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 10.0),
+                                  child: Text(
+                                    "PayPal",
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                )
+                              ],
+                            ),
+                            textColor: Colors.white,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 13.0,
+                      ),
+                      Center(
+                        child: SizedBox(
+                          width: 225,
+                          child: RaisedButton(
+                            elevation: 0.0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            padding: EdgeInsets.only(
+                                top: 4.0, bottom: 4.0, right: 40.0, left: 7.0),
+                            onPressed: () {
+                              chromeSafariBrowserExample.open(
+                                url: BASE_URL+'/khalti/'+widget.cartName+'/'+widget.payment.toString(),
+                                options: ChromeSafariBrowserClassOptions(
+                                  android: AndroidChromeCustomTabsOptions(
+                                    addDefaultShareMenuItem: true,
+                                    enableUrlBarHiding: true,
+                                    instantAppsEnabled: true,
+                                    keepAliveEnabled: true,
+                                    showTitle: true,
+                                  ),
+                                  ios: IOSSafariOptions(
+
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                CircleAvatar(
+                                  radius: 20.0,
+                                  backgroundColor: Colors.white,
+                                  child: ClipRect(
+                                    child: Image.asset(
+                                      "images/photos/khalti.png",
+                                      height: 37.0,
+                                      width: 37.0,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10.0),
+                                  child: Text(
+                                    "Khalti",
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                )
+                              ],
+                            ),
+                            textColor: Colors.white,
+                            color: Colors.deepPurple,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

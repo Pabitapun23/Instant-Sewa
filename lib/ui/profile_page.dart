@@ -1,10 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:io' as Io;
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:instantsewa/application/classes/errors/common_error.dart';
 import 'package:instantsewa/application/storage/localstorage.dart';
@@ -15,15 +12,19 @@ import 'package:instantsewa/ui/Auth/login_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:http_parser/http_parser.dart';
-
+import 'package:states_rebuilder/states_rebuilder.dart';
+import 'package:instantsewa/model/Auth/user_profile_update_model.dart';
+import 'package:instantsewa/widgets/show_snackbar.dart';
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  PickedFile _imageFile;
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
+  bool isHiddenPassword = true;
+  bool isHiddenPassword2 = true;
+  File _imageFile;
   final ImagePicker _picker = ImagePicker();
   Dio dio = new Dio();
   String email;
@@ -41,7 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   _loadUserData() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var user = jsonDecode(localStorage.getString('user'));
+    var user = await jsonDecode(localStorage.getString('user'));
 
     if (user != null) {
       setState(() {
@@ -86,7 +87,10 @@ class _ProfilePageState extends State<ProfilePage> {
             tooltip: 'Go to the next page',
             onPressed: () async {
               Navigator.push(context, MaterialPageRoute<void>(
-                builder: ((builder) => editProfile()),
+                builder: ((builder) => editProfile(updatedFullName: fullName
+                    ,updatedEmail: email,
+                    updatedPhoneNumber: phoneNumber,
+                    updatedUserName: userName)),
               ));
             },
           ),
@@ -240,129 +244,212 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget editProfile() {
+  Widget editProfile({
+    String updatedEmail,
+    String updatedUserName,
+    String updatedFullName,
+    String updatedPhoneNumber
+}) {
+
     Color _purple = HexColor('#603f8b');
     return Scaffold(
+      key: _key,
       appBar: AppBar(
       title: const Text('Edit Profile'),
       backgroundColor: _purple,
       ),
       resizeToAvoidBottomPadding: false,
-      body: Column(
-        children: <Widget> [
-          Container(
-            padding: EdgeInsets.all(25.0),
+      body: Injector(
+        inject:[Inject<UserProfileUpdateModel>(()=>UserProfileUpdateModel(
+            username: updatedUserName,
+            fullname: updatedFullName,
+            email: updatedEmail,
+            phoneNo: updatedPhoneNumber))],
+        builder:(context){
+          final _singletonRegisterFormModel = RM.get<UserProfileUpdateModel>();
+          return Form(
             child: Column(
-              children: <Widget>[
-                TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Fullname',
-                    labelStyle: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey,
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.purple),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10.0,),
-                TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Username',
-                    labelStyle: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey,
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.purple),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10.0,),
-                TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                    labelStyle: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey,
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.purple),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10.0,),
-                TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Address',
-                    labelStyle: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey,
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.purple),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10.0,),
-                TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Phone Number',
-                    labelStyle: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey,
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.purple),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 40.0,),
+              children: <Widget> [
                 Container(
-                  height: 60,
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(
-                    child: SizedBox(
-                      height: 45.0,
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.4,
-                      child: RaisedButton(
-                        color: _purple,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0)),
-                        onPressed: () {
-                          logout();
+                  padding: EdgeInsets.all(25.0),
+                  child: Column(
+                    children: <Widget>[
+                      StateBuilder<UserProfileUpdateModel>(
+                        builder: (_,_singletonRegisterFormModel){
+                          return TextFormField(
+                            initialValue: fullName,
+                            onChanged: (String fullName){
+                              _singletonRegisterFormModel.setState((s) => s.setFullName(fullName),catchError: true);
+                            },
+                            decoration: InputDecoration(
+                              errorText: _singletonRegisterFormModel
+                                  .hasError
+                                  ? _singletonRegisterFormModel
+                                  .error.message
+                                  : null,
+                              labelText: 'Fullname',
+                              labelStyle: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey,
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.purple),
+                              ),
+                            ),
+                          );
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 14.0, vertical: 12.0),
-                          child: Text(
-                            'Done',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 17.0),
-                          ),
-                        ),
+                      ),
+                      SizedBox(height: 10.0,),
+                      StateBuilder<UserProfileUpdateModel>(
+                        builder: (_,_singletonRegisterFormModel){
+                          return TextFormField(
+                            initialValue: userName,
+                            onChanged: (String username){
+                              _singletonRegisterFormModel.setState((s) => s.setUsername(username),catchError: true);
+                            },
+                            decoration: InputDecoration(
+                              errorText: _singletonRegisterFormModel
+                                  .hasError
+                                  ? _singletonRegisterFormModel
+                                  .error.message
+                                  : null,
+                              labelText: 'Username',
+                              labelStyle: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey,
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.purple),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+
+                      SizedBox(height: 10.0,),
+                      StateBuilder<UserProfileUpdateModel>(
+                        builder: (_,_singletonRegisterFormModel){
+                          return TextFormField(
+                            initialValue: email,
+                            onChanged: (String email){
+                              _singletonRegisterFormModel.setState((s) => s.setEmail(email),catchError: true);
+                            },
+                            decoration: InputDecoration(
+                              errorText: _singletonRegisterFormModel
+                                  .hasError
+                                  ? _singletonRegisterFormModel
+                                  .error.message
+                                  : null,
+                              labelText: 'Email',
+                              labelStyle: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey,
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.purple),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(height: 10.0,),
+                      StateBuilder<UserProfileUpdateModel>(
+                        builder: (_,_singletonRegisterFormModel){
+                          return TextFormField(
+                            initialValue: phoneNumber,
+                            onChanged: (String phoneno){
+                              _singletonRegisterFormModel.setState((s) => s.setPhoneNo(phoneno),catchError: true);
+                            },
+                            decoration: InputDecoration(
+                              errorText: _singletonRegisterFormModel
+                                  .hasError
+                                  ? _singletonRegisterFormModel
+                                  .error.message
+                                  : null,
+                              labelText: 'Phone Number',
+                              labelStyle: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey,
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.purple),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(height: 40.0,),
+          StateBuilder(
+          observe: () => _singletonRegisterFormModel,
+          builder: (_, model) {
+            return Container(
+              height: 60,
+              margin: EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Center(
+                child: SizedBox(
+                  height: 45.0,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.4,
+                  child: RaisedButton(
+                    color: _purple,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0)),
+                    onPressed: () {
+                      if (!_singletonRegisterFormModel.state
+                          .validateData()) {
+                        showSnackBar(
+                            key: _key,
+                            color: Colors.red,
+                            message:
+                            "Data is invalid,please fill before submitting the form");
+                      } else {
+                        _singletonRegisterFormModel.setState(
+                                (signInFormState) async {
+                                  signInFormState.submitUpdateProfile();
+                              Navigator.pushNamed(
+                                  context, homeRoute);
+                            },
+                            onError: (context, error) =>
+                                showSnackBar(
+                                    key: _key,
+                                    color: Colors.red,
+                                    message:
+                                    "{$error.message}"));
+                      }
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 14.0, vertical: 12.0),
+                      child: Text(
+                        'Done',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 17.0),
                       ),
                     ),
                   ),
                 ),
+              ),
+            );
+          }
+          ),
+                    ],
+                  ),
+                ),
               ],
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
@@ -444,29 +531,32 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  void takePhoto(ImageSource source) async {
-    final pickedFile = await _picker.getImage(
+  Future<void> takePhoto(ImageSource source) async {
+    var pickedFile = await ImagePicker.pickImage(
       source: source,
     );
-    setState(() async {
+    setState((){
       _imageFile = pickedFile;
-      try{
-        String filename = _imageFile.path.split('/').last;
-        FormData formData = new FormData.fromMap({
-          "image" :
-          await MultipartFile.fromFile(_imageFile.path, filename: filename,
-              contentType: MediaType('image', 'png')),
-          "type" : "image/png"
-        });
-        final bytes = await Io.File(filename).readAsBytes();
-        print(bytes);
-      }
-      catch(e) {
-        print(e);
-      }
     });
+   File imageFile = File(_imageFile.path);
+    _uploadFile(imageFile);
   }
 
+  _uploadFile(File file) async {
+    String name = file.path.split('/').last;
+    var data = FormData.fromMap({
+      "image": await MultipartFile.fromFile(
+        file.path,
+        filename: name,
+      ),
+    });
+    String url = BASE_URL+"profileimageupdate";
+    Dio dio = new Dio();
+    await dio
+        .post(url, data: data)
+        .then((response) => print(response))
+        .catchError((error) => print(error));
+  }
   void logout() async
   {
     try {
