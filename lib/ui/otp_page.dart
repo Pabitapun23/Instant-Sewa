@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
+import 'package:instantsewa/state/auth_state.dart';
+import 'package:states_rebuilder/states_rebuilder.dart';
 
 class OtpPage extends StatefulWidget {
   @override
@@ -9,6 +11,7 @@ class OtpPage extends StatefulWidget {
 class _OtpPageState extends State<OtpPage> {
   bool _onEditing = true;
   String _code;
+  final _authStateRM = RM.get<AuthState>();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -81,7 +84,9 @@ class _OtpPageState extends State<OtpPage> {
                       onCompleted: (String value) {
                         setState(() {
                           _code = value;
-
+                          _authStateRM.setState((verify) => verify.verificationCode(
+                            verificationToken:_code,
+                          ));
                         });
                       },
                       onEditing: (bool value) {
@@ -108,9 +113,14 @@ class _OtpPageState extends State<OtpPage> {
                     height: 15,
                   ),
                   Center(
-                    child: Text(
-                      "resend",
-                      style: TextStyle(color: Color.fromRGBO(49, 39, 79, 1)),
+                    child: FlatButton(
+                      onPressed: () {
+                        _authStateRM.setState((verify) => verify.resendVerificationCode());
+                      },
+                      child: Text(
+                        "resend",
+                        style: TextStyle(color: Color.fromRGBO(49, 39, 79, 1)),
+                      ),
                     ),
                   ),
                 ],

@@ -8,7 +8,6 @@ import 'package:instantsewa/application/InstantSewa_api.dart';
 import 'package:instantsewa/application/classes/errors/common_error.dart';
 import 'package:instantsewa/application/storage/localstorage.dart';
 import 'package:instantsewa/application/storage/storage_keys.dart';
-import 'package:instantsewa/model/message.dart';
 import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/state/notification_state.dart';
 import 'package:instantsewa/util/hexcode.dart';
@@ -25,7 +24,6 @@ class MessagingWidget extends StatefulWidget {
 class _MessagingWidgetState extends State<MessagingWidget> with AutomaticKeepAliveClientMixin {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   final _notificationState = RM.get<NotificationState>();
-  final List<Message> messages = [];
   StreamSubscription iosSubscription;
   Color _purple = HexColor('#603f8b');
   @override
