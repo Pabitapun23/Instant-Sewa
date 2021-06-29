@@ -59,6 +59,7 @@ dependencies:
   cloud_firestore: any
   google_sign_in: any
   flutter_inappwebview:
+  flutter_verification_code: ^0.2.1
 
 dev_dependencies:
   flutter_test:
