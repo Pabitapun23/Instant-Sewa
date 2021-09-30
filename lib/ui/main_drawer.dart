@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:instantsewa/ui/employee_verification_page.dart';
+import 'package:instantsewa/ui/feedback_page.dart';
 import 'package:instantsewa/ui/track_order_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:flutter/material.dart';
@@ -69,9 +71,15 @@ class _MainDrawerState extends State<MainDrawer> {
           onTap: () => Navigator.of(context).pop(),
         ),
         ListTile(
-          title: Text('Settings'),
+          title: Text('Edit Profile'),
           leading: Icon(Icons.settings),
           trailing: Icon(Icons.arrow_right),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => TrackOrder(),
+            ),
+          ),
         ),
         ListTile(
           title: Text('Track Order'),
@@ -85,14 +93,26 @@ class _MainDrawerState extends State<MainDrawer> {
           ),
         ),
         ListTile(
-          title: Text('Payment'),
-          leading: Icon(Icons.attach_money),
+          title: Text('Employee Verification'),
+          leading: Icon(Icons.verified_user),
           trailing: Icon(Icons.arrow_right),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => EmployeeVerification(),
+            ),
+          ),
         ),
         ListTile(
           title: Text('Feedback'),
           leading: Icon(Icons.feedback),
           trailing: Icon(Icons.arrow_right),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => FeedbackPage(),
+            ),
+          ),
         ),
         ListTile(
           title: Text('About us'),

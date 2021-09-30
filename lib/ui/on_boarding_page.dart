@@ -13,8 +13,8 @@ class OnBoardingScreen extends StatelessWidget {
     return [
       PageViewModel(
           image: Image.asset('images/photos/onBoarding1.png'),
-          title: 'Select Service Provider',
-          body: 'Choose service providers according to your preferences.',
+          title: 'Select Services',
+          body: 'Services you need from the comfort of your place.',
           decoration: pageDecoration),
       PageViewModel(
           image: Image.asset('images/photos/onBoarding2.png'),
@@ -28,8 +28,8 @@ class OnBoardingScreen extends StatelessWidget {
           decoration: pageDecoration),
       PageViewModel(
           image: Image.asset('images/photos/onBoarding5.png'),
-          title: 'Select Service Provider',
-          body: 'Choose service providers according to your preferences.',
+          title: 'Track Service Provider',
+          body: 'Assurance of your work is being done.',
           decoration: pageDecoration),
     ];
   }
