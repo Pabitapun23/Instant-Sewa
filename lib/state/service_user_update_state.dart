@@ -25,6 +25,16 @@ class ServiceUserUpdateState
       return false;
     }
   }
+  Future<bool> employeeVerify({String email,String id, String category})
+  async
+  {
+    if(await _serviceUserUpdateRepository.employeeCheck(id: id,category: category,email: email)){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
   Future<bool> updatephoneNo({String phoneNo})
   async
   {

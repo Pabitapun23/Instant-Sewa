@@ -57,7 +57,7 @@ class _OngoingPageState extends State<OngoingPage>
                 );
               },
               child: Icon(
-                Icons.qr_code_scanner_sharp,
+                Icons.camera,
                 color: Colors.white,
               ),
             ),

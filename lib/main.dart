@@ -95,10 +95,10 @@ class InstantSewa extends StatelessWidget {
             home: HomePage(),
             debugShowCheckedModeBanner: false,
             onGenerateRoute: Routers.onGenerateRoute,
-            initialRoute: LocalStorage.getItem(VERIFICATION) != null
+            initialRoute: LocalStorage.getItem(TOKEN) != null
+                ?LocalStorage.getItem(VERIFICATION) == null || LocalStorage.getItem(VERIFICATION) == '0'
                 ? otpRoute:
-            LocalStorage.getItem(TOKEN) != null
-                ? LocalStorage.getItem(FUllNAME) == null
+            LocalStorage.getItem(FUllNAME) == null
                     ? fullNameUpdateRoute
                     : LocalStorage.getItem(PHONE) == null
                         ? phoneUpdateRoute

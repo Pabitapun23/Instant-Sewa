@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:instantsewa/application/InstantSewa_api.dart';
@@ -100,7 +99,7 @@ class AuthRepositoryImpl implements AuthRepository {
       await LocalStorage.setItem(TOKEN_EXPIRATION, expiresAt);
       if(user['address_address'] != null){
         await LocalStorage.setItem(FUllNAME,user['fullname']);
-        await LocalStorage.setItem(VERIFICATION,user['verified']);
+        await LocalStorage.setItem(VERIFICATION,user['verified'].toString());
           await LocalStorage.setItem(PHONE,user['phoneno']);
         await LocalStorage.setItem(USERNAME,user['username']);
         await LocalStorage.setItem(ADDRESS_ADDRESS,user['address_address']);
@@ -111,7 +110,7 @@ class AuthRepositoryImpl implements AuthRepository {
       else if(user['phoneno'] != null)
         {
           await LocalStorage.setItem(USERNAME,user['username']);
-          await LocalStorage.setItem(VERIFICATION,user['verified']);
+          await LocalStorage.setItem(VERIFICATION,user['verified'].toString());
           await LocalStorage.setItem(FUllNAME,user['fullname']);
           await LocalStorage.setItem(PHONE,user['phoneno']);
           Navigator.pushNamed(RM.context, addressUpdateRoute);
@@ -119,13 +118,14 @@ class AuthRepositoryImpl implements AuthRepository {
       else if(user['fullname'] != null)
       {
         await LocalStorage.setItem(FUllNAME,user['fullname']);
-        await LocalStorage.setItem(VERIFICATION,user['verified']);
+        await LocalStorage.setItem(VERIFICATION,user['verified'].toString());
         await LocalStorage.setItem(USERNAME,user['username']);
         Navigator.pushNamed(RM.context, phoneUpdateRoute);
       }
       else
-        {await LocalStorage.setItem(USERNAME,user['username']);
-        await LocalStorage.setItem(VERIFICATION,user['verified']);
+        {
+          await LocalStorage.setItem(USERNAME,user['username']);
+        await LocalStorage.setItem(VERIFICATION,user['verified'].toString());
           Navigator.pushNamed(RM.context, fullNameUpdateRoute);
         }
       return;
