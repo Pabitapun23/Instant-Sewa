@@ -12,25 +12,23 @@ class EmployeeVerification extends StatefulWidget {
   @override
   _EmployeeVerificationState createState() => _EmployeeVerificationState();
 }
-
-class _EmployeeVerificationState extends State<EmployeeVerification> {
+class _EmployeeVerificationState extends State<EmployeeVerification>  with AutomaticKeepAliveClientMixin {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   String dropdownValue = null;
-  List<String> category = ['a', 'b', 'c', 'd'];
+  List<String> categoryOption=[];
   @override
   void initState() {
     categoryName();
     super.initState();
   }
-
   void categoryName() async {
     try {
       final response = await InstantSewaAPI.dio.get("/categoryName",
           options: Options(headers: {
             'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
           }));
-      // category = response.data;
-      print(category);
+      List _temp = response.data;
+      categoryOption= _temp.cast<String>();
     } on DioError catch (e) {
       throw showNetworkError(e);
     }
@@ -104,7 +102,7 @@ class _EmployeeVerificationState extends State<EmployeeVerification> {
                           color: Colors.deepPurpleAccent,
                         ),
                         onChanged: (String newValue) {/*code lekhna cha*/},
-                        items: category
+                        items: categoryOption
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -149,4 +147,6 @@ class _EmployeeVerificationState extends State<EmployeeVerification> {
       ),
     );
   }
+  @override
+  bool get wantKeepAlive => true;
 }
