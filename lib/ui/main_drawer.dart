@@ -71,17 +71,6 @@ class _MainDrawerState extends State<MainDrawer> {
           onTap: () => Navigator.of(context).pop(),
         ),
         ListTile(
-          title: Text('Edit Profile'),
-          leading: Icon(Icons.settings),
-          trailing: Icon(Icons.arrow_right),
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (BuildContext context) => TrackOrder(),
-            ),
-          ),
-        ),
-        ListTile(
           title: Text('Track Order'),
           leading: Icon(Icons.check_circle),
           trailing: Icon(Icons.arrow_right),

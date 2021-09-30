@@ -1,4 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:instantsewa/application/InstantSewa_api.dart';
+import 'package:instantsewa/application/classes/errors/common_error.dart';
+import 'package:instantsewa/application/storage/localstorage.dart';
+import 'package:instantsewa/application/storage/storage_keys.dart';
 import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/ui/employee_card.dart';
 import 'package:instantsewa/util/hexcode.dart';
@@ -11,6 +16,26 @@ class EmployeeVerification extends StatefulWidget {
 class _EmployeeVerificationState extends State<EmployeeVerification> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   String dropdownValue = null;
+  List<String> category = ['a', 'b', 'c', 'd'];
+  @override
+  void initState() {
+    categoryName();
+    super.initState();
+  }
+
+  void categoryName() async {
+    try {
+      final response = await InstantSewaAPI.dio.get("/categoryName",
+          options: Options(headers: {
+            'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
+          }));
+      // category = response.data;
+      print(category);
+    } on DioError catch (e) {
+      throw showNetworkError(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Color _purple = HexColor('#603f8b');
@@ -79,7 +104,7 @@ class _EmployeeVerificationState extends State<EmployeeVerification> {
                           color: Colors.deepPurpleAccent,
                         ),
                         onChanged: (String newValue) {/*code lekhna cha*/},
-                        items: <String>['Male', 'Female']
+                        items: category
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
