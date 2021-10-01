@@ -91,8 +91,6 @@ class _EmployeeCardState extends State<EmployeeCard> {
                         SizedBox(
                           height: 2,
                         ),
-                        Text('Job',
-                            style: TextStyle(fontWeight: FontWeight.bold))
                       ],
                     ),
                     Column(
@@ -113,10 +111,6 @@ class _EmployeeCardState extends State<EmployeeCard> {
                           height: 2,
                         ),
                         Text('9846034895'),
-                        SizedBox(
-                          height: 2,
-                        ),
-                        Text('Electician')
                       ],
                     )
                   ],
