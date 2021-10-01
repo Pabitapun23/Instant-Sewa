@@ -62,4 +62,10 @@ class ServiceUserUpdateState
       return false;
     }
   }
+  Future<bool> feedbackToSystem({String feedback})async{
+    if(await _serviceUserUpdateRepository.feedbackToSystem(feedback: feedback)){
+      return true;
+    }
+    return false;
+  }
 }

@@ -6,6 +6,7 @@ import 'package:instantsewa/application/InstantSewa_api.dart';
 import 'package:instantsewa/application/classes/errors/common_error.dart';
 import 'package:instantsewa/application/storage/localstorage.dart';
 import 'package:instantsewa/application/storage/storage_keys.dart';
+import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
@@ -16,6 +17,7 @@ abstract class ServiceUserUpdateRepository
   Future<bool> employeeCheck({@required String id,@required String category,@required String email});
   Future<bool> updateAddress({@required String address,@required double latitude,@required double longitude});
   Future<bool> updatePhone({@required String phoneNo});
+  Future<bool> feedbackToSystem({@required String feedback});
   Future<bool> updateProfile({@required String phoneNo,@required String email,@required String userName,@required String fullName});
 }
 
@@ -166,6 +168,25 @@ class ServiceUserUpdateRepositoryImpl implements ServiceUserUpdateRepository
         // );
       }
 return true;
+    } on DioError catch (e) {
+      showNetworkError(e);
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> feedbackToSystem({String feedback}) async
+  {
+    try {
+      Dio dio = new Dio();
+      Response response = await InstantSewaAPI.dio
+          .post("/feedbacj", data: {
+        "feedback": feedback
+      }, options: Options(headers: {
+        'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
+      }));
+      Navigator.pushNamed(RM.context, homeRoute);
+      return true;
     } on DioError catch (e) {
       showNetworkError(e);
       return false;
