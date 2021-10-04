@@ -3,6 +3,7 @@ import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/ui/Auth/login_page.dart';
 import 'package:instantsewa/ui/Auth/signup_page.dart';
 import 'package:instantsewa/ui/categories_list.dart';
+import 'package:instantsewa/ui/employee_card.dart';
 import 'package:instantsewa/ui/home_page.dart';
 import 'package:instantsewa/ui/not_found_page_views.dart';
 import 'package:instantsewa/ui/notification_message.dart';
@@ -43,6 +44,8 @@ class Routers {
         return MaterialPageRoute(builder: (_) => NotificationMessage());
       case otpRoute:
         return MaterialPageRoute(builder: (_) => OtpPage());
+      case employeeCardRoute:
+        return MaterialPageRoute(builder: (_) => EmployeeCard());
       default:
         return MaterialPageRoute(builder: (_) => NotFoundPage());
     }

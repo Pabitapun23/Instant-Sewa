@@ -7,6 +7,7 @@ import 'package:instantsewa/application/classes/errors/common_error.dart';
 import 'package:instantsewa/application/storage/localstorage.dart';
 import 'package:instantsewa/application/storage/storage_keys.dart';
 import 'package:instantsewa/router/route_constants.dart';
+import 'package:instantsewa/ui/employee_card.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
@@ -160,12 +161,15 @@ class ServiceUserUpdateRepositoryImpl implements ServiceUserUpdateRepository
           );
         }
       else{
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (BuildContext context) => EmployeeCard(),
-        //   ),
-        // );
+       id = response.data['data'];
+
+        Navigator.push(
+          RM.context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => EmployeeCard(id:id.toString()),
+          ),
+        );
+
       }
 return true;
     } on DioError catch (e) {
@@ -178,9 +182,10 @@ return true;
   Future<bool> feedbackToSystem({String feedback}) async
   {
     try {
+
       Dio dio = new Dio();
       Response response = await InstantSewaAPI.dio
-          .post("/feedbacj", data: {
+          .post("/feedback", data: {
         "feedback": feedback
       }, options: Options(headers: {
         'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
