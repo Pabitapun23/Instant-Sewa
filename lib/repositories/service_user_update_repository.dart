@@ -18,6 +18,7 @@ abstract class ServiceUserUpdateRepository
   Future<bool> employeeCheck({@required String id,@required String category,@required String email});
   Future<bool> updateAddress({@required String address,@required double latitude,@required double longitude});
   Future<bool> updatePhone({@required String phoneNo});
+  Future<bool> cashPayment({@required String operationId});
   Future<bool> feedbackToSystem({@required String feedback});
   Future<bool> updateProfile({@required String phoneNo,@required String email,@required String userName,@required String fullName});
 }
@@ -191,6 +192,23 @@ return true;
         'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
       }));
       Navigator.pushNamed(RM.context, homeRoute);
+      return true;
+    } on DioError catch (e) {
+      showNetworkError(e);
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> cashPayment({String operationId}) async{
+    try {
+      Dio dio = new Dio();
+      Response response = await InstantSewaAPI.dio
+          .post("/cashpayment", data: {
+        "operation_id": operationId
+      }, options: Options(headers: {
+        'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
+      }));
       return true;
     } on DioError catch (e) {
       showNetworkError(e);

@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:instantsewa/repositories/service_user_update_repository.dart';
 
 class ServiceUserUpdateState
@@ -67,5 +69,12 @@ class ServiceUserUpdateState
       return true;
     }
     return false;
+  }
+  Future<bool> cashPayment({String operationId})
+  async{
+  if(await _serviceUserUpdateRepository.cashPayment(operationId: operationId)){
+    return true;
+  }
+  return false;
   }
 }
