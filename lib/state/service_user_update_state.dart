@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:instantsewa/repositories/service_user_update_repository.dart';
 
 class ServiceUserUpdateState

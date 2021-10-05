@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:instantsewa/base_url.dart';
+import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/state/service_user_update_state.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:instantsewa/webview/chrome_safari_browser_example.dart';
@@ -88,7 +89,10 @@ class _PaymentPageState extends State<PaymentPage> {
                                 top: 4.0, bottom: 4.0, right: 40.0, left: 7.0),
                             onPressed: () {
                               _serviceuser.setState(
-                                      (orderState) async => await orderState.cashPayment(cartName: widget.cartName));
+                                      (orderState) async {
+                                        await orderState.cashPayment(cartName: widget.cartName);
+                                        Navigator.pushNamed(RM.context, trackerRoute);
+                                      });
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
