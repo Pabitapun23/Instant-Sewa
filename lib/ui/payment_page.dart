@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:instantsewa/base_url.dart';
+import 'package:instantsewa/state/service_user_update_state.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:instantsewa/webview/chrome_safari_browser_example.dart';
 import 'package:instantsewa/webview/in_app_browser_example.dart';
+import 'package:states_rebuilder/states_rebuilder.dart';
 
 class PaymentPage extends StatefulWidget {
   final String cartName;
@@ -15,13 +17,10 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
+  final _serviceuser = RM.get<ServiceUserUpdateState>();
+  bool _isLoading = false;
   final ChromeSafariBrowserExample chromeSafariBrowserExample =
   ChromeSafariBrowserExample(InAppBrowserExample());
-  @override
-  void initState() {
-    print(widget.payment);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +86,10 @@ class _PaymentPageState extends State<PaymentPage> {
                             ),
                             padding: EdgeInsets.only(
                                 top: 4.0, bottom: 4.0, right: 40.0, left: 7.0),
-                            onPressed: () {},
+                            onPressed: () {
+                              _serviceuser.setState(
+                                      (orderState) async => await orderState.cashPayment(cartName: widget.cartName));
+                            },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
@@ -137,10 +139,10 @@ class _PaymentPageState extends State<PaymentPage> {
                                 options: ChromeSafariBrowserClassOptions(
                                   android: AndroidChromeCustomTabsOptions(
                                     addDefaultShareMenuItem: true,
-                                    enableUrlBarHiding: true,
+                                    enableUrlBarHiding: false,
                                     instantAppsEnabled: true,
                                     keepAliveEnabled: true,
-                                    showTitle: true,
+                                    showTitle: false,
                                   ),
                                   ios: IOSSafariOptions(
 

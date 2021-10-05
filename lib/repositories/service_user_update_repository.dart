@@ -18,7 +18,7 @@ abstract class ServiceUserUpdateRepository
   Future<bool> employeeCheck({@required String id,@required String category,@required String email});
   Future<bool> updateAddress({@required String address,@required double latitude,@required double longitude});
   Future<bool> updatePhone({@required String phoneNo});
-  Future<bool> cashPayment({@required String operationId});
+  Future<bool> cashPayment({@required String cartName});
   Future<bool> feedbackToSystem({@required String feedback});
   Future<bool> updateProfile({@required String phoneNo,@required String email,@required String userName,@required String fullName});
 }
@@ -200,12 +200,12 @@ return true;
   }
 
   @override
-  Future<bool> cashPayment({String operationId}) async{
+  Future<bool> cashPayment({String cartName}) async{
     try {
       Dio dio = new Dio();
       Response response = await InstantSewaAPI.dio
           .post("/cashpayment", data: {
-        "operation_id": operationId
+        "cart_name": cartName
       }, options: Options(headers: {
         'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
       }));

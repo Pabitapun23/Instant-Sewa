@@ -70,9 +70,9 @@ class ServiceUserUpdateState
     }
     return false;
   }
-  Future<bool> cashPayment({String operationId})
+  Future<bool> cashPayment({String cartName})
   async{
-  if(await _serviceUserUpdateRepository.cashPayment(operationId: operationId)){
+  if(await _serviceUserUpdateRepository.cashPayment(cartName: cartName)){
     return true;
   }
   return false;
