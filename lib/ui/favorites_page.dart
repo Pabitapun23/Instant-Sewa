@@ -6,6 +6,7 @@ import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/services/service_providers_service.dart';
 import 'package:instantsewa/state/favourite_state.dart';
 import 'package:instantsewa/ui/service_provider_details_page.dart';
+import 'package:instantsewa/ui/tracking_provider_details.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
@@ -65,8 +66,9 @@ class _FavouritesState extends State<Favourites>
                               context,
                               MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      ServiceProviderDetailsPage(
+                                      ProviderDetailsPage(
                                         index: user.id,
+                                        status: "Due",
                                       )));
                         },
                         child: Padding(

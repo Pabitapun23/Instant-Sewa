@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instantsewa/model/rate_model.dart';
+import 'package:instantsewa/model/review_model.dart';
 import 'package:instantsewa/state/rating_state.dart';
+import 'package:instantsewa/state/review_state.dart';
 import 'package:instantsewa/state/service_provider_state.dart';
 import 'package:instantsewa/ui/payment_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
@@ -18,9 +20,11 @@ class ProviderDetailsPage extends StatefulWidget {
 class _ProviderDetailsPageState extends State<ProviderDetailsPage>
     with AutomaticKeepAliveClientMixin {
   Color _purple = HexColor('#603f8b');
+  final _formKey = GlobalKey<FormState>();
   final _serviceProviderStateRM = RM.get<ServiceProviderState>();
   final _rateModel = RM.get<RatingState>();
-  bool _like;
+  final _reviewModel = RM.get<ReviewState>();
+  bool _like = false;
   bool _isLoading = false;
   @override
   void initState() {
@@ -43,6 +47,97 @@ class _ProviderDetailsPageState extends State<ProviderDetailsPage>
       appBar: AppBar(
         title: Text('Provider Details'),
         backgroundColor: _purple,
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.rate_review_rounded,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      content: Stack(
+                        overflow: Overflow.visible,
+                        children: <Widget>[
+                          Positioned(
+                            right: -40.0,
+                            top: -40.0,
+                            child: InkResponse(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: CircleAvatar(
+                                child: Icon(Icons.close),
+                                backgroundColor: _purple,
+                                foregroundColor: Colors.white,
+                              ),
+                            ),
+                          ),
+                          Injector(
+                              inject: [
+                                Inject<ReviewModel>(() => ReviewModel())
+                              ],
+                              builder: (context) {
+                                final _singletonReviewModel =
+                                    RM.get<ReviewModel>();
+                                return Form(
+                                  key: _formKey,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: TextFormField(
+                                          minLines: 4,
+                                          maxLines: 10,
+                                          keyboardType: TextInputType.multiline,
+                                          onChanged: (String feedback) {},
+                                          decoration: InputDecoration(
+                                            hintText: 'Write your review',
+                                            hintStyle:
+                                                TextStyle(color: Colors.grey),
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: RaisedButton(
+                                          child: Text(
+                                            "Send",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(25.0),
+                                          ),
+                                          color: _purple,
+                                          onPressed: () {
+                                            if (_formKey.currentState
+                                                .validate()) {
+                                              _formKey.currentState.save();
+                                            }
+                                          },
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              })
+                        ],
+                      ),
+                    );
+                  });
+            },
+          )
+        ],
       ),
       body: StateBuilder<ServiceProviderState>(
           observe: () => _serviceProviderStateRM,

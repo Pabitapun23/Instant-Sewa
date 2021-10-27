@@ -38,10 +38,12 @@ import 'application/classes/errors/common_error.dart';
 import 'application/storage/storage_keys.dart';
 import 'ui/home_page.dart';
 import 'package:dio/dio.dart';
+
 void setup() {
   GetIt.instance
       .registerSingleton<ServiceProvidersService>(ServiceProvidersService());
 }
+
 Future<void> getPermission() async {
   PermissionStatus permission =
       await PermissionHandler().checkPermissionStatus(PermissionGroup.location);
@@ -79,7 +81,8 @@ class InstantSewa extends StatelessWidget {
                 ServiceProviderSelectionRepositoryImpl())),
         Inject<TrackingState>(() => TrackingState(TrackingRepositoryImpl())),
         Inject<RatingState>(() => RatingState(RatingRepositoryImpl())),
-        Inject<NotificationState>(() => NotificationState(NotificationRepositoryImpl())),
+        Inject<NotificationState>(
+            () => NotificationState(NotificationRepositoryImpl())),
       ],
       builder: (context) {
         return MultiProvider(
@@ -96,15 +99,16 @@ class InstantSewa extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             onGenerateRoute: Routers.onGenerateRoute,
             initialRoute: LocalStorage.getItem(TOKEN) != null
-                ?LocalStorage.getItem(VERIFICATION) == null || LocalStorage.getItem(VERIFICATION) == '0'
-                ? otpRoute:
-            LocalStorage.getItem(FUllNAME) == null
-                    ? fullNameUpdateRoute
-                    : LocalStorage.getItem(PHONE) == null
-                        ? phoneUpdateRoute
-                        : LocalStorage.getItem(ADDRESS_ADDRESS) == null
-                            ? addressUpdateRoute
-                            : homeRoute
+                ? LocalStorage.getItem(VERIFICATION) == null ||
+                        LocalStorage.getItem(VERIFICATION) == '0'
+                    ? otpRoute
+                    : LocalStorage.getItem(FUllNAME) == null
+                        ? fullNameUpdateRoute
+                        : LocalStorage.getItem(PHONE) == null
+                            ? phoneUpdateRoute
+                            : LocalStorage.getItem(ADDRESS_ADDRESS) == null
+                                ? addressUpdateRoute
+                                : homeRoute
                 : onBoardingRoute,
           ),
         );

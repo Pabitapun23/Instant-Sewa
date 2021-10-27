@@ -15,6 +15,7 @@ import 'package:instantsewa/ui/track_order_page.dart';
 import 'package:instantsewa/ui/user_address_page.dart';
 import 'package:instantsewa/ui/user_info_page.dart';
 import 'package:instantsewa/ui/user_phone_page.dart';
+
 class Routers {
   static Route<dynamic> onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
@@ -44,11 +45,9 @@ class Routers {
         return MaterialPageRoute(builder: (_) => NotificationMessage());
       case otpRoute:
         return MaterialPageRoute(builder: (_) => OtpPage());
-      case employeeCardRoute:
-        return MaterialPageRoute(builder: (_) => EmployeeCard());
+
       default:
         return MaterialPageRoute(builder: (_) => NotFoundPage());
     }
   }
 }
-

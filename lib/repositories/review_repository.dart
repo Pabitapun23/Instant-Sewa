@@ -8,20 +8,20 @@ import 'package:instantsewa/application/storage/localstorage.dart';
 import 'package:instantsewa/application/storage/storage_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class RatingRepository {
+abstract class ReviewRepository {
   Future ratingPost({
-    @required int rate,
+    @required String review,
     @required String serviceProviderId,
   });
 }
 
-class RatingRepositoryImpl implements RatingRepository {
+class ReviewRepositoryImpl implements ReviewRepository {
   @override
-  Future ratingPost({int rate, String serviceProviderId}) async {
+  Future ratingPost({String review, String serviceProviderId}) async {
     try {
-      Response response = await InstantSewaAPI.dio.post("/rate",
+      Response response = await InstantSewaAPI.dio.post("/review",
           data: {
-            "rating": rate,
+            "rating": review,
             "service_provider_id": serviceProviderId,
           },
           options: Options(headers: {

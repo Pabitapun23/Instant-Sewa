@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:instantsewa/base_url.dart';
 import 'package:instantsewa/state/service_user_update_state.dart';
+import 'package:instantsewa/ui/track_order_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:instantsewa/webview/chrome_safari_browser_example.dart';
 import 'package:instantsewa/webview/in_app_browser_example.dart';
@@ -20,7 +21,7 @@ class _PaymentPageState extends State<PaymentPage> {
   final _serviceuser = RM.get<ServiceUserUpdateState>();
   bool _isLoading = false;
   final ChromeSafariBrowserExample chromeSafariBrowserExample =
-  ChromeSafariBrowserExample(InAppBrowserExample());
+      ChromeSafariBrowserExample(InAppBrowserExample());
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +89,18 @@ class _PaymentPageState extends State<PaymentPage> {
                                 top: 4.0, bottom: 4.0, right: 40.0, left: 7.0),
                             onPressed: () {
                               _serviceuser.setState(
-                                      (orderState) async => await orderState.cashPayment(cartName: widget.cartName));
+                                (orderState) async {
+                                  await orderState.cashPayment(
+                                      cartName: widget.cartName);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          TrackOrder(),
+                                    ),
+                                  );
+                                },
+                              );
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -135,7 +147,11 @@ class _PaymentPageState extends State<PaymentPage> {
                                 top: 4.0, bottom: 4.0, right: 40.0, left: 7.0),
                             onPressed: () {
                               chromeSafariBrowserExample.open(
-                                url: BASE_URL+'/payment/'+widget.cartName+'/'+widget.payment.toString(),
+                                url: BASE_URL +
+                                    '/payment/' +
+                                    widget.cartName +
+                                    '/' +
+                                    widget.payment.toString(),
                                 options: ChromeSafariBrowserClassOptions(
                                   android: AndroidChromeCustomTabsOptions(
                                     addDefaultShareMenuItem: true,
@@ -144,9 +160,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                     keepAliveEnabled: true,
                                     showTitle: false,
                                   ),
-                                  ios: IOSSafariOptions(
-
-                                  ),
+                                  ios: IOSSafariOptions(),
                                 ),
                               );
                             },
@@ -195,7 +209,11 @@ class _PaymentPageState extends State<PaymentPage> {
                                 top: 4.0, bottom: 4.0, right: 40.0, left: 7.0),
                             onPressed: () {
                               chromeSafariBrowserExample.open(
-                                url: BASE_URL+'/khalti/'+widget.cartName+'/'+widget.payment.toString(),
+                                url: BASE_URL +
+                                    '/khalti/' +
+                                    widget.cartName +
+                                    '/' +
+                                    widget.payment.toString(),
                                 options: ChromeSafariBrowserClassOptions(
                                   android: AndroidChromeCustomTabsOptions(
                                     addDefaultShareMenuItem: true,
@@ -204,9 +222,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                     keepAliveEnabled: true,
                                     showTitle: true,
                                   ),
-                                  ios: IOSSafariOptions(
-
-                                  ),
+                                  ios: IOSSafariOptions(),
                                 ),
                               );
                             },

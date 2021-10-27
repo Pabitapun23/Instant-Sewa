@@ -75,6 +75,7 @@ class _OngoingPageState extends State<OngoingPage>
                         (carts) => Column(
                           children: [
                             ListView(
+                              physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               children: [
                                 Padding(

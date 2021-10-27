@@ -149,7 +149,16 @@ class CartPage extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                           builder: (BuildContext context) =>
-                                              AddressPage(),
+                                              AddressPage(
+                                            cartList: cart.getId(cart
+                                                .services.values
+                                                .toList()[0]
+                                                .subCategoryName),
+                                            subCategoryName: cart
+                                                .services.values
+                                                .toList()[0]
+                                                .subCategoryName,
+                                          ),
                                         ),
                                       ),
                                       child: Text(
