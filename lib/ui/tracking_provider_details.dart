@@ -43,6 +43,7 @@ class _ProviderDetailsPageState extends State<ProviderDetailsPage>
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+   String review;
     return Scaffold(
       appBar: AppBar(
         title: Text('Provider Details'),
@@ -86,7 +87,9 @@ class _ProviderDetailsPageState extends State<ProviderDetailsPage>
                                     minLines: 4,
                                     maxLines: 10,
                                     keyboardType: TextInputType.multiline,
-                                    onChanged: (String feedback) {},
+                                    onChanged: (String feedback) {
+                                      review = feedback;
+                                    },
                                     decoration: InputDecoration(
                                       hintText: 'Write your review',
                                       hintStyle: TextStyle(color: Colors.grey),
@@ -110,9 +113,12 @@ class _ProviderDetailsPageState extends State<ProviderDetailsPage>
                                     ),
                                     color: _purple,
                                     onPressed: () {
-                                      if (_formKey.currentState.validate()) {
-                                        _formKey.currentState.save();
-                                      }
+                                      if(review !=null )
+                                        {
+                                          _reviewModel.setState((s) {
+                                            s.reviewPost(serviceProviderId: widget.index, review: review);
+                                          });
+                                        }
                                     },
                                   ),
                                 )

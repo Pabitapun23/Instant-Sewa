@@ -21,7 +21,7 @@ class ReviewRepositoryImpl implements ReviewRepository {
     try {
       Response response = await InstantSewaAPI.dio.post("/review",
           data: {
-            "rating": review,
+            "review": review,
             "service_provider_id": serviceProviderId,
           },
           options: Options(headers: {
