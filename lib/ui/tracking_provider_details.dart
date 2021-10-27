@@ -75,62 +75,50 @@ class _ProviderDetailsPageState extends State<ProviderDetailsPage>
                               ),
                             ),
                           ),
-                          Injector(
-                              inject: [
-                                Inject<ReviewModel>(() => ReviewModel())
-                              ],
-                              builder: (context) {
-                                final _singletonReviewModel =
-                                    RM.get<ReviewModel>();
-                                return Form(
-                                  key: _formKey,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: TextFormField(
-                                          minLines: 4,
-                                          maxLines: 10,
-                                          keyboardType: TextInputType.multiline,
-                                          onChanged: (String feedback) {},
-                                          decoration: InputDecoration(
-                                            hintText: 'Write your review',
-                                            hintStyle:
-                                                TextStyle(color: Colors.grey),
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0),
-                                              ),
-                                            ),
-                                          ),
+                          Form(
+                            key: _formKey,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: TextFormField(
+                                    minLines: 4,
+                                    maxLines: 10,
+                                    keyboardType: TextInputType.multiline,
+                                    onChanged: (String feedback) {},
+                                    decoration: InputDecoration(
+                                      hintText: 'Write your review',
+                                      hintStyle: TextStyle(color: Colors.grey),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0),
                                         ),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: RaisedButton(
-                                          child: Text(
-                                            "Send",
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(25.0),
-                                          ),
-                                          color: _purple,
-                                          onPressed: () {
-                                            if (_formKey.currentState
-                                                .validate()) {
-                                              _formKey.currentState.save();
-                                            }
-                                          },
-                                        ),
-                                      )
-                                    ],
+                                    ),
                                   ),
-                                );
-                              })
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: RaisedButton(
+                                    child: Text(
+                                      "Send",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(25.0),
+                                    ),
+                                    color: _purple,
+                                    onPressed: () {
+                                      if (_formKey.currentState.validate()) {
+                                        _formKey.currentState.save();
+                                      }
+                                    },
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     );
