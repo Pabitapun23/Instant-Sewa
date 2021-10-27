@@ -35,6 +35,7 @@ class RatingRepositoryImpl implements RatingRepository {
       throw showNetworkError(e);
     }
   }
+
   Future reviewPost({String review, String serviceProviderId}) async {
     try {
       Response response = await InstantSewaAPI.dio.post("/review",

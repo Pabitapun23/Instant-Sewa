@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:instantsewa/model/review_model.dart';
 import 'package:instantsewa/state/rating_state.dart';
 import 'package:instantsewa/state/service_provider_state.dart';
 import 'package:instantsewa/util/hexcode.dart';
+import 'package:instantsewa/widgets/show_snackbar.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
@@ -17,6 +19,8 @@ class _ProviderDetailsPageState extends State<ProviderDetailsPage>
     with AutomaticKeepAliveClientMixin {
   Color _purple = HexColor('#603f8b');
   final _formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
+
   final _serviceProviderStateRM = RM.get<ServiceProviderState>();
   final _rateModel = RM.get<RatingState>();
   bool _like = false;
@@ -38,95 +42,135 @@ class _ProviderDetailsPageState extends State<ProviderDetailsPage>
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-   String review;
+    String review;
     return Scaffold(
       appBar: AppBar(
         title: Text('Provider Details'),
         backgroundColor: _purple,
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.rate_review_rounded,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      content: Stack(
-                        overflow: Overflow.visible,
-                        children: <Widget>[
-                          Positioned(
-                            right: -40.0,
-                            top: -40.0,
-                            child: InkResponse(
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: CircleAvatar(
-                                child: Icon(Icons.close),
-                                backgroundColor: _purple,
-                                foregroundColor: Colors.white,
-                              ),
-                            ),
-                          ),
-                          Form(
-                            key: _formKey,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
+        actions: widget.status == 'Completed'
+            ? [
+                IconButton(
+                  icon: Icon(
+                    Icons.rate_review_rounded,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            content: Stack(
+                              overflow: Overflow.visible,
                               children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: TextFormField(
-                                    minLines: 4,
-                                    maxLines: 10,
-                                    keyboardType: TextInputType.multiline,
-                                    onChanged: (String feedback) {
-                                      review = feedback;
+                                Positioned(
+                                  right: -40.0,
+                                  top: -40.0,
+                                  child: InkResponse(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
                                     },
-                                    decoration: InputDecoration(
-                                      hintText: 'Write your review',
-                                      hintStyle: TextStyle(color: Colors.grey),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0),
-                                        ),
-                                      ),
+                                    child: CircleAvatar(
+                                      child: Icon(Icons.close),
+                                      backgroundColor: _purple,
+                                      foregroundColor: Colors.white,
                                     ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: RaisedButton(
-                                    child: Text(
-                                      "Send",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(25.0),
-                                    ),
-                                    color: _purple,
-                                    onPressed: () {
-                                      if(review !=null )
-                                        {
-                                          _rateModel.setState((s) {
-                                            s.reviewPost(serviceProviderId: widget.index, review: review);
-                                          });
-                                        }
-                                    },
-                                  ),
-                                )
+                                Injector(
+                                    inject: [
+                                      Inject<ReviewModel>(() => ReviewModel())
+                                    ],
+                                    builder: (context) {
+                                      final _reviewModel =
+                                          RM.get<ReviewModel>();
+                                      return Form(
+                                        key: _formKey,
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            StateBuilder<ReviewModel>(builder:
+                                                (context, _reviewModel) {
+                                              return Padding(
+                                                padding: EdgeInsets.all(8.0),
+                                                child: TextFormField(
+                                                  minLines: 4,
+                                                  maxLines: 10,
+                                                  keyboardType:
+                                                      TextInputType.multiline,
+                                                  onChanged: (String feedback) {
+                                                    _reviewModel.setState((s) =>
+                                                        s.setReview(feedback));
+                                                  },
+                                                  decoration: InputDecoration(
+                                                    errorText:
+                                                        _reviewModel.hasError
+                                                            ? _reviewModel
+                                                                .error.message
+                                                            : null,
+                                                    hintText:
+                                                        'Write your review',
+                                                    hintStyle: TextStyle(
+                                                        color: Colors.grey),
+                                                    border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                        Radius.circular(10.0),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            }),
+                                            StateBuilder(
+                                              observe: () => _reviewModel,
+                                              builder: (_, model) {
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: RaisedButton(
+                                                    child: Text(
+                                                      "Send",
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    ),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              25.0),
+                                                    ),
+                                                    color: _purple,
+                                                    onPressed: () {
+                                                      if (!_reviewModel.state
+                                                          .validateData()) {
+                                                      } else {
+                                                        _reviewModel.setState(
+                                                            (s) async {
+                                                          await s.sendData(
+                                                            serviceProviderId:
+                                                                widget.index,
+                                                          );
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        });
+                                                      }
+                                                    },
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }),
                               ],
                             ),
-                          ),
-                        ],
-                      ),
-                    );
-                  });
-            },
-          )
-        ],
+                          );
+                        });
+                  },
+                )
+              ]
+            : null,
       ),
       body: StateBuilder<ServiceProviderState>(
           observe: () => _serviceProviderStateRM,

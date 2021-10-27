@@ -7,11 +7,13 @@ class RatingState {
   RatingState(this._ratingRepository) : assert(_ratingRepository != null);
 
   Future ratingPost({
-    @required String serviceProviderId ,
+    @required String serviceProviderId,
     @required int rate,
   }) async {
-    await _ratingRepository.ratingPost(rate: rate, serviceProviderId: serviceProviderId);
+    await _ratingRepository.ratingPost(
+        rate: rate, serviceProviderId: serviceProviderId);
   }
+
   Future reviewPost({
     @required String serviceProviderId,
     @required String review,
