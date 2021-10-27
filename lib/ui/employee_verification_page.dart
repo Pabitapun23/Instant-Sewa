@@ -52,6 +52,14 @@ class _EmployeeVerificationState extends State<EmployeeVerification>  with Autom
           },
           icon: Icon(Icons.arrow_back),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              categoryName();
+            },
+            icon: Icon(Icons.refresh),
+          ),
+        ],
       ),
       body: Injector(
           inject: [Inject<EmployeeVerifyModel>(()=>EmployeeVerifyModel())],
