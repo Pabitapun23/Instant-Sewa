@@ -1,11 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:instantsewa/model/rate_model.dart';
-import 'package:instantsewa/model/review_model.dart';
 import 'package:instantsewa/state/rating_state.dart';
-import 'package:instantsewa/state/review_state.dart';
 import 'package:instantsewa/state/service_provider_state.dart';
-import 'package:instantsewa/ui/payment_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
@@ -23,7 +19,6 @@ class _ProviderDetailsPageState extends State<ProviderDetailsPage>
   final _formKey = GlobalKey<FormState>();
   final _serviceProviderStateRM = RM.get<ServiceProviderState>();
   final _rateModel = RM.get<RatingState>();
-  final _reviewModel = RM.get<ReviewState>();
   bool _like = false;
   bool _isLoading = false;
   @override
@@ -115,7 +110,7 @@ class _ProviderDetailsPageState extends State<ProviderDetailsPage>
                                     onPressed: () {
                                       if(review !=null )
                                         {
-                                          _reviewModel.setState((s) {
+                                          _rateModel.setState((s) {
                                             s.reviewPost(serviceProviderId: widget.index, review: review);
                                           });
                                         }

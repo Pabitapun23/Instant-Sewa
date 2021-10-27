@@ -13,6 +13,10 @@ abstract class RatingRepository {
     @required int rate,
     @required String serviceProviderId,
   });
+  Future reviewPost({
+    @required String review,
+    @required String serviceProviderId,
+  });
 }
 
 class RatingRepositoryImpl implements RatingRepository {
@@ -22,6 +26,20 @@ class RatingRepositoryImpl implements RatingRepository {
       Response response = await InstantSewaAPI.dio.post("/rate",
           data: {
             "rating": rate,
+            "service_provider_id": serviceProviderId,
+          },
+          options: Options(headers: {
+            'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
+          }));
+    } on DioError catch (e) {
+      throw showNetworkError(e);
+    }
+  }
+  Future reviewPost({String review, String serviceProviderId}) async {
+    try {
+      Response response = await InstantSewaAPI.dio.post("/review",
+          data: {
+            "review": review,
             "service_provider_id": serviceProviderId,
           },
           options: Options(headers: {

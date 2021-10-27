@@ -12,4 +12,11 @@ class RatingState {
   }) async {
     await _ratingRepository.ratingPost(rate: rate, serviceProviderId: serviceProviderId);
   }
+  Future reviewPost({
+    @required String serviceProviderId,
+    @required String review,
+  }) async {
+    await _ratingRepository.reviewPost(
+        review: review, serviceProviderId: serviceProviderId);
+  }
 }
