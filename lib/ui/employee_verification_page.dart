@@ -55,7 +55,10 @@ class _EmployeeVerificationState extends State<EmployeeVerification>  with Autom
         actions: [
           IconButton(
             onPressed: () {
-              categoryName();
+              setState(() {
+                categoryName();
+              });
+
             },
             icon: Icon(Icons.refresh),
           ),
