@@ -8,6 +8,7 @@ import 'package:instantsewa/application/storage/storage_keys.dart';
 abstract class ServiceRepository {
   Future<List<Service>> getAllServices(id);
   Future<List<Service>> getAllServiceDetails(id);
+  Future <List<String>> categoryName();
 }
 
 class ServiceRepositoryImpl implements ServiceRepository {
@@ -48,4 +49,17 @@ class ServiceRepositoryImpl implements ServiceRepository {
       throw showNetworkError(e);
     }
   }
+  Future <List<String>> categoryName() async {
+    try {
+      final response = await InstantSewaAPI.dio.get("/categoryName",
+          options: Options(headers: {
+            'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
+          }));
+      List _temp = response.data;
+      return _temp.cast<String>();
+    } on DioError catch (e) {
+      throw showNetworkError(e);
+    }
+  }
 }
+

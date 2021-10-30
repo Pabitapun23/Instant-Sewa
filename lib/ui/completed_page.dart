@@ -97,6 +97,8 @@ class _CompletedPageState extends State<CompletedPage> {
                                                 ),
                                                 Text(
                                                   carts.serviceName,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   style: GoogleFonts.openSans(
                                                     textStyle: TextStyle(
                                                       color: Colors.black87,
