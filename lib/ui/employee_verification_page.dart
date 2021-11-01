@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:instantsewa/application/InstantSewa_api.dart';
@@ -18,12 +20,25 @@ class EmployeeVerification extends StatefulWidget {
 class _EmployeeVerificationState extends State<EmployeeVerification>  with AutomaticKeepAliveClientMixin {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   String dropdownValue = null;
+  Timer timer;
+  int counter = 0;
   List<String> categoryOption=[];
   @override
   void initState() {
-    categoryName();
     super.initState();
+      categoryName();
+      timer = Timer.periodic(Duration(seconds: 1), (Timer t) => _getFromApi());
   }
+  Future _getFromApi() async {
+    if (counter < 1) {
+      setState(() {
+        print('hello');
+        categoryName();
+        counter++;
+      });
+    }
+  }
+
   void categoryName() async {
     try {
       final response = await InstantSewaAPI.dio.get("/categoryName",
