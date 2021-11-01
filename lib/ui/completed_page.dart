@@ -7,6 +7,8 @@ import 'package:instantsewa/ui/tracking_provider_details.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
+import '../base_url.dart';
+
 class CompletedPage extends StatefulWidget {
   final String orderId, cartName;
 
@@ -196,10 +198,12 @@ class _CompletedPageState extends State<CompletedPage> {
                                             child: SizedBox(
                                               width: 50.0,
                                               height: 50.0,
-                                              child: Image.asset(
+                                              child: operation.avatar==null? Image.asset(
                                                 "images/photos/provider.png",
                                                 fit: BoxFit.fill,
-                                              ),
+                                              ):
+                                              Image.network(BASE_URL+"/img/"+operation.avatar,
+                                                fit: BoxFit.fill,),
                                             ),
                                           ),
                                         ),

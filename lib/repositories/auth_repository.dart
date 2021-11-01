@@ -98,6 +98,7 @@ class AuthRepositoryImpl implements AuthRepository {
        }
       await LocalStorage.setItem(TOKEN_EXPIRATION, expiresAt);
       if(user['address_address'] != null){
+       await LocalStorage.setItem(PROFILE_PICTURE,user['avatar']);
         await LocalStorage.setItem(FUllNAME,user['fullname']);
         await LocalStorage.setItem(VERIFICATION,user['verified'].toString());
           await LocalStorage.setItem(PHONE,user['phoneno']);
@@ -108,7 +109,7 @@ class AuthRepositoryImpl implements AuthRepository {
         Navigator.pushNamed(RM.context, homeRoute);
       }
       else if(user['phoneno'] != null)
-        {
+        {await LocalStorage.setItem(PROFILE_PICTURE,user['avatar']);
           await LocalStorage.setItem(USERNAME,user['username']);
           await LocalStorage.setItem(VERIFICATION,user['verified'].toString());
           await LocalStorage.setItem(FUllNAME,user['fullname']);
@@ -116,16 +117,16 @@ class AuthRepositoryImpl implements AuthRepository {
           Navigator.pushNamed(RM.context, addressUpdateRoute);
         }
       else if(user['fullname'] != null)
-      {
+      {await LocalStorage.setItem(PROFILE_PICTURE,user['avatar']);
         await LocalStorage.setItem(FUllNAME,user['fullname']);
         await LocalStorage.setItem(VERIFICATION,user['verified'].toString());
         await LocalStorage.setItem(USERNAME,user['username']);
         Navigator.pushNamed(RM.context, phoneUpdateRoute);
       }
       else
-        {
+        {await LocalStorage.setItem(PROFILE_PICTURE,user['avatar']);
           await LocalStorage.setItem(USERNAME,user['username']);
-        await LocalStorage.setItem(VERIFICATION,user['verified'].toString());
+         await LocalStorage.setItem(VERIFICATION,user['verified'].toString());
           Navigator.pushNamed(RM.context, fullNameUpdateRoute);
         }
       return;

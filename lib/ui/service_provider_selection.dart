@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:instantsewa/base_url.dart';
 import 'package:instantsewa/model/provider_model.dart';
 import 'package:instantsewa/services/service_providers_service.dart';
 import 'package:instantsewa/state/service_provider_selection_state.dart';
@@ -144,8 +145,13 @@ class _ServiceProviderSelectionState extends State<ServiceProviderSelection>
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
+                                      serviceProvider.avatar==null?
                                       Image.asset(
                                         'images/photos/provider.png',
+                                        width: 75,
+                                        fit: BoxFit.contain,
+                                      ): Image.network(
+                                        BASE_URL+'/img/'+serviceProvider.avatar,
                                         width: 75,
                                         fit: BoxFit.contain,
                                       ),
@@ -234,8 +240,13 @@ class _ServiceProviderSelectionState extends State<ServiceProviderSelection>
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
+                                      serviceProvider.avatar==null?
                                       Image.asset(
                                         'images/photos/provider.png',
+                                        width: 75,
+                                        fit: BoxFit.contain,
+                                      ): Image.network(
+                                        BASE_URL+'/img/'+serviceProvider.avatar,
                                         width: 75,
                                         fit: BoxFit.contain,
                                       ),
@@ -313,8 +324,13 @@ class _ServiceProviderSelectionState extends State<ServiceProviderSelection>
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
+                                      serviceProvider.avatar==null?
                                       Image.asset(
                                         'images/photos/provider.png',
+                                        width: 75,
+                                        fit: BoxFit.contain,
+                                      ): Image.network(
+                                        BASE_URL+'/img/'+serviceProvider.avatar,
                                         width: 75,
                                         fit: BoxFit.contain,
                                       ),

@@ -8,6 +8,7 @@ class Operation {
   String serviceProviderName;
   String status;
   String cashPayment;
+  String avatar;
   DateTime startTime;
   DateTime completedTime;
   List<Cart> cart;
@@ -16,7 +17,8 @@ class Operation {
         cartGroupName = jsonMap['cartGroupName'],
         serviceProviderId = jsonMap['serviceProviderId'].toString(),
         serviceProviderName = jsonMap['serviceProviderName'],
-        status = jsonMap['status'],
+        avatar = jsonMap['serviceProviderAvatar'],
+      status = jsonMap['status'],
         cashPayment = jsonMap['cash_pay'],
         startTime =
             new DateFormat("yyyy-MM-dd hh:mm:ss").parse(jsonMap['startTime']),

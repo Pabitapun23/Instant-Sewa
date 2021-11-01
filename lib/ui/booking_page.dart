@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:instantsewa/base_url.dart';
 import 'package:instantsewa/state/service_provider_state.dart';
 import 'package:instantsewa/ui/payment_page.dart';
 import 'package:instantsewa/util/hexcode.dart';
@@ -24,7 +25,7 @@ class _BookingPageState extends State<BookingPage>
     with AutomaticKeepAliveClientMixin {
   Color _purple = HexColor('#603f8b');
   final _serviceProviderStateRM = RM.get<ServiceProviderState>();
-  bool _like;
+  bool _like=false;
   bool _isLoading = false;
   @override
   void initState() {
@@ -78,8 +79,10 @@ class _BookingPageState extends State<BookingPage>
                                       height: height * 0.45,
                                       decoration: BoxDecoration(
                                         image: DecorationImage(
-                                          image: ExactAssetImage(
-                                              'images/photos/provider.png'),
+                                          image: provider.avatar==null?ExactAssetImage(
+                                              'images/photos/provider.png'):
+                                          NetworkImage(
+                                              BASE_URL+'/img/'+provider.avatar),
                                         ),
                                       ),
                                     ),

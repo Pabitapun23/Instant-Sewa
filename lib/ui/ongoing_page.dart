@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:instantsewa/application/classes/tracker/cart.dart';
+import 'package:instantsewa/base_url.dart';
 import 'package:instantsewa/state/tracking_state.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
@@ -204,10 +205,12 @@ class _OngoingPageState extends State<OngoingPage>
                                           child: SizedBox(
                                             width: 50.0,
                                             height: 50.0,
-                                            child: Image.asset(
+                                            child:operation.avatar==null? Image.asset(
                                               "images/photos/provider.png",
                                               fit: BoxFit.fill,
-                                            ),
+                                            ):
+                                            Image.network(BASE_URL+"/img/"+operation.avatar,
+                                              fit: BoxFit.fill,),
                                           ),
                                         ),
                                       ),

@@ -4,6 +4,8 @@ import 'package:instantsewa/state/service_provider_state.dart';
 import 'package:instantsewa/util/hexcode.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
+import '../base_url.dart';
+
 class EmployeeCard extends StatefulWidget {
   String id;
   EmployeeCard({Key key, this.id,}) : super(key: key);
@@ -74,10 +76,13 @@ class _EmployeeCardState extends State<EmployeeCard>
                             child: SizedBox(
                               width: 150.0,
                               height: 150.0,
-                              child: Image.asset(
+                              child:
+                                  provider.avatar == null?
+                              Image.asset(
                                 "images/photos/provider.png",
                                 fit: BoxFit.fill,
-                              ),
+                              )
+                              :Image.network(BASE_URL+'/img/'+provider.avatar,fit: BoxFit.fill,),
                             ),
                           ),
                         ),

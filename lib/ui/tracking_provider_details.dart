@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:instantsewa/base_url.dart';
 import 'package:instantsewa/model/review_model.dart';
 import 'package:instantsewa/state/rating_state.dart';
 import 'package:instantsewa/state/service_provider_state.dart';
@@ -202,8 +203,9 @@ class _ProviderDetailsPageState extends State<ProviderDetailsPage>
                                       height: height * 0.45,
                                       decoration: BoxDecoration(
                                         image: DecorationImage(
-                                          image: ExactAssetImage(
-                                              'images/photos/provider.png'),
+                                          image:provider.avatar==null? ExactAssetImage(
+                                              'images/photos/provider.png'):
+                                          NetworkImage(BASE_URL+'/img/'+provider.avatar),
                                         ),
                                       ),
                                     ),

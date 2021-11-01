@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:instantsewa/base_url.dart';
 import 'package:instantsewa/model/provider_model.dart';
 import 'package:instantsewa/router/route_constants.dart';
 import 'package:instantsewa/services/service_providers_service.dart';
@@ -86,9 +87,15 @@ class _FavouritesState extends State<Favourites>
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
+                                    user.avatar==null?
                                     Image.asset(
                                       'images/photos/provider.png',
-                                      width: 90,
+                                      width: 80,
+                                      fit: BoxFit.cover,
+                                    ):
+                                    Image.network(
+                                      BASE_URL+'/img/'+user.avatar,
+                                      width: 80,
                                       fit: BoxFit.cover,
                                     ),
                                     SizedBox(
