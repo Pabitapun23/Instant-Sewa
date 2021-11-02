@@ -17,18 +17,21 @@ class EmployeeVerification extends StatefulWidget {
   @override
   _EmployeeVerificationState createState() => _EmployeeVerificationState();
 }
-class _EmployeeVerificationState extends State<EmployeeVerification>  with AutomaticKeepAliveClientMixin {
+
+class _EmployeeVerificationState extends State<EmployeeVerification>
+    with AutomaticKeepAliveClientMixin {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   String dropdownValue = null;
   Timer timer;
   int counter = 0;
-  List<String> categoryOption=[];
+  List<String> categoryOption = [];
   @override
   void initState() {
     super.initState();
-      categoryName();
-      timer = Timer.periodic(Duration(seconds: 1), (Timer t) => _getFromApi());
+    categoryName();
+    timer = Timer.periodic(Duration(seconds: 1), (Timer t) => _getFromApi());
   }
+
   Future _getFromApi() async {
     if (counter < 1) {
       setState(() {
@@ -46,7 +49,7 @@ class _EmployeeVerificationState extends State<EmployeeVerification>  with Autom
             'Authorization': "Bearer ${LocalStorage.getItem(TOKEN)}"
           }));
       List _temp = response.data;
-      categoryOption= _temp.cast<String>();
+      categoryOption = _temp.cast<String>();
     } on DioError catch (e) {
       throw showNetworkError(e);
     }
@@ -56,6 +59,7 @@ class _EmployeeVerificationState extends State<EmployeeVerification>  with Autom
   Widget build(BuildContext context) {
     Color _purple = HexColor('#603f8b');
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Text('Employee Verification'),
         backgroundColor: _purple,
@@ -73,35 +77,32 @@ class _EmployeeVerificationState extends State<EmployeeVerification>  with Autom
               setState(() {
                 categoryName();
               });
-
             },
             icon: Icon(Icons.refresh),
           ),
         ],
       ),
       body: Injector(
-          inject: [Inject<EmployeeVerifyModel>(()=>EmployeeVerifyModel())],
-          builder: (context)
-          {
+          inject: [Inject<EmployeeVerifyModel>(() => EmployeeVerifyModel())],
+          builder: (context) {
             final _employeeVerifyModel = RM.get<EmployeeVerifyModel>();
             return Padding(
-              padding: const EdgeInsets.only(left: 18.0, right: 18.0, top: 10.0),
+              padding:
+                  const EdgeInsets.only(left: 18.0, right: 18.0, top: 10.0),
               child: Form(
                 child: Column(
                   children: [
                     StateBuilder<EmployeeVerifyModel>(
-                      builder: (context,_employeeVerifyModel){
+                      builder: (context, _employeeVerifyModel) {
                         return TextFormField(
-                         onChanged: (String id) {
-                          _employeeVerifyModel.setState(
-                                  (state) => state.setId(id),
-                              catchError: true);
-                        },
+                          onChanged: (String id) {
+                            _employeeVerifyModel.setState(
+                                (state) => state.setId(id),
+                                catchError: true);
+                          },
                           decoration: InputDecoration(
-                              errorText:
-                              _employeeVerifyModel.hasError
-                                  ? _employeeVerifyModel
-                                  .error.message
+                              errorText: _employeeVerifyModel.hasError
+                                  ? _employeeVerifyModel.error.message
                                   : null,
                               prefixIcon: Icon(Icons.perm_identity),
                               labelText: 'Employee Id',
@@ -116,125 +117,122 @@ class _EmployeeVerificationState extends State<EmployeeVerification>  with Autom
                     SizedBox(
                       height: 20,
                     ),
-          StateBuilder<EmployeeVerifyModel>(
-          builder: (context,_employeeVerifyModel){
-          return TextFormField(
-            onChanged: (String email) {
-              _employeeVerifyModel.setState(
-                      (state) => state.setEmail(email),
-                  catchError: true);
-            },
-            decoration: InputDecoration(
-                errorText:
-                _employeeVerifyModel.hasError
-                    ? _employeeVerifyModel
-                    .error.message
-                    : null,
-                prefixIcon: Icon(Icons.email),
-                labelText: 'Employee email',
-                labelStyle: TextStyle(
-                    color: _purple,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 17.0),
-                hintText: 'email address'),
-          );}),
-
+                    StateBuilder<EmployeeVerifyModel>(
+                        builder: (context, _employeeVerifyModel) {
+                      return TextFormField(
+                        onChanged: (String email) {
+                          _employeeVerifyModel.setState(
+                              (state) => state.setEmail(email),
+                              catchError: true);
+                        },
+                        decoration: InputDecoration(
+                            errorText: _employeeVerifyModel.hasError
+                                ? _employeeVerifyModel.error.message
+                                : null,
+                            prefixIcon: Icon(Icons.email),
+                            labelText: 'Employee email',
+                            labelStyle: TextStyle(
+                                color: _purple,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 17.0),
+                            hintText: 'email address'),
+                      );
+                    }),
                     SizedBox(
                       height: 20,
                     ),
-
-          StateBuilder<EmployeeVerifyModel>(
-          builder: (context,_employeeVerifyModel){
-          return Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              child: Column(
-                children: [
-                  Text(
-                    'Choose Categories',
-                    style: TextStyle(
-                        color: _purple,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 17.0),
-                  ),
-
-                  DropdownButton<String>(
-                    value: dropdownValue,
-                    icon: Icon(Icons.arrow_downward),
-                    iconSize: 24,
-                    elevation: 16,
-                    style: TextStyle(color: Colors.deepPurple),
-                    underline: Container(
-                      height: 2,
-                      color: Colors.deepPurpleAccent,
-                    ),
-                    onChanged: (String newValue) {
-                      setState(() {
-                        _employeeVerifyModel.setState((state) => state.setCategory(newValue));
-                        dropdownValue = newValue;
-                      });
-                    },
-                    items: categoryOption
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
+                    StateBuilder<EmployeeVerifyModel>(
+                        builder: (context, _employeeVerifyModel) {
+                      return Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          child: Column(
+                            children: [
+                              Text(
+                                'Choose Categories',
+                                style: TextStyle(
+                                    color: _purple,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 17.0),
+                              ),
+                              DropdownButton<String>(
+                                value: dropdownValue,
+                                icon: Icon(Icons.arrow_downward),
+                                iconSize: 24,
+                                elevation: 16,
+                                style: TextStyle(color: Colors.deepPurple),
+                                underline: Container(
+                                  height: 2,
+                                  color: Colors.deepPurpleAccent,
+                                ),
+                                onChanged: (String newValue) {
+                                  setState(() {
+                                    _employeeVerifyModel.setState(
+                                        (state) => state.setCategory(newValue));
+                                    dropdownValue = newValue;
+                                  });
+                                },
+                                items: categoryOption
+                                    .map<DropdownMenuItem<String>>(
+                                        (String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                              ),
+                            ],
+                          ),
+                        ),
                       );
-                    }).toList(),
-                  ),
-                ],
-              ),
-            ),
-          );}),
-
+                    }),
                     SizedBox(
                       height: 30,
                     ),
-          StateBuilder(
-          observe: ()=> _employeeVerifyModel,
-          builder: (_,model){
-          return  Center(
-            child: RaisedButton(
-              onPressed: () { if (!_employeeVerifyModel.state
-                  .validateData()) {
-                showSnackBar(
-                    key: _key,
-                    color: Colors.red,
-                    message:
-                    "Data is invalid,please fill before submitting the form");
-              } else {
-                _employeeVerifyModel.setState(
-                        (fullNameState) async {
-                      await fullNameState.checkEmployee();
-                    },
-                   );
-              }
-
-
-              },
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25.0),
-              ),
-              color: _purple,
-              padding: EdgeInsets.fromLTRB(35, 12, 35, 12),
-              child: Text(
-                'Search',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 17.0,
-                ),
-              ),
-            ),
-          );}),
-
+                    StateBuilder(
+                        observe: () => _employeeVerifyModel,
+                        builder: (_, model) {
+                          return Center(
+                            child: RaisedButton(
+                              onPressed: () {
+                                if (!_employeeVerifyModel.state
+                                    .validateData()) {
+                                  showSnackBar(
+                                      key: _key,
+                                      color: Colors.red,
+                                      message:
+                                          "Data is invalid,please fill before submitting the form");
+                                } else {
+                                  _employeeVerifyModel.setState(
+                                    (fullNameState) async {
+                                      await fullNameState.checkEmployee();
+                                    },
+                                  );
+                                }
+                              },
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                              ),
+                              color: _purple,
+                              padding: EdgeInsets.fromLTRB(35, 12, 35, 12),
+                              child: Text(
+                                'Search',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 17.0,
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
                   ],
                 ),
               ),
             );
-          }
-      ),
+          }),
     );
   }
+
   @override
   bool get wantKeepAlive => true;
 }

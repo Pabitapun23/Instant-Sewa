@@ -18,7 +18,7 @@ class _ServiceProviderDetailsPageState extends State<ServiceProviderDetailsPage>
     with AutomaticKeepAliveClientMixin {
   Color _purple = HexColor('#603f8b');
   final _serviceProviderStateRM = RM.get<ServiceProviderState>();
-  bool _like;
+  bool _like = false;
   bool _isLoading = false;
   @override
   void initState() {
