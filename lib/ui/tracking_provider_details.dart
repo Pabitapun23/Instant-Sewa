@@ -203,9 +203,12 @@ class _ProviderDetailsPageState extends State<ProviderDetailsPage>
                                       height: height * 0.45,
                                       decoration: BoxDecoration(
                                         image: DecorationImage(
-                                          image:provider.avatar==null? ExactAssetImage(
-                                              'images/photos/provider.png'):
-                                          NetworkImage(BASE_URL+'/img/'+provider.avatar),
+                                          image: provider.avatar == null
+                                              ? ExactAssetImage(
+                                                  'images/photos/provider.png')
+                                              : NetworkImage(BASE_URL +
+                                                  '/img/' +
+                                                  provider.avatar),
                                         ),
                                       ),
                                     ),
@@ -234,11 +237,13 @@ class _ProviderDetailsPageState extends State<ProviderDetailsPage>
                                               size: 30,
                                               color: Colors.black26,
                                             ),
-                                            Text(
-                                              provider.address,
-                                              style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  color: Colors.black26),
+                                            Expanded(
+                                              child: Text(
+                                                provider.address,
+                                                style: TextStyle(
+                                                    fontSize: 20.0,
+                                                    color: Colors.black26),
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -274,22 +279,26 @@ class _ProviderDetailsPageState extends State<ProviderDetailsPage>
                                         SizedBox(
                                           height: 5,
                                         ),
-                                        Text(
-                                          'Details',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w600),
+                                        Expanded(
+                                          child: Text(
+                                            'Details',
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w600),
+                                          ),
                                         ),
                                         SizedBox(
                                           height: 5,
                                         ),
-                                        Text(
-                                          provider.job,
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.black54,
-                                              letterSpacing: 0.5,
-                                              wordSpacing: 1.5),
+                                        Expanded(
+                                          child: Text(
+                                            provider.job,
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black54,
+                                                letterSpacing: 0.5,
+                                                wordSpacing: 1.5),
+                                          ),
                                         ),
                                         SizedBox(
                                           height: 10,
